@@ -1,92 +1,64 @@
 import pool from "../pool";
-
+import { CreateUserDao, UpdatedUserDto } from "./@types/user.dao";
 
 class UserDal {
+    // Метод для создания пользователя
     async create(createUserDao: CreateUserDao) {
-        const {insertString, insertValues} = createUserDao)
-          const result = await pool.query(`
-          INSERT INTO users 
-          
-            RETURNING * `,
-            insertValues);
-          return result.rows[0]
-      }
-  
-      async getAll (findUserDao: FindUserDao) {
-        const {conditionString, conditionValues} = (findUserDao)
-        const allUsers = await pool.query(
-          `SELECT  users.*, roles.name as role
-          FROM users
-          JOIN roles on roles.id = users.role_id
-          ${conditionString}`
-        , conditionValues)
-        return allUsers.rows          
-      }
-  
-      async getOne (userId: number) {
-        const {conditionString, conditionValues} = ({'users.id':userId})
-       
-        console.log( 
-          `SELECT users.*, roles.name as role 
-        FROM users
-        JOIN roles on roles.id = users.role_id
-        
-        `,)
-  
-        const oneUser = await pool.query(
-          `SELECT users.*, roles.name as role 
-          FROM users
-          JOIN roles on roles.id = users.role_id
-          ${conditionString}
-          `, conditionValues
-        )
-        return oneUser.rows[0]
-      }
-  
-      async update (updatedUserDto: UpdatedUserDto) {
-        
-        const { id, ...other } = updatedUserDto
-        const {setString,setValues} = other,2;
-        console.log(`
-        UPDATE
-          users
-        SET
+        const { firstName, lastName, email, password, img, role_id } = createUserDao;
+        const result = await pool.query(`
+            INSERT INTO users (first_name, last_name, email, password, img, role_id)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *`,
+            [firstName, lastName, email, password, img, role_id]
+        );
+        return result.rows[0];
+    }
 
-        WHERE
-          id = $1
-        RETURNING
-          *
-        `)
+    // Метод для получения всех пользователей
+    async getAll() {
+        const allUsers = await pool.query(`
+            SELECT users.*, roles.name as role
+            FROM users
+            JOIN roles ON roles.id = users.role_id
+        `);
+        return allUsers.rows;
+    }
+
+    // Метод для получения одного пользователя по id
+    async getOne(userId: number) {
+        const oneUser = await pool.query(`
+            SELECT users.*, roles.name as role 
+            FROM users
+            JOIN roles ON roles.id = users.role_id
+            WHERE users.id = $1`,
+            [userId]
+        );
+        return oneUser.rows[0];
+    }
+
+    // Метод для обновления данных пользователя
+    async update(updatedUserDto: UpdatedUserDto) {
+        const { id, firstName, lastName, email, password, img, role_id } = updatedUserDto;
         const updatedUser = await pool.query(`
-        UPDATE
-          users
-        SET
+            UPDATE users
+            SET first_name = $2, last_name = $3, email = $4, password = $5, img = $6, role_id = $7
+            WHERE id = $1
+            RETURNING *`,
+            [id, firstName, lastName, email, password, img, role_id]
+        );
+        return updatedUser.rows[0];
+    }
 
-        WHERE
-          id = $1
-        RETURNING
-          *
-        `,[id, ...setValues]
-        )
-  
-        
-  
-        return updatedUser.rows[0]
-      }
-  
-      async delete (userId: number) {
-  
-        const deletedUser = await pool.query(
-          `
-          DELETE FROM users
-          where id=$1
-          RETURNING 
-          *
-          `,[userId]
-        )
-        return deletedUser.rows[0]
-      }
-  
+    // Метод для удаления пользователя
+    async delete(userId: number) {
+        const deletedUser = await pool.query(`
+            DELETE FROM users
+            WHERE id = $1
+            RETURNING *`,
+            [userId]
+        );
+        return deletedUser.rows[0];
+    }
 }
 
 const userDal = new UserDal();

@@ -1,29 +1,33 @@
 import { NextFunction, Request, Response } from "express";
 
-export type ControllerFunction = (req: Request, res: Response, next: NextFunction) => Promise<Response>;
+export type ControllerFunction = (
+    req: Request, 
+    res: Response, 
+    next: NextFunction
+) => Promise<Response | void>;
 
-export default function ControllerErrorHandler(log: boolean = true) {
-    return (
-        target: Object,
-        _: string | symbol,
-        descriptor: TypedPropertyDescriptor<ControllerFunction>
-    ): TypedPropertyDescriptor<ControllerFunction> | void => {
-        const method = descriptor.value;
-        descriptor.value = async (req, res, next) => {
-            let result: Response = res;  // Инициализируем result значением по умолчанию
+export default function ControllerErrorHandler() {
+    return function (
+        _target: any,
+        _propertyKey: string | symbol,
+        descriptor: PropertyDescriptor
+    ): PropertyDescriptor {
+        const originalMethod = descriptor.value;
 
-            res.locals.log = log;
-
+        descriptor.value = async function (
+            req: Request,
+            res: Response,
+            next: NextFunction
+        ): Promise<Response | void> {
             try {
-                result = await method?.call(target, req, res, next) || res;  // Добавляем fallback на res
-                next();
-            } catch (err) {
-                if (err instanceof Error) {
-                    next(err);
-                }
+                const result = await originalMethod.call(this, req, res, next);
+                return result || res;
+            } catch (error) {
+                next(error);
+                return;
             }
-
-            return result;
         };
+
+        return descriptor;
     };
 }

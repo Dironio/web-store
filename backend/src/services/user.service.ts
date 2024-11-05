@@ -1,4 +1,6 @@
-import { CreateUserDto } from "./@types/user.dto"
+import { CreateUserDto } from "../controllers/@types/user.dto"
+import { UpdatedUserDto } from "../data/@types/user.dao"
+import userDal from "../data/user.dal"
 
 
 class UserService {
@@ -6,8 +8,8 @@ class UserService {
         return await userDal.create(createUserDto)
     }
 
-    async getAll (getUserDto: getUserDto) {
-        return await userDal.getAll(getUserDto)
+    async getAll () {
+        return await userDal.getAll()
     }
 
     async getOne (userId: number) {
