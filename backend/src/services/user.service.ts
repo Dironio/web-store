@@ -1,10 +1,10 @@
-import { CreateUserDto } from "../controllers/@types/user.dto"
+import { CreateUserDto, GetUserDto, User } from "../controllers/@types/user.dto"
 import { UpdatedUserDto } from "../data/@types/user.dao"
 import userDal from "../data/user.dal"
 
 
 class UserService {
-    async create (createUserDto: CreateUserDto) {
+    async create (createUserDto: CreateUserDto): Promise<User> {
         return await userDal.create(createUserDto)
     }
 
