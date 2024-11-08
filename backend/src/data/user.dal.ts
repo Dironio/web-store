@@ -1,6 +1,6 @@
 import { User } from "../controllers/@types/user.dto";
 import pool from "../pool";
-import { CreateUserDao, UpdatedUserDto } from "./@types/user.dao";
+import { CreateUserDao, GetUserDao, UpdatedUserDto } from "./@types/user.dao";
 
 class UserDal {
     // Метод для создания пользователя
@@ -16,12 +16,11 @@ class UserDal {
     }
 
     // Метод для получения всех пользователей
-    async getAll(): Promise<User[]> {
+    async getAll(dao: GetUserDao): Promise<User[]> {
         const allUsers = await pool.query(`
             SELECT users.*
             FROM users
         `);
-        // JOIN roles ON roles.id = users.role_id
         return allUsers.rows;
     }
 

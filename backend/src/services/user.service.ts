@@ -4,20 +4,20 @@ import userDal from "../data/user.dal"
 
 
 class UserService {
-    async create (createUserDto: CreateUserDto): Promise<User> {
-        return await userDal.create(createUserDto)
+    async create (dto: CreateUserDto): Promise<User> {
+        return await userDal.create(dto)
     }
 
-    async getAll () {
-        return await userDal.getAll()
+    async getAll (dto: GetUserDto) {
+        return await userDal.getAll(dto)
     }
 
     async getOne (userId: number) {
         return await userDal.getOne(userId)
     }
 
-    async update (updatedUserDto: UpdatedUserDto) {
-        return await userDal.update(updatedUserDto)
+    async update (dto: UpdatedUserDto) {
+        return await userDal.update(dto)
     }
 
     async delete (userId: number) {

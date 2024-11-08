@@ -1,32 +1,33 @@
-import { NextFunction, Request, Response } from "express";  
+import { NextFunction, Request, Response } from "express";
 
-export type ControllerFunction = (req: Request, res: Response, next: NextFunction) => Promise<Response>;  
+export type ControllerFunction = (req: Request, res: Response, next: NextFunction) => Promise<Response | void>;
 
-export default function ControllerErrorHandler(log: boolean = true) {  
-    return (  
-        target: Object,  
-        _: string | symbol,  
-        descriptor: TypedPropertyDescriptor<ControllerFunction>  
-    ): TypedPropertyDescriptor<ControllerFunction> | void => {  
-        const method = descriptor.value;  
-        descriptor.value = async (req, res, next) => {  
-            res.locals.log = log;  
-            res.locals.pathFound = true;  
+export default function ControllerErrorHandler(log: boolean = true) {
+    return function (
+        target: Object,
+        propertyKey: string | symbol,
+        descriptor: TypedPropertyDescriptor<ControllerFunction>
+    ): TypedPropertyDescriptor<ControllerFunction> | void {
+        
+        const originalMethod = descriptor.value!;
+        
+        descriptor.value = async function (req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+            res.locals.log = log;
+            res.locals.pathFound = true;
 
-            try {  
-                const result = await method?.call(target, req, res, next);  
-                // Handle the result here  
-                if (result) {  
-                    return result; // Возвращаем Response, если он существует  
-                }  
-            } catch (err) {  
-                if (err instanceof Error) {  
-                    return next(err);  
-                }  
-            }  
+            try {
+                const result = await originalMethod.call(this, req, res, next);
+                return result;  // Возвращаем результат, если он есть
+            } catch (err) {
+                if (err instanceof Error) {
+                    next(err);
+                }
+            }
 
-            // Если no result, call next  
-            return next();  
-        };  
-    };  
+            // В случае ошибки обработчик передаст управление дальше
+            return next();
+        };
+        
+        return descriptor;
+    };
 }

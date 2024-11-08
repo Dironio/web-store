@@ -1,38 +1,74 @@
-import { NextFunction, Request, Response } from "express";
-import ControllerErrorHandler  from "./tools/controllerErrorHandler";
+import e, { Request, Response, NextFunction } from "express";
 import userService from "../services/user.service";
 
 class UserController {
-    // @ControllerErrorHandler()
-    // async create(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     const user = await userService.create(req.body);
-    //     return res.status(201).json(user);
-    // }
-
-    // @ControllerErrorHandler()
-    async getAll(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const users = await userService.getAll();
-        return res.status(200).json(users);
+    async create(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const newUser = await userService.create(req.body);
+            res.status(201).json(newUser);
+        } catch (error: any) {
+            console.log(error);
+            next(error);
+        }
     }
 
-    // // @ControllerErrorHandler()
-    // async getOne(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     const user = await userService.getOne(Number(req.params.id));
-    //     return res.status(200).json(user);
-    // }
+    async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const users = await userService.getAll(req.query);
+            res.status(200).json(users);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
 
-    // // @ControllerErrorHandler()
-    // async update(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     const updatedUser = await userService.update(req.body);
-    //     return res.status(200).json(updatedUser);
-    // }
+    async getOne(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const userId = Number(req.params.id);
+            const user = await userService.getOne(userId);
+            if (!user) {
+                res.status(404).json({ message: "User not found" });
+                return;
+            }
+            res.status(200).json(user);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
 
-    // // @ControllerErrorHandler()
-    // async delete(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     const deletedUser = await userService.delete(Number(req.params.id));
-    //     return res.status(200).json(deletedUser);
-    // }
+
+
+    async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const userId = Number(req.params.id);
+            const updatedUser = await userService.update({ ...req.body, id: userId });
+            if (!updatedUser) {
+                res.status(404).json({ message: "User not found" });
+                return;
+            }
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
+
+    async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const userId = Number(req.params.id);
+            const deletedUser = await userService.delete(userId);
+            if (!deletedUser) {
+                res.status(404).json({ message: "User not found" });
+                return;
+            }
+            res.status(200).json(deletedUser);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
 }
 
-const userController: UserController = new UserController();
+const userController = new UserController();
 export default userController;
