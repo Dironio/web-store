@@ -1,33 +1,30 @@
 import { NextFunction, Request, Response } from "express";
 
-export type ControllerFunction = (req: Request, res: Response, next: NextFunction) => Promise<Response | void>;
+export type ControllerFunction = (req: Request, res: Response, next: NextFunction) => Promise<Response>;
 
 export default function ControllerErrorHandler(log: boolean = true) {
-    return function (
+    return (
         target: Object,
-        propertyKey: string | symbol,
+        _: string | symbol,
         descriptor: TypedPropertyDescriptor<ControllerFunction>
-    ): TypedPropertyDescriptor<ControllerFunction> | void {
-        
-        const originalMethod = descriptor.value!;
-        
-        descriptor.value = async function (req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+    ): TypedPropertyDescriptor<ControllerFunction> | void => {
+        const method = descriptor.value;
+        descriptor.value = async (req, res, next) => {
+            let result: any;
+
             res.locals.log = log;
             res.locals.pathFound = true;
 
             try {
-                const result = await originalMethod.call(this, req, res, next);
-                return result;  // Возвращаем результат, если он есть
+                result = await method?.call(target, req, res, next);
+                next();
             } catch (err) {
                 if (err instanceof Error) {
                     next(err);
                 }
             }
 
-            // В случае ошибки обработчик передаст управление дальше
-            return next();
+            return result;
         };
-        
-        return descriptor;
     };
 }

@@ -1,25 +1,27 @@
-import e, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import userService from "../services/user.service";
+import ControllerErrorHandler from "./tools/controllerErrorHandler";
 
 class UserController {
-    async create(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const newUser = await userService.create(req.body);
-            res.status(201).json(newUser);
-        } catch (error: any) {
-            console.log(error);
-            next(error);
-        }
+    @ControllerErrorHandler()
+    async create(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        // try {
+        const newUser = await userService.create(req.body);
+        return res.status(201).json(newUser);
+        // } catch (error: any) {
+        //     console.log(error);
+        //     next(error);
+        // }
     }
 
-    async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
+    async getAll(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        // try {
             const users = await userService.getAll(req.query);
-            res.status(200).json(users);
-        } catch (error) {
-            console.log(error);
-            next(error);
-        }
+            return res.status(204).json(users);
+        // } catch (error) {
+        //     console.log(error);
+        //     next(error);
+        // }
     }
 
     async getOne(req: Request, res: Response, next: NextFunction): Promise<void> {
