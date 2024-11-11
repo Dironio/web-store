@@ -3,6 +3,7 @@ import ApiError from "../middlewares/apiError";
 import userRouter from "./user.router";
 import authRouter from "./auth.router";
 import productRouter from "./product.router";
+import cartRouter from "./cart.router";
 
 const rootRouter: Router = Router();
 
