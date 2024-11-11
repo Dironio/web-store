@@ -5,6 +5,6 @@ export interface Product {
     sale: number;
 }
 
-export interface CreateProductDto {
+export interface CreateProductDao {
     
 }

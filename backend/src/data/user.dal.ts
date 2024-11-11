@@ -4,8 +4,8 @@ import { CreateUserDao, GetUserDao, UpdatedUserDto } from "./@types/user.dao";
 
 class UserDal {
     // Метод для создания пользователя
-    async create(createUserDao: CreateUserDao) {
-        const { firstName, lastName, email, password, img, role_id } = createUserDao;
+    async create(dao: CreateUserDao) {
+        const { firstName, lastName, email, password, img, role_id } = dao;
         const result = await pool.query(`
             INSERT INTO users (first_name, last_name, email, password, img, role_id)
             VALUES ($1, $2, $3, $4, $5, $6)
