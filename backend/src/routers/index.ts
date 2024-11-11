@@ -2,11 +2,13 @@ import { NextFunction, Request, Response, Router } from "express";
 import ApiError from "../middlewares/apiError";
 import userRouter from "./user.router";
 import authRouter from "./auth.router";
+import productRouter from "./product.router";
 
 const rootRouter: Router = Router();
 
 rootRouter.use('/users', userRouter);
 rootRouter.use('/auth', authRouter);
+rootRouter.use('/orders', productRouter);
 
 
 
