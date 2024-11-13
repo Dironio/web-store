@@ -1,8 +1,9 @@
 import productDal from "../data/product.dal"
+import { CreateProductDto } from "../controllers/@types/product.dto";
 
 
 class ProductService {
-    async create(dto:) {
+    async create(dto: CreateProductDto) {
         return await productDal.create(dto);
     }
 

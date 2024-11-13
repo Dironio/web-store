@@ -1,49 +1,64 @@
 export interface User {
     id: number;
-    firstName: string;
-    lastName: string;
+    username: string;
     email: string;
     password: string;
+    firstName: string;
+    lastName: string;
     img: string;
-    role: string;
+    age: number;
+    birthday: Date;
+    role_id: number;
+    created_at: Date;
+    updated_at: Date;
 }
 
 export interface CreateUserDto {
-    firstName?: string;
-    lastName?: string;
+    username: string;
     email: string;
     password: string;
+    firstName?: string;
+    lastName?: string;
     img?: string;
-    role?: string;
 }
 
 export interface GetUserDto {
     id?: number;
-    firstName?: string;
-    lastName?: string;
+    username?: string;
     email?: string;
     password?: string;
+    firstName?: string;
+    lastName?: string;
     img?: string;
-    role?: string;
+    age?: number;
+    birthday?: Date;
+    role_id?: number;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 export interface CreateUserDb {
-    email: string
+    username: string
     password: string
 }
 
 export interface LoginUserDto {
-    email: string
+    username: string
     password: string
 }
 
 
 export interface UpdateUserDto {
     id: number;
-    firstName?: string;
-    lastName?: string;
+    username?: string;
     email?: string;
     password?: string;
+    firstName?: string;
+    lastName?: string;
     img?: string;
-    role?: string;
+    age?: number;
+    birthday?: Date;
+    role_id?: number;
+    created_at?: Date;
+    updated_at?: Date;
 }
