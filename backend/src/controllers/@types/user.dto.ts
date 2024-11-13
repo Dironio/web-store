@@ -62,3 +62,30 @@ export interface UpdateUserDto {
     created_at?: Date;
     updated_at?: Date;
 }
+
+
+
+
+
+
+
+export interface JwtTokens {
+    refreshToken: string;
+    accessToken: string;
+}
+
+export interface CreateUserDto {
+    email: string;
+    username: string;
+    password: string;
+}
+
+export interface LoginUserDto {
+    username: string;
+    password: string;
+}
+
+export interface CreatedUser {
+    user: User;
+    tokens: JwtTokens;
+}
