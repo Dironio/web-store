@@ -43,11 +43,11 @@ class UserDal {
         return result.rows[0];
     }
 
-    async getUserByUsername(username: string): Promise<User> {
+    async getUserByUsername(username: string, email: string): Promise<User> {
         const result = await pool.query(`
             SELECT * FROM users
-            WHERE username = $1`,
-            [username]
+            WHERE username = $1 or email = $2`,
+            [username, email]
         );
         return result.rows[0];
     }

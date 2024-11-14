@@ -52,6 +52,7 @@ export interface CreateUserDb {
 
 export interface LoginUserDto {
     username: string
+    email: string
     password: string
 }
 

@@ -36,13 +36,10 @@ class AuthService {
 
 
     async signup(dto: CreateUserDto): Promise<CreatedUser> {
-        const existingUser = await userService.getUserByUsername(dto.email);
-        if (existingUser) throw ApiError.BadRequest('Email already used');
+        const existingUser = await userService.getUserByUsername(dto.username, dto.email);
+        if (existingUser) throw ApiError.BadRequest('Email or username already used');
 
-
-        // Пароль уже зашифрован в userService.create
         const newUser = await userService.create(dto);
-
 
         const tokenPayload: TokenPayload = {
             id: newUser.id,
@@ -50,14 +47,13 @@ class AuthService {
             username: newUser.username,
         };
 
-
         const jwtTokens = this.generateTokens(tokenPayload);
         return { user: newUser, tokens: jwtTokens };
     }
 
 
     async login(dto: LoginUserDto): Promise<CreatedUser> {
-        const user = await userService.getUserByUsername(dto.username);
+        const user = await userService.getUserByUsername(dto.username, dto.email);
         if (!user) throw ApiError.NotFound('User not found');
         if (!user.password) throw ApiError.BadRequest('Password is missing');
 

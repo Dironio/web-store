@@ -34,8 +34,8 @@ class UserService {
         return await userDal.getOne(userId)
     }
 
-    async getUserByUsername(username: string): Promise<User> {
-        return await userDal.getUserByUsername(username);
+    async getUserByUsername(username: string, email: string): Promise<User> {
+        return await userDal.getUserByUsername(username, email);
     }
 
     async update(dto: UpdateUserDto) {
