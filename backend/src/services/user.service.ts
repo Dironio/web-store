@@ -1,5 +1,6 @@
 import { CreateUserDto, GetUserDto, UpdateUserDto, User } from "../controllers/@types/user.dto"
-import userDal from "../data/user.dal"
+import userDal from "../data/user.dal";
+import bcrypt from "bcrypt";
 
 
 class UserService {
@@ -18,6 +19,10 @@ class UserService {
             dto.age = this.calculateAge(dto.birthday);
         }
 
+        // const salt = await bcrypt.genSalt(10);
+        // dto.password = await bcrypt.hash(dto.password, salt);
+
+
         return await userDal.create(dto);
     }
 
@@ -29,14 +34,19 @@ class UserService {
         return await userDal.getOne(userId)
     }
 
-    async getUserByEmail(dto: ): Promise<User> {
-        return await userDal.getUserByEmail(dto);
+    async getUserByUsername(username: string): Promise<User> {
+        return await userDal.getUserByUsername(username);
     }
 
     async update(dto: UpdateUserDto) {
         if (dto.birthday) {
             dto.age = this.calculateAge(dto.birthday);
         }
+
+        // if (dto.password) {
+        //     const salt = await bcrypt.genSalt(10);
+        //     dto.password = await bcrypt.hash(dto.password, salt);
+        // }
 
         return await userDal.updateUser(dto);
     }

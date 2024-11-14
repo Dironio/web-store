@@ -4,14 +4,15 @@ import jwt from 'jsonwebtoken';
 import { CreatedUser, CreateUserDb, CreateUserDto, LoginUserDto, User } from "../controllers/@types/user.dto";
 import { JwtTokens, TokenDecoded, TokenPayload } from "../controllers/@types/tokenPayLoad";
 import ApiError from "../middlewares/apiError";
+import { config } from "dotenv";
+
+config({path: './.env'});
 
 
 class AuthService {
     generateTokens(payload: TokenPayload): JwtTokens {
         const refreshToken = jwt.sign(payload, process.env.JWT_REF_SEC as string, { expiresIn: '30d' });
         const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' }); // 15 минут для accessToken
-
-
         return { refreshToken, accessToken };
     }
 
@@ -35,15 +36,12 @@ class AuthService {
 
 
     async signup(dto: CreateUserDto): Promise<CreatedUser> {
-        const existingUser = await userService.getUserByEmail({ email: dto.email });
-        if (existingUser[0]) throw ApiError.BadRequest('Email already used');
+        const existingUser = await userService.getUserByUsername(dto.email);
+        if (existingUser) throw ApiError.BadRequest('Email already used');
 
 
-        const hashPassword = await bcrypt.hash(dto.password, 3);
-        const newUser: User = await userService.create({
-            ...dto,
-            password: hashPassword
-        });
+        // Пароль уже зашифрован в userService.create
+        const newUser = await userService.create(dto);
 
 
         const tokenPayload: TokenPayload = {
@@ -58,34 +56,29 @@ class AuthService {
     }
 
 
-    async login(loginUserDto: LoginUserDto): Promise<CreatedUser> {
-        const users = await userService.getAll({ username: loginUserDto.username });
-        const candidate = users[0];
+    async login(dto: LoginUserDto): Promise<CreatedUser> {
+        const user = await userService.getUserByUsername(dto.username);
+        if (!user) throw ApiError.NotFound('User not found');
+        if (!user.password) throw ApiError.BadRequest('Password is missing');
 
 
-        if (!candidate) throw ApiError.NotFound('User not found');
-        if (!candidate.password) throw ApiError.BadRequest('Password is missing');
-
-
-        const isPasswordValid = await bcrypt.compare(loginUserDto.password, candidate.password);
+        const isPasswordValid = await bcrypt.compare(dto.password, user.password);
         if (!isPasswordValid) throw ApiError.UnauthorizedError('Invalid password');
 
 
         const tokenPayload: TokenPayload = {
-            id: candidate.id,
-            username: candidate.username,
+            id: user.id,
+            username: user.username,
         };
 
 
         const jwtTokens = this.generateTokens(tokenPayload);
-        return { user: candidate, tokens: jwtTokens };
+        return { user, tokens: jwtTokens };
     }
 
 
     async refresh(refreshToken: string): Promise<JwtTokens> {
         if (!refreshToken) throw ApiError.UnauthorizedError();
-
-
         const userData = this.validateRefreshToken(refreshToken);
         if (!userData) throw ApiError.UnauthorizedError();
 

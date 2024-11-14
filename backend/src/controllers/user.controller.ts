@@ -11,7 +11,7 @@ class UserController {
 
     @ControllerErrorHandler()
     async getAll(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const users = await userService.getAll(req.query);
+        const users = await userService.getAll();
         return res.status(200).json(users);
     }
 

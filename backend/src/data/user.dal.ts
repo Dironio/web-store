@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 class UserDal {
     async create(dao: CreateUserDao): Promise<User> {
         const { username, email, password, firstName, lastName, img, age, birthday } = dao;
+        const createdAt = new Date();
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -13,10 +14,10 @@ class UserDal {
 
 
         const result = await pool.query(`
-            INSERT INTO users (username, email, password, first_name, last_name, img, age, birthday, role_id)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            INSERT INTO users (username, email, password, first_name, last_name, img, age, birthday, role_id, created_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *`,
-            [username, email, hashedPassword, firstName, lastName, img, age, birthday, defaultRoleId]
+            [username, email, hashedPassword, firstName, lastName, img, age, birthday, defaultRoleId, createdAt]
         );
 
         return result.rows[0];
@@ -42,11 +43,11 @@ class UserDal {
         return result.rows[0];
     }
 
-    async getUserByEmail(email: string): Promise<User> {
+    async getUserByUsername(username: string): Promise<User> {
         const result = await pool.query(`
             SELECT * FROM users
-            WHERE email = $1`,
-            [email]
+            WHERE username = $1`,
+            [username]
         );
         return result.rows[0];
     }

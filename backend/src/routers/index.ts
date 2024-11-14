@@ -9,8 +9,8 @@ const rootRouter: Router = Router();
 
 rootRouter.use('/users', userRouter);
 rootRouter.use('/auth', authRouter);
-rootRouter.use('/orders', productRouter);
-rootRouter.use('/carts', cartRouter);
+// rootRouter.use('/orders', productRouter);
+// rootRouter.use('/carts', cartRouter);
 
 
 

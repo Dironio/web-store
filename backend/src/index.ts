@@ -1,14 +1,17 @@
-import express from 'express';
 import { config } from 'dotenv';
+import express from 'express';
 import rootRouter from './routers';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
-config({ path: './.env' });
+config({ path: '../.env' });
 
 const PORT = process.env.PORT || 1488;
-
 const app = express();
+
 app.use(express.json());
-// app.use()
+app.use(cookieParser())
+app.use(cors({ credentials: true, origin: 'http://localhost:1337' }))
 
 app.use('/api', rootRouter);
 
@@ -24,7 +27,6 @@ function start() {
         console.log('Error start: ', e.message);
         process.exit(1);
     }
-
 }
 
 start();

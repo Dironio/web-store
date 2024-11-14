@@ -9,172 +9,38 @@ class AuthController {
         return ['refreshToken', val, { maxAge: 30 * 24 * 3600 * 1000, httpOnly: true }];
     }
 
-
+    @ControllerErrorHandler()
     async signup(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        try {
-            const dto: CreateUserDto = req.body;
-            const result = await authService.signup(dto);
+        const dto: CreateUserDto = req.body;
+        const result = await authService.signup(dto);
 
-
-            res.cookie(...this.getTokenParams(result.tokens.refreshToken));
-            return res.status(201).json(result);
-        } catch (error) {
-            next(error);
-        }
+        res.cookie(...this.getTokenParams(result.tokens.refreshToken));
+        return res.status(201).json(result);
     }
 
-
+    @ControllerErrorHandler()
     async login(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        try {
-            const dto: LoginUserDto = req.body;
-            const result = await authService.login(dto);
+        const dto: LoginUserDto = req.body;
+        const result = await authService.login(dto);
 
-
-            res.cookie(...this.getTokenParams(result.tokens.refreshToken));
-            return res.status(200).json(result);
-        } catch (error) {
-            next(error);
-        }
+        res.cookie(...this.getTokenParams(result.tokens.refreshToken));
+        return res.status(200).json(result);
     }
 
-
+    @ControllerErrorHandler()
     async logout(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        try {
-            res.clearCookie('refreshToken');
-            return res.json({ message: 'Logout success' });
-        } catch (error) {
-            next(error);
-        }
+        res.clearCookie('refreshToken');
+        return res.json({ message: 'Logout success' });
     }
 
-
+    @ControllerErrorHandler()
     async refresh(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        try {
-            const refreshToken = req.cookies.refreshToken;
-            const tokens = await authService.refresh(refreshToken);
+        const refreshToken = req.cookies.refreshToken;
+        const tokens = await authService.refresh(refreshToken);
 
-
-            res.cookie(...this.getTokenParams(tokens.refreshToken));
-            return res.json(tokens);
-        } catch (error) {
-            next(error);
-        }
+        res.cookie(...this.getTokenParams(tokens.refreshToken));
+        return res.json(tokens);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // private getTokenParams(val: string): [string, string, CookieOptions] {
-    //     return ['refreshToken', val, { maxAge: 30 * 24 * 3600 * 1000, httpOnly: true }];
-    // }
-
-
-    // async signup(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     try {
-    //         const dto: CreateUserDto = req.body;
-    //         const result = await authService.signup(dto);
-
-
-    //         res.cookie(...this.getTokenParams(result.tokens.refreshToken));
-    //         return res.status(201).json(result);
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
-    // async login(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     try {
-    //         const dto: LoginUserDto = req.body;
-    //         const result = await authService.login(dto);
-
-
-    //         if (result.tokens?.refreshToken) {
-    //             res.cookie(...this.getTokenParams(result.tokens.refreshToken));
-    //         }
-    //         return res.status(200).json(result);
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
-    // async logout(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     try {
-    //         const refreshToken = req.cookies.refreshToken;
-    //         await authService.logout(refreshToken);
-
-
-    //         res.clearCookie('refreshToken');
-    //         return res.json({ message: 'Logout success' });
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
-
-
-    // async refresh(req: Request, res: Response, next: NextFunction): Promise<Response> {
-    //     try {
-    //         const refreshToken = req.cookies.refreshToken;
-    //         const result = await authService.refresh(refreshToken);
-
-
-    //         res.cookie(...this.getTokenParams(result.tokens.refreshToken));
-    //         return res.json(result.tokens);
-    //     } catch (error) {
-    //         next(error);
-    //     }
-    // }
 }
 
 const authController = new AuthController();
