@@ -4,15 +4,25 @@ import bcrypt from "bcrypt";
 
 
 class UserService {
-    calculateAge(birthday: Date): number {
+    calculateAge(birthday: Date | string): number {
+        const birthDate = typeof birthday === 'string' ? new Date(birthday.replace('/', '-')) : birthday;
+    
+        if (!(birthDate instanceof Date) || isNaN(birthDate.getTime())) {
+            throw new Error('Invalid birth date');
+        }
+    
         const today = new Date();
-        let age = today.getFullYear() - birthday.getFullYear();
-        const monthDiff = today.getMonth() - birthday.getMonth();
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
+    
         return age;
     }
+    
 
     async create(dto: CreateUserDto): Promise<User> {
         if (dto.birthday) {
