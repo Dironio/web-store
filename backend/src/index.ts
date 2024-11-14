@@ -16,9 +16,14 @@ app.use('/api', rootRouter);
 
 
 function start() {
-    app.listen(PORT, () => {
-        console.log(`Server is running on ${PORT} port`)
-    })
+    try {
+        app.listen(PORT, () => {
+            console.log(`Server is running on ${PORT} port`)
+        })
+    } catch (e: any) {
+        console.log('Error start: ', e.message);
+        process.exit(1);
+    }
 
 }
 

@@ -1,16 +1,16 @@
 import userService from "./user.service";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { CreateUserDb, CreateUserDto, LoginUserDto, User } from "../controllers/@types/user.dto";
-import { TokenPayload } from "../controllers/@types/tokenPayLoad";
+import { CreatedUser, CreateUserDb, CreateUserDto, LoginUserDto, User } from "../controllers/@types/user.dto";
+import { JwtTokens, TokenDecoded, TokenPayload } from "../controllers/@types/tokenPayLoad";
 import ApiError from "../middlewares/apiError";
-import authDal from "../data/auth.dal";
 
 
 class AuthService {
     generateTokens(payload: TokenPayload): JwtTokens {
         const refreshToken = jwt.sign(payload, process.env.JWT_REF_SEC as string, { expiresIn: '30d' });
-        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' });
+        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' }); // 15 минут для accessToken
+
 
         return { refreshToken, accessToken };
     }
@@ -35,7 +35,7 @@ class AuthService {
 
 
     async signup(dto: CreateUserDto): Promise<CreatedUser> {
-        const existingUser = await userService.get({ email: dto.email });
+        const existingUser = await userService.getUserByEmail({ email: dto.email });
         if (existingUser[0]) throw ApiError.BadRequest('Email already used');
 
 
@@ -54,15 +54,12 @@ class AuthService {
 
 
         const jwtTokens = this.generateTokens(tokenPayload);
-        await authDal.create({ userId: newUser.id, refreshToken: jwtTokens.refreshToken });
-
-
         return { user: newUser, tokens: jwtTokens };
     }
 
 
     async login(loginUserDto: LoginUserDto): Promise<CreatedUser> {
-        const users = await userService.get({ username: loginUserDto.username });
+        const users = await userService.getAll({ username: loginUserDto.username });
         const candidate = users[0];
 
 
@@ -81,14 +78,11 @@ class AuthService {
 
 
         const jwtTokens = this.generateTokens(tokenPayload);
-        await authDal.update({ userId: candidate.id, refreshToken: jwtTokens.refreshToken });
-
-
         return { user: candidate, tokens: jwtTokens };
     }
 
 
-    async refresh(refreshToken: string): Promise<CreatedUser> {
+    async refresh(refreshToken: string): Promise<JwtTokens> {
         if (!refreshToken) throw ApiError.UnauthorizedError();
 
 
@@ -96,11 +90,10 @@ class AuthService {
         if (!userData) throw ApiError.UnauthorizedError();
 
 
-        const token = await authDal.get({ userId: userData.id });
-        if (!token || token.refreshToken !== refreshToken) throw ApiError.UnauthorizedError();
+        const user = await userService.getOne(userData.id);
+        if (!user) throw ApiError.UnauthorizedError('User not found');
 
 
-        const user = await userService.getById(userData.id);
         const tokenPayload: TokenPayload = {
             id: user.id,
             username: user.username,
@@ -108,17 +101,12 @@ class AuthService {
 
 
         const jwtTokens = this.generateTokens(tokenPayload);
-        await authDal.update({ userId: user.id, refreshToken: jwtTokens.refreshToken });
-
-
-        return { user, tokens: jwtTokens };
+        return jwtTokens;
     }
 
+    // async logout(): Promise<void> {
 
-    async logout(refreshToken: string): Promise<void> {
-        await authDal.removeToken(refreshToken);
-    }
-
+    // }
 }
 
 const authService = new AuthService();

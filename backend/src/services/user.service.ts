@@ -1,26 +1,47 @@
-import { CreateUserDto, GetUserDto, User } from "../controllers/@types/user.dto"
-import { UpdatedUserDto } from "../data/@types/user.dao"
+import { CreateUserDto, GetUserDto, UpdateUserDto, User } from "../controllers/@types/user.dto"
 import userDal from "../data/user.dal"
 
 
 class UserService {
-    async create (dto: CreateUserDto): Promise<User> {
-        return await userDal.create(dto)
+    calculateAge(birthday: Date): number {
+        const today = new Date();
+        let age = today.getFullYear() - birthday.getFullYear();
+        const monthDiff = today.getMonth() - birthday.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+            age--;
+        }
+        return age;
     }
 
-    async getAll (dto: GetUserDto) {
-        return await userDal.getAll(dto)
+    async create(dto: CreateUserDto): Promise<User> {
+        if (dto.birthday) {
+            dto.age = this.calculateAge(dto.birthday);
+        }
+
+        return await userDal.create(dto);
     }
 
-    async getOne (userId: number) {
+    async getAll() {
+        return await userDal.getAll();
+    }
+
+    async getOne(userId: number) {
         return await userDal.getOne(userId)
     }
 
-    async update (dto: UpdatedUserDto) {
-        return await userDal.update(dto)
+    async getUserByEmail(dto: ): Promise<User> {
+        return await userDal.getUserByEmail(dto);
     }
 
-    async delete (userId: number) {
+    async update(dto: UpdateUserDto) {
+        if (dto.birthday) {
+            dto.age = this.calculateAge(dto.birthday);
+        }
+
+        return await userDal.updateUser(dto);
+    }
+
+    async delete(userId: number) {
         return await userDal.delete(userId)
     }
 }

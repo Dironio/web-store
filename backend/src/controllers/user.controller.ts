@@ -12,7 +12,7 @@ class UserController {
     @ControllerErrorHandler()
     async getAll(req: Request, res: Response, next: NextFunction): Promise<Response> {
         const users = await userService.getAll(req.query);
-        return res.status(204).json(users);
+        return res.status(200).json(users);
     }
 
     @ControllerErrorHandler()

@@ -1,63 +1,92 @@
 import { User } from "../controllers/@types/user.dto";
 import pool from "../pool";
-import { CreateUserDao, GetUserDao, UpdatedUserDto } from "./@types/user.dao";
+import { CreateUserDao, GetUserDao, UpdateUserDao } from "./@types/user.dao";
+import bcrypt from "bcrypt";
 
 class UserDal {
-    // Метод для создания пользователя
-    async create(dao: CreateUserDao) {
-        const { firstName, lastName, email, password, img, role_id } = dao;
+    async create(dao: CreateUserDao): Promise<User> {
+        const { username, email, password, firstName, lastName, img, age, birthday } = dao;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const defaultRoleId = 2;
+
+
         const result = await pool.query(`
-            INSERT INTO users (first_name, last_name, email, password, img, role_id)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            INSERT INTO users (username, email, password, first_name, last_name, img, age, birthday, role_id)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *`,
-            [firstName, lastName, email, password, img, role_id]
+            [username, email, hashedPassword, firstName, lastName, img, age, birthday, defaultRoleId]
         );
+
         return result.rows[0];
     }
 
-    // Метод для получения всех пользователей
-    async getAll(dao: GetUserDao): Promise<User[]> {
-        const allUsers = await pool.query(`
-            SELECT users.*
+    async getAll(): Promise<User[]> {
+        const result = await pool.query(`
+            SELECT users.id, username, email, "password", first_name, last_name, img, age, birthday, role_id, role, created_at, updated_at
             FROM users
+            JOIN roles on roles.id = users.role_id
         `);
-        return allUsers.rows;
+        return result.rows;
     }
 
-    // Метод для получения одного пользователя по id
-    async getOne(userId: number) {
-        const oneUser = await pool.query(`
+    async getOne(id: number): Promise<User> {
+        const result = await pool.query(`
             SELECT users.*, roles.name as role 
             FROM users
             JOIN roles ON roles.id = users.role_id
             WHERE users.id = $1`,
-            [userId]
+            [id]
         );
-        return oneUser.rows[0];
+        return result.rows[0];
     }
 
-    // Метод для обновления данных пользователя
-    async update(updatedUserDto: UpdatedUserDto) {
-        const { id, firstName, lastName, email, password, img, role_id } = updatedUserDto;
-        const updatedUser = await pool.query(`
+    async getUserByEmail(email: string): Promise<User> {
+        const result = await pool.query(`
+            SELECT * FROM users
+            WHERE email = $1`,
+            [email]
+        );
+        return result.rows[0];
+    }
+
+    async updateUser(dao: UpdateUserDao): Promise<User> {
+        const { id, username, email, password, firstName, lastName, img, age, birthday, role_id } = dao;
+        const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+
+
+        const result = await pool.query(`
             UPDATE users
-            SET first_name = $2, last_name = $3, email = $4, password = $5, img = $6, role_id = $7
+            SET 
+                username = COALESCE($2, username), 
+                email = COALESCE($3, email),
+                password = COALESCE($4, password),
+                first_name = COALESCE($5, first_name),
+                last_name = COALESCE($6, last_name),
+                img = COALESCE($7, img),
+                age = COALESCE($8, age),
+                birthday = COALESCE($9, birthday),
+                role_id = COALESCE($10, role_id)
             WHERE id = $1
             RETURNING *`,
-            [id, firstName, lastName, email, password, img, role_id]
+            [id, username, email, hashedPassword, firstName, lastName, img, age, birthday, role_id]
         );
-        return updatedUser.rows[0];
+
+
+        return result.rows[0] || null;
+
     }
 
-    // Метод для удаления пользователя
-    async delete(userId: number) {
-        const deletedUser = await pool.query(`
+
+    async delete(id: number): Promise<User | null> {
+        const result = await pool.query(`
             DELETE FROM users
             WHERE id = $1
             RETURNING *`,
-            [userId]
+            [id]
         );
-        return deletedUser.rows[0];
+        return result.rows[0] || null;
     }
 }
 

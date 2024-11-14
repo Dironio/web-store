@@ -1,3 +1,5 @@
+import { JwtTokens } from "./tokenPayLoad";
+
 export interface User {
     id: number;
     username: string;
@@ -14,12 +16,18 @@ export interface User {
 }
 
 export interface CreateUserDto {
+    id?: number;
     username: string;
     email: string;
     password: string;
     firstName?: string;
     lastName?: string;
     img?: string;
+    age?: number;
+    birthday?: Date;
+    role_id?: number;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 export interface GetUserDto {
@@ -61,17 +69,6 @@ export interface UpdateUserDto {
     role_id?: number;
     created_at?: Date;
     updated_at?: Date;
-}
-
-
-
-
-
-
-
-export interface JwtTokens {
-    refreshToken: string;
-    accessToken: string;
 }
 
 export interface CreateUserDto {
