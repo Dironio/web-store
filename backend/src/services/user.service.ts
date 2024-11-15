@@ -6,23 +6,23 @@ import bcrypt from "bcrypt";
 class UserService {
     calculateAge(birthday: Date | string): number {
         const birthDate = typeof birthday === 'string' ? new Date(birthday.replace('/', '-')) : birthday;
-    
+
         if (!(birthDate instanceof Date) || isNaN(birthDate.getTime())) {
             throw new Error('Invalid birth date');
         }
-    
+
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
-    
-    
+
+
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
-    
+
         return age;
     }
-    
+
 
     async create(dto: CreateUserDto): Promise<User> {
         if (dto.birthday) {
@@ -48,7 +48,7 @@ class UserService {
         return await userDal.getUserByUsername(username, email);
     }
 
-    async update(dto: UpdateUserDto) {
+    async update(dto: UpdateUserDto): Promise<User> {
         if (dto.birthday) {
             dto.age = this.calculateAge(dto.birthday);
         }
@@ -58,7 +58,7 @@ class UserService {
         //     dto.password = await bcrypt.hash(dto.password, salt);
         // }
 
-        return await userDal.updateUser(dto);
+        return await userDal.update(dto);
     }
 
     async delete(userId: number) {

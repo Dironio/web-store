@@ -12,7 +12,6 @@ class UserDal {
 
         const defaultRoleId = 2;
 
-
         const result = await pool.query(`
             INSERT INTO users (username, email, password, first_name, last_name, img, age, birthday, role_id, created_at)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -27,8 +26,9 @@ class UserDal {
         const result = await pool.query(`
             SELECT users.id, username, email, "password", first_name, last_name, img, age, birthday, role_id, role, created_at, updated_at
             FROM users
-            JOIN roles on roles.id = users.role_id
+            JOIN roles on users.role_id = roles.id
         `);
+
         return result.rows;
     }
 
@@ -36,10 +36,11 @@ class UserDal {
         const result = await pool.query(`
             SELECT users.*, roles.name as role 
             FROM users
-            JOIN roles ON roles.id = users.role_id
+            JOIN roles on users.role_id = roles.id
             WHERE users.id = $1`,
             [id]
         );
+
         return result.rows[0];
     }
 
@@ -49,13 +50,13 @@ class UserDal {
             WHERE username = $1 or email = $2`,
             [username, email]
         );
+
         return result.rows[0];
     }
 
-    async updateUser(dao: UpdateUserDao): Promise<User> {
+    async update(dao: UpdateUserDao): Promise<User> {
         const { id, username, email, password, firstName, lastName, img, age, birthday, role_id } = dao;
         const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
-
 
         const result = await pool.query(`
             UPDATE users
@@ -75,19 +76,17 @@ class UserDal {
         );
 
 
-        return result.rows[0] || null;
-
+        return result.rows[0];
     }
 
-
-    async delete(id: number): Promise<User | null> {
+    async delete(id: number): Promise<User> {
         const result = await pool.query(`
             DELETE FROM users
             WHERE id = $1
             RETURNING *`,
             [id]
         );
-        return result.rows[0] || null;
+        return result.rows[0];
     }
 }
 
