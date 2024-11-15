@@ -4,10 +4,10 @@ import cartController from "../controllers/cart.controller";
 
 const cartRouter: Router = Router();
 
-cartRouter.post('/create', cartController.create);
-cartRouter.get('/create', cartController.getAll);
-cartRouter.get('/create', cartController.getOne);
-cartRouter.patch('/create', cartController.update);
-cartRouter.delete('/create', cartController.delete);
+cartRouter.post('/', cartController.create);
+cartRouter.get('/', cartController.getAll);
+cartRouter.get('/:id', cartController.getOne);
+cartRouter.patch('/', cartController.update);
+cartRouter.delete('/:id', cartController.delete);
 
 export default cartRouter;

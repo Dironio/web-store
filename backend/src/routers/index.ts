@@ -10,7 +10,7 @@ const rootRouter: Router = Router();
 rootRouter.use('/users', userRouter);
 rootRouter.use('/auth', authRouter);
 rootRouter.use('/products', productRouter);
-// rootRouter.use('/carts', cartRouter);
+rootRouter.use('/carts', cartRouter);
 
 
 
