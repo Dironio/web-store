@@ -4,6 +4,7 @@ import userRouter from "./user.router";
 import authRouter from "./auth.router";
 import productRouter from "./product.router";
 import cartRouter from "./cart.router";
+import  analyticRouter from "./analytic.router";
 
 const rootRouter: Router = Router();
 
@@ -11,6 +12,7 @@ rootRouter.use('/users', userRouter);
 rootRouter.use('/auth', authRouter);
 rootRouter.use('/products', productRouter);
 rootRouter.use('/carts', cartRouter);
+rootRouter.use('/analytics', analyticRouter)
 
 
 
