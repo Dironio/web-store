@@ -72,75 +72,74 @@ class CartDal {
     }
 
 
+    //
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    async createItem(cartId: number, productId: number, quantity: number) {
+    async createItem(dao: ) {
         const result = await pool.query(`
             INSERT INTO cart_items (cart_id, product_id, quantity)
             VALUES ($1, $2, $3)
             ON CONFLICT (cart_id, product_id)
             DO UPDATE SET quantity = cart_items.quantity + $3
             RETURNING *`,
-            [cartId, productId, quantity]
+            []
         );
         return result.rows[0];
     }
 
 
-    async getCartItems(cartId: number) {
+    async getAllItem() {
         const result = await pool.query(`
             SELECT p.*, ci.quantity
             FROM cart_items ci
             JOIN products p ON ci.product_id = p.id
             WHERE ci.cart_id = $1`,
-            [cartId]
+            []
         );
         return result.rows;
     }
 
-    async updateCartItem(cartId: number, productId: number, quantity: number) {
+    async getOneItem(id: number) {
+        const result = await pool.query(
+            `
+            SELECT *
+            FROM cart_item
+            WHERE id = $1
+            `, [id]
+        );
+
+        return result.rows[0];
+    }
+
+    async updateItem(dao:) {
         const result = await pool.query(`
             UPDATE cart_items
             SET quantity = $3
             WHERE cart_id = $1 AND product_id = $2
             RETURNING *`,
-            [cartId, productId, quantity]
+            []
         );
         return result.rows[0];
     }
 
-    async deleteItem(cartId: number, productId: number) {
+    async deleteItem(id: number) {
         const result = await pool.query(`
             DELETE FROM cart_items
             WHERE cart_id = $1 AND product_id = $2
             RETURNING *`,
-            [cartId, productId]
+            []
         );
         return result.rows[0];
     }
 
     async clearCart(cartId: number) {
-        await pool.query(`
+        const result = await pool.query(`
             DELETE FROM cart_items 
             WHERE cart_id = $1`, [cartId]);
 
+        return result.rows[0];
     }
 }
-
 
 
 const cartDal = new CartDal();
