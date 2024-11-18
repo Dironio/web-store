@@ -6,6 +6,8 @@ class CartDal {
     async create(dao: CreateCartDao) {
         const { user_id } = dao;
 
+        // сделать проверку на созданную запись
+
         const result = await pool.query(
             `INSERT INTO carts (user_id)
              VALUES ($1)
@@ -20,10 +22,8 @@ class CartDal {
     async getAll() {
         const result = await pool.query(
             `
-            SELECT c.id, c.user_id,  username, email, "password", first_name, last_name, img, age, birthday, role_id, role, created_at, updated_at
-            FROM carts c
-            JOIN users u ON u.id = c.user_id 
-            JOIN roles r ON u.role_id = r.id 
+            SELECT *
+            FROM carts
             `
         );
 
@@ -90,7 +90,7 @@ class CartDal {
 
     async getAllItem() {
         const result = await pool.query(`
-            SELECT p.*, ci.quantity
+            SELECT p.*,
             FROM cart_items ci
             JOIN products p ON ci.product_id = p.id
             WHERE ci.cart_id = $1`,
