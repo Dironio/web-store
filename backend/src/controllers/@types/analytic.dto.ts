@@ -3,15 +3,16 @@ export interface Analytic {
     user_id: number;
     product_id: number;
     event_id: number;
-    event_data: JSON;
+    event_data: Record<string, any>;
     page_url: string;
     timestamp: Date;
     geolocation: string;
-    browser: string;
-    session_id: number; // надо ли?
-    device_type: string;
+    // browser: string;
+    // session_id: number;
+    // device_type: string;
     duration: Date;
-    tech_metrics: string; //забыл че значит))
+    // tech_metrics: string; //забыл че значит))
+    user_agent: string;
 }
 
 export interface Event {
@@ -23,7 +24,7 @@ export interface CreateAnalyticDto {
     user_id: number;
     product_id: number;
     event_id: number;
-    event_data?: JSON; //нужна ли здесь??
+    event_data?: Record<string, any>; //нужна ли здесь??
     page_url?: string;
     timestamp?: Date; //?
     geolocation?: string;
@@ -39,7 +40,7 @@ export interface UpdateAnalyticDto {
     user_id: number;
     product_id: number;
     event_id?: number;
-    event_data?: JSON;
+    event_data?: Record<string, any>;
     page_url?: string;
     timestamp?: Date;
     geolocation?: string;

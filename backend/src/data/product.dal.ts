@@ -28,10 +28,15 @@ class ProductDal {
     }
 
     async getAll(dao: GetProductDao) {
+        const page = 1;
+
         const result = await pool.query(`
         SELECT products.*
         FROM products
-    `);
+        ORDER BY RANDOM()
+        LIMIT 10
+        --OFFSET $1
+        `, [page]);
         return result.rows;
     }
 
@@ -49,10 +54,10 @@ class ProductDal {
     async update(dao: UpdateProductDao) {
         const { id, seller_id, name, category, full_category, brand, seller, rating, price,
             description, sales, url, photo_url, max_price, min_price, avg_price } = dao;
-        
-        
+
+
         console.log(pool.query(
-                
+
             `
             UPDATE products
             SET 
@@ -80,9 +85,9 @@ class ProductDal {
                 description, sales, url, photo_url, max_price, min_price, avg_price
             ]
         ));
-        
-            const result = await pool.query(
-                
+
+        const result = await pool.query(
+
             `
             UPDATE products
             SET 
