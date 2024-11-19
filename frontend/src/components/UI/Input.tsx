@@ -1,59 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
+import sendAnalytics from '../../utils/analytics';
+
 
 
 interface InputProps {
-    className?: string;
-    placeholder?: string;
-    trackId?: string;
-    onChange?: (value: string) => void;
+  className?: string;
+  placeholder?: string;
+  trackId?: string;
 }
 
 
-const Input: React.FC<InputProps> = ({ className, placeholder, trackId, onChange }) => {
-    const handleFocus = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/metrics`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                event: 'input_focus',
-                trackId,
-                timestamp: Date.now(),
-            }),
-        });
-    };
+const Input: React.FC<InputProps> = ({ className, placeholder, trackId }) => {
+  const [value, setValue] = useState('');
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (onChange) onChange(e.target.value);
-    };
+  const handleFocus = () => {
+    sendAnalytics({
+      event_type: 'input_focus',
+      event_data: { track_id: trackId },
+      page_url: window.location.href,
+    });
+  };
 
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            fetch(`${process.env.REACT_APP_API_URL}/metrics`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    event: 'input_submit',
-                    trackId,
-                    timestamp: Date.now(),
-                    value: e.currentTarget.value,
-                }),
-            });
-        }
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
 
-    return (
-        <input
-            type="text"
-            className={className}
-            placeholder={placeholder}
-            onFocus={handleFocus}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-        />
-    );
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      sendAnalytics({
+        event_type: 'input_submit',
+        event_data: { track_id: trackId, input_value: value },
+        page_url: window.location.href,
+      });
+    }
+  };
+
+
+  return (
+    <input
+      type="text"
+      className={className}
+      placeholder={placeholder}
+      onFocus={handleFocus}
+      onChange={handleChange}
+      onKeyPress={handleKeyPress}
+      value={value}
+    />
+  );
 };
 
 

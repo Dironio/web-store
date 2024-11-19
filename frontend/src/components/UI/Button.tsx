@@ -1,26 +1,24 @@
 import React from 'react';
+import sendAnalytics from '../../utils/analytics';
 
 
 interface ButtonProps {
     onClick?: () => void;
     className?: string;
-    trackId?: string; //подумать как сделать
+    eventType: string;
+    eventData?: Record<string, any>;
     children: React.ReactNode;
 }
 
 
-const Button: React.FC<ButtonProps> = ({ onClick, className, trackId, children }) => {
+const Button: React.FC<ButtonProps> = ({ onClick, className, eventType, eventData, children }) => {
     const handleClick = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/analytics`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                event: 'button_click',
-                trackId, //
-                timestamp: Date.now(),
-            }),
+        sendAnalytics({
+            event_type: eventType,
+            event_data: eventData,
+            page_url: window.location.href,
+            user_id: localStorage.getItem('user_id') || null,
         });
-
 
         if (onClick) onClick();
     };
