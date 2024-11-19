@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import '../Header/Header.module.css';
+import sendAnalytics from '../../utils/analytics/analytics';
+import Button from '../UI/Button';
+import Input from '../UI/Input';
+import '../../../src/components/Header/Header.module.css'
 
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartCount, setCartCount] = useState(0);
 
-
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/auth/current`, {
-            credentials: 'include',
-        })
+        fetch(`${process.env.REACT_APP_API_URL}/auth/current`, { credentials: 'include' })
             .then((res) => res.json())
             .then((data) => {
                 if (data?.user) {
@@ -20,48 +20,83 @@ const Header: React.FC = () => {
             .catch((err) => console.error('Ошибка получения статуса пользователя:', err));
     }, []);
 
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_URL}/cart/count`, { credentials: 'include' })
+            .then((res) => res.json())
+            .then((data) => {
+                setCartCount(data.count || 0);
+            })
+            .catch((err) => console.error('Ошибка получения количества товаров в корзине:', err));
+    }, []);
+
+    const handleLogoClick = () => {
+        sendAnalytics({
+            event_type: 'click',
+            event_data: { track_id: 'logo_click' },
+            page_url: window.location.href,
+        });
+    };
 
     return (
         <header className="bg-white">
             <div className="wrapper">
                 <div className="header">
+                    {/* Логотип */}
                     <div className="header__logo">
-                        <a href="/" className="header__logo-link">
-                            <img src="/assets/logo.svg" alt="Web Store" />
-                        </a>
+                        <Button
+                            className="header__logo-link"
+                            eventType="click"
+                            eventData={{ track_id: 'logo_click' }}
+                            onClick={handleLogoClick}
+                        >
+                            <img src="logo.svg" alt="Web Store" />
+                        </Button>
                     </div>
 
+                    {/* Поисковая строка */}
                     <div className="header__search">
                         <div className="search-category">
-                            <a href="#" className="search-category-btn">
+                            <Button
+                                className="search-category-btn"
+                                eventType="click"
+                                eventData={{ track_id: 'category_open' }}
+                            >
                                 <img src="/assets/categ.svg" alt="Категория" />
-                            </a>
-                            <a href="#" className="search-category-label">
+                            </Button>
+                            <Button
+                                className="search-category-label"
+                                eventType="click"
+                                eventData={{ track_id: 'category_label_click' }}
+                            >
                                 Категория
-                            </a>
+                            </Button>
                         </div>
                         <div className="search-divider"></div>
                         <form className="search-form">
                             <ul className="search-list">
                                 <li className="search-list-item">
-                                    <input
-                                        type="text"
+                                    <Input
                                         className="search-list-input"
                                         placeholder="Найти товар"
-                                        onFocus={() => console.log('Пользователь открыл поиск')}
+                                        trackId="search_input"
                                     />
                                 </li>
                                 <li className="search-list-icon">
-                                    <button type="submit" className="search-list-link">
+                                    <Button
+                                        className="search-list-link"
+                                        eventType="click"
+                                        eventData={{ track_id: 'search_button_click' }}
+                                    >
                                         <img src="/assets/ep_search.svg" alt="Искать" />
-                                    </button>
+                                    </Button>
                                 </li>
                             </ul>
                         </form>
                     </div>
 
-
+                    {/* Действия в хедере */}
                     <div className="header__actions">
+                        {/* Корзина */}
                         <ul className="header__cart">
                             <li className="header__cart-icon">
                                 <a href="/cart">
@@ -75,7 +110,7 @@ const Header: React.FC = () => {
                             </li>
                         </ul>
 
-
+                        {/* Авторизация */}
                         <ul className="header__auth">
                             {isLoggedIn ? (
                                 <li className="header__auth-icon">
@@ -97,6 +132,5 @@ const Header: React.FC = () => {
         </header>
     );
 };
-
 
 export default Header;

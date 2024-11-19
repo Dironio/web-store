@@ -15,8 +15,12 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./global.d.ts"
+    ],
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx"
   },

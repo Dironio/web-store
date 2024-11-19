@@ -1,26 +1,35 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage/HomePage';
-
+import React, { useEffect, useState } from 'react';
+import './App.css';
+import Header from './components/Header/Header';
 
 const App: React.FC = () => {
-  const isAuthenticated = false; // Замените на проверку из контекста
+    const [cartCount, setCartCount] = useState(0);
 
+    useEffect(() => {
+        const fetchCartCount = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/cart/count`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                const data = await response.json();
+                if (data && typeof data.count === 'number') {
+                    setCartCount(data.count);
+                }
+            } catch (error) {
+                console.error('Ошибка получения количества товаров в корзине:', error);
+            }
+        };
 
-  return (
-    <Router>
-      <Routes>
-        {/* <Route path="/" element={<HomePage />} /> */}
-        {/* <Route path="/auth" element={<AuthPage />} />
-        <Route path="/products/:id" element={<ProductPage />} /> */}
-        <Route
-          path="/settings"
-        // element={isAuthenticated ? <SettingsPage /> : <Navigate to="/auth" />}
-        />
-      </Routes>
-    </Router>
-  );
+        fetchCartCount();
+    }, []);
+
+    return (
+        <div className="App">
+            <Header />
+
+        </div>
+    );
 };
-
 
 export default App;
