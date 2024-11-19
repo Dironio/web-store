@@ -1,0 +1,149 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    gap: 40px;
+}
+
+
+.header__logo-link img {
+    display: block;
+    height: 60px;
+}
+
+
+.header__search {
+    display: flex;
+    align-items: center;
+    border: 2px solid #B8ECA0;
+    border-radius: 26px;
+    padding: 4px;
+    flex-grow: 1;
+    height: 52px;
+    max-width: calc(100% - 80px - 40px);
+    /* max-width: 100%; */
+    width: 100%;
+}
+
+
+.search-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #B8ECA0;
+    border-radius: 22px;
+    padding: 10px 20px;
+    flex-shrink: 0;
+}
+
+
+.search-category-btn img {
+    height: 100%;
+}
+
+
+.search-category-btn {
+    height: 20px;
+}
+
+
+.search-category-label {
+    color: #56A033;
+}
+
+
+.search-divider {
+    width: 2px;
+    height: 32px;
+    background-color: #B8ECA0;
+    border-radius: 10px;
+    margin: 0 12px;
+}
+
+
+.search-form {
+    flex-grow: 1;
+    padding-right: 4px;
+    min-width: 0;
+}
+
+
+.search-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.search-list-item {
+    font-size: 16px;
+    color: #A8D592;
+    width: 100%;
+}
+
+.search-list-input {
+    flex-grow: 1;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    color: #020202;
+    padding: 8px 12px;
+    border-radius: 22px;
+    outline: none;
+    width: 100%;
+}
+
+.search-list-input::placeholder {
+    color: #A7A7A7;
+}
+
+.search-list-icon {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search-list-icon img {
+    display: block;
+    height: 28px;
+}
+
+
+.header__actions {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+
+.header__cart {
+    display: flex;
+    align-items: flex-start;
+}
+
+
+.header__cart-count {
+    background-color: #B8ECA0;
+    border-radius: 26px;
+    padding: 3px 8px;
+    margin-left: 6px;
+}
+
+
+.cart-count {
+    color: #56A033;
+    font-size: 14px;
+}
+
+
+.header__auth {
+    display: flex;
+    align-items: center;
+}
+
+
+.header__auth-icon img {
+    display: block;
+    height: 44px;
+}
