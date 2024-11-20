@@ -6,14 +6,30 @@
     box-sizing: border-box;
 }
 
-html, body {
+
+html {
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; 
+}
+
+
+body {
     font-family: "Montserrat", sans-serif;
     background-color: #F8F8F8;
     font-weight: 600;
     font-style: normal;
+    margin: 0;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
+}
+
+main{
+    display: flex;
+    flex: 1;
 }
 
 a {
@@ -21,12 +37,24 @@ a {
     color: inherit;
 }
 
+
 ul {
     list-style: none;
 }
 
+
 .wrapper {
     max-width: 1230px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 15px; 
+}
+
+
+.bg-white {
+    background-color: #fff;
+}
+
+
+.bg-gray {
+    background-color: #F8F8F8;
 }

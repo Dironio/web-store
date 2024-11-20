@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import sendAnalytics from '../../utils/analytics/analytics';
 
 interface InputProps {
+  type: 'text' | 'password' | 'email';
   className?: string;
   placeholder?: string;
   trackId: string;
 }
 
-const Input: React.FC<InputProps> = ({ className, placeholder, trackId }) => {
+const Input: React.FC<InputProps> = ({ className, placeholder, trackId, type }) => {
   const [value, setValue] = useState('');
 
   const handleFocus = () => {
@@ -39,7 +40,7 @@ const Input: React.FC<InputProps> = ({ className, placeholder, trackId }) => {
 
   return (
     <input
-      type="text"
+      type={type}
       className={className}
       placeholder={placeholder}
       onFocus={handleFocus}

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import sendAnalytics from '../../utils/analytics/analytics';
 import Button from '../UI/Button';
 import Input from '../UI/Input';
-import '../../../src/components/Header/Header.module.css'
-
+import '../Header/Header.css';
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,7 +48,7 @@ const Header: React.FC = () => {
                             eventData={{ track_id: 'logo_click' }}
                             onClick={handleLogoClick}
                         >
-                            <img src="logo.svg" alt="Web Store" />
+                            <img src='/assets/logo.svg' alt="Web Store" />
                         </Button>
                     </div>
 
@@ -76,6 +75,7 @@ const Header: React.FC = () => {
                             <ul className="search-list">
                                 <li className="search-list-item">
                                     <Input
+                                        type='text'
                                         className="search-list-input"
                                         placeholder="Найти товар"
                                         trackId="search_input"
@@ -115,13 +115,13 @@ const Header: React.FC = () => {
                             {isLoggedIn ? (
                                 <li className="header__auth-icon">
                                     <a href="/profile">
-                                        <img src="/assets/profile.svg" alt="Профиль" />
+                                        <img src="/assets/login.svg" alt="Профиль" />
                                     </a>
                                 </li>
                             ) : (
                                 <li className="header__auth-icon">
                                     <a href="/login">
-                                        <img src="/assets/login.svg" alt="Войти" />
+                                        <img src="/assets/auth.svg" alt="Войти" />
                                     </a>
                                 </li>
                             )}
