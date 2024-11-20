@@ -4,7 +4,7 @@ import userController from "../controllers/user.controller";
 
 const userRouter = Router();
 
-userRouter.post('/auth', userController.create);
+userRouter.post('/', userController.create);
 userRouter.get('/', userController.getAll);
 userRouter.get('/:id', userController.getOne);
 userRouter.patch('/', userController.update);

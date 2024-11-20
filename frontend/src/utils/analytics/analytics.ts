@@ -6,7 +6,7 @@ const sendAnalytics = async (eventData: Record<string, any>) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 ...eventData,
-                timestamp: Date.now(),
+                timestamp: new Date(),
                 session_id: localStorage.getItem('session_id') || generateSessionId(),
             }),
         });

@@ -9,7 +9,7 @@ const EVENT_TYPES = {
 interface AnalyticsPayload {
     event_id: number;
     session_id: string;
-    timestamp: number;
+    timestamp: Date;
     page_url: string;
     user_agent: string;
     event_data: Record<string, any>;
@@ -48,7 +48,7 @@ export const trackEvent = async (
     const payload: AnalyticsPayload = {
         event_id: eventId,
         session_id: sessionId,
-        timestamp: Date.now(),
+        timestamp: new Date(),
         page_url: window.location.href,
         user_agent: userAgent,
         event_data: additionalData,

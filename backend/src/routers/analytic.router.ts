@@ -6,9 +6,9 @@ const analyticRouter: Router = Router();
 
 analyticRouter.post('/', analyticController.create);
 analyticRouter.get('/', analyticController.getAll);
-analyticRouter.get('/:id', analyticController.getOne);
-analyticRouter.patch('/', analyticController.update);
-analyticRouter.delete('/:id', analyticController.delete);
+// analyticRouter.get('/:id', analyticController.getOne);
+// analyticRouter.patch('/', analyticController.update);
+// analyticRouter.delete('/:id', analyticController.delete);
 
 
 export default analyticRouter;

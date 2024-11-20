@@ -1,4 +1,4 @@
-import pool from "src/pool";
+import pool from "../pool";
 import { CreateAnalyticDao, UpdateAnalyticDao } from "../data/@types/analytic.dao"
 
 
@@ -6,8 +6,9 @@ class AnalyticDal {
     async create(dao: CreateAnalyticDao) {
         const { user_id, product_id, event_id, event_data, page_url, timestamp, geolocation, session_id, user_agent, duration, tech_metrics } = dao;
         const result = await pool.query(`
-            INSERT INTO user_analytics ()
-            VALUES ()
+            INSERT INTO user_analytics (user_id, product_id, event_id, event_data, page_url, timestamp, geolocation, session_id, user_agent, duration, tech_metrics)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            RETURNING *
             `, [user_id, product_id, event_id, event_data, page_url, timestamp, geolocation, session_id, user_agent, duration, tech_metrics]);
 
         return result.rows[0];

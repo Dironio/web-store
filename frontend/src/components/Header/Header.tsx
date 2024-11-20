@@ -105,7 +105,8 @@ const Header: React.FC = () => {
                             </li>
                             <li className="header__cart-count">
                                 <a href="/cart" className="cart-count">
-                                    {cartCount > 99 ? '+99' : cartCount}
+                                    {cartCount > 99 ? '+99' : cartCount} 
+                                    {/* через lenght */}
                                 </a>
                             </li>
                         </ul>

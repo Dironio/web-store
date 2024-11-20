@@ -6,7 +6,7 @@ export interface CreateAnalyticDao {
     page_url?: string;
     timestamp?: Date;
     geolocation?: string;
-    session_id?: number;
+    session_id?: string;
     user_agent?: string;
     duration?: Date;
     tech_metrics?: string;
