@@ -28,15 +28,13 @@ class ProductDal {
     }
 
     async getAll(dao: GetProductDao) {
-        const page = 1;
-
         const result = await pool.query(`
         SELECT products.*
         FROM products
         ORDER BY RANDOM()
         LIMIT 10
         --OFFSET $1
-        `, [page]);
+        `);
         return result.rows;
     }
 
@@ -130,6 +128,17 @@ class ProductDal {
         );
 
         return result.rows[0];
+    }
+
+    async getDiscount() {
+        const result = await pool.query(`
+            SELECT *
+            FROM products 
+            ORDER BY (max_price-min_price) DESC
+            LIMIT 5
+            `);
+
+        return result.rows;
     }
 }
 

@@ -9,11 +9,11 @@ import Button from '../UI/Button';
 
 interface Product {
   id: number;
-  title: string;
+  name: string;
   description: string;
-  originalPrice: number;
-  salePrice: number;
-  imageUrl: string;
+  max_price: number;
+  min_price: number;
+  photo_url: string;
 }
 
 
@@ -22,7 +22,7 @@ const FeaturedProducts: React.FC = () => {
 
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/products/featured`)
+    fetch(`${process.env.REACT_APP_API_URL}/products/discount`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error('Ошибка загрузки товаров:', err));
@@ -44,10 +44,10 @@ const FeaturedProducts: React.FC = () => {
           <SwiperSlide key={product.id} className="featured-products__slide">
             <div className="product-card">
               <div className="product-card__content">
-                <h3 className="product-card__title">{product.title}</h3>
+                <h3 className="product-card__title">{product.name}</h3>
                 <p className="product-card__description">{product.description}</p>
-                <p className="product-card__price-old">{product.originalPrice}₽</p>
-                <p className="product-card__price-sale">{product.salePrice}₽</p>
+                <p className="product-card__price-old">{product.max_price}₽</p>
+                <p className="product-card__price-sale">{product.min_price}₽</p>
                 <div className="product-card__actions">
                   <Button
                     className="product-card__button"
@@ -59,7 +59,7 @@ const FeaturedProducts: React.FC = () => {
                 </div>
               </div>
               <div className="product-card__image">
-                <img src={product.imageUrl} alt={product.title} />
+                <img src={product.photo_url} alt={product.name} />
               </div>
             </div>
           </SwiperSlide>

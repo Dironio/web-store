@@ -75,70 +75,70 @@ class CartDal {
     //
 
 
-    async createItem(dao: ) {
-        const result = await pool.query(`
-            INSERT INTO cart_items (cart_id, product_id, quantity)
-            VALUES ($1, $2, $3)
-            ON CONFLICT (cart_id, product_id)
-            DO UPDATE SET quantity = cart_items.quantity + $3
-            RETURNING *`,
-            []
-        );
-        return result.rows[0];
-    }
+    // async createItem(dao: ) {
+    //     const result = await pool.query(`
+    //         INSERT INTO cart_items (cart_id, product_id, quantity)
+    //         VALUES ($1, $2, $3)
+    //         ON CONFLICT (cart_id, product_id)
+    //         DO UPDATE SET quantity = cart_items.quantity + $3
+    //         RETURNING *`,
+    //         []
+    //     );
+    //     return result.rows[0];
+    // }
 
 
-    async getAllItem() {
-        const result = await pool.query(`
-            SELECT p.*,
-            FROM cart_items ci
-            JOIN products p ON ci.product_id = p.id
-            WHERE ci.cart_id = $1`,
-            []
-        );
-        return result.rows;
-    }
+    // async getAllItem() {
+    //     const result = await pool.query(`
+    //         SELECT p.*,
+    //         FROM cart_items ci
+    //         JOIN products p ON ci.product_id = p.id
+    //         WHERE ci.cart_id = $1`,
+    //         []
+    //     );
+    //     return result.rows;
+    // }
 
-    async getOneItem(id: number) {
-        const result = await pool.query(
-            `
-            SELECT *
-            FROM cart_item
-            WHERE id = $1
-            `, [id]
-        );
+    // async getOneItem(id: number) {
+    //     const result = await pool.query(
+    //         `
+    //         SELECT *
+    //         FROM cart_item
+    //         WHERE id = $1
+    //         `, [id]
+    //     );
 
-        return result.rows[0];
-    }
+    //     return result.rows[0];
+    // }
 
-    async updateItem(dao:) {
-        const result = await pool.query(`
-            UPDATE cart_items
-            SET quantity = $3
-            WHERE cart_id = $1 AND product_id = $2
-            RETURNING *`,
-            []
-        );
-        return result.rows[0];
-    }
+    // async updateItem(dao:) {
+    //     const result = await pool.query(`
+    //         UPDATE cart_items
+    //         SET quantity = $3
+    //         WHERE cart_id = $1 AND product_id = $2
+    //         RETURNING *`,
+    //         []
+    //     );
+    //     return result.rows[0];
+    // }
 
-    async deleteItem(id: number) {
-        const result = await pool.query(`
-            DELETE FROM cart_items
-            WHERE cart_id = $1 AND product_id = $2
-            RETURNING *`,
-            []
-        );
-        return result.rows[0];
-    }
+    // async deleteItem(id: number) {
+    //     const result = await pool.query(`
+    //         DELETE FROM cart_items
+    //         WHERE cart_id = $1 AND product_id = $2
+    //         RETURNING *`,
+    //         []
+    //     );
+    //     return result.rows[0];
+    // }
 
-    async clearCart(cartId: number) {
-        const result = await pool.query(`
-            DELETE FROM cart_items 
-            WHERE cart_id = $1`, [cartId]);
+    // async clearCart(cartId: number) {
+    //     const result = await pool.query(`
+    //         DELETE FROM cart_items 
+    //         WHERE cart_id = $1`, [cartId]);
 
-        return result.rows[0];
-    }
+    //     return result.rows[0];
+    // }
 }
 
 

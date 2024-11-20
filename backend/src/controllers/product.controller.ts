@@ -18,7 +18,6 @@ class ProductController {
 
     @ControllerErrorHandler()
     async getOne(req: Request, res: Response, next: NextFunction): Promise<Response> {
-
         const result = await productService.getOne(Number(req.params.id));
         return res.status(200).json(result);
     }
@@ -32,6 +31,12 @@ class ProductController {
     @ControllerErrorHandler()
     async delete(req: Request, res: Response, next: NextFunction): Promise<Response> {
         const result = await productService.delete(Number(req.params.id));
+        return res.status(200).json(result);
+    }
+
+    @ControllerErrorHandler()
+    async getDiscount(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const result = await productService.getDiscount();
         return res.status(200).json(result);
     }
 }

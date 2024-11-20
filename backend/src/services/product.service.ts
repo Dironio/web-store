@@ -22,6 +22,10 @@ class ProductService {
     async delete(id: number): Promise<Product> {
         return await productDal.delete(id);
     }
+
+    async getDiscount(): Promise<Product[]> {
+        return await productDal.getDiscount();
+    }
 }
 
 const productService = new ProductService();
