@@ -4,29 +4,32 @@ import { CreateAnalyticDao, UpdateAnalyticDao } from "../data/@types/analytic.da
 
 class AnalyticDal {
     async create(dao: CreateAnalyticDao) {
-        const { } = dao;
-
+        const { user_id, product_id, event_id, event_data, page_url, timestamp, geolocation, session_id, user_agent, duration, tech_metrics } = dao;
         const result = await pool.query(`
-            
-            `, []);
+            INSERT INTO user_analytics ()
+            VALUES ()
+            `, [user_id, product_id, event_id, event_data, page_url, timestamp, geolocation, session_id, user_agent, duration, tech_metrics]);
 
         return result.rows[0];
     }
 
     async getAll() {
-        const result = await pool.query(
-            `
-            
+        const result = await pool.query(`
+            SELECT *
+            FROM user_analytics
+            JOIN events on user_analytics.id = events.id
             `
         );
 
         return result.rows;
     }
 
-    async getOne(id: number) {
-        const result = await pool.query(
-            `
-            
+    async getOne(id: number) { //Надо подумать, возможно через session_id (dalee toje samoe)
+        const result = await pool.query(`
+            SELECT *
+            FROM user_analytics
+            JOIN events on user_analytics.id = events.id
+            WHERE user_id = $1           
             `
             , [id]);
 
@@ -46,9 +49,9 @@ class AnalyticDal {
     }
 
     async delete(id: number) {
-        const result = await pool.query(
-            `
-            
+        const result = await pool.query(`
+            DELETE FROM user_analytics
+            WHERE id = $1
             `
             , []);
 

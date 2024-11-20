@@ -9,7 +9,7 @@ const App: React.FC = () => {
     useEffect(() => {
         const fetchCartCount = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/cart/count`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
                     method: 'GET',
                     credentials: 'include',
                 });

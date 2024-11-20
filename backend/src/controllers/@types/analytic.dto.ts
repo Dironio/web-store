@@ -22,9 +22,10 @@ export interface Event {
 }
 
 export interface CreateAnalyticDto {
-    user_id: number;
-    product_id: number;
-    event_id: number;
+    user_id?: number;
+    product_id?: number;
+    event_id?: number;
+    // event_type: string; подумать надо ли
     event_data?: Record<string, any>;
     page_url?: string;
     timestamp?: Date;
@@ -38,8 +39,8 @@ export interface CreateAnalyticDto {
 
 export interface UpdateAnalyticDto {
     id: number;
-    user_id: number;
-    product_id: number;
+    user_id?: number;
+    product_id?: number;
     event_id?: number;
     event_data?: Record<string, any>;
     page_url?: string;

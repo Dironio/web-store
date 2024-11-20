@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/cart/count`, { credentials: 'include' })
+        fetch(`${process.env.REACT_APP_API_URL}/carts/count`, { credentials: 'include' })
             .then((res) => res.json())
             .then((data) => {
                 setCartCount(data.count || 0);
