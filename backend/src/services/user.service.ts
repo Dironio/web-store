@@ -29,10 +29,6 @@ class UserService {
             dto.age = this.calculateAge(dto.birthday);
         }
 
-        // const salt = await bcrypt.genSalt(10);
-        // dto.password = await bcrypt.hash(dto.password, salt);
-
-
         return await userDal.create(dto);
     }
 
@@ -52,11 +48,6 @@ class UserService {
         if (dto.birthday) {
             dto.age = this.calculateAge(dto.birthday);
         }
-
-        // if (dto.password) {
-        //     const salt = await bcrypt.genSalt(10);
-        //     dto.password = await bcrypt.hash(dto.password, salt);
-        // }
 
         return await userDal.update(dto);
     }

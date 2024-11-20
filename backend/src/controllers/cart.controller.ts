@@ -34,6 +34,11 @@ class CartController {
         return res.status(201).json(result)
     }
 
+    @ControllerErrorHandler()
+    async getCount(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const result = await cartService.getCount(Number(req.params.id));
+        return res.status(201).json(result);
+    }
 
     //
 

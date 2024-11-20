@@ -23,13 +23,17 @@ class CartService {
         return await cartDal.delete(id);
     }
 
+    async getCount(id: number) {
+        return await cartDal.getCount(id);
+    }
+
     //
 
     async createItem(dto: CreateCartDto) {
         return await cartDal.createItem(dto);
     }
 
-    async getAllItem() {
+    async getAllItem() { //req params?
         return await cartDal.getAllItem();
     }
 

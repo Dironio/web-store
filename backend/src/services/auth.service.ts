@@ -6,13 +6,13 @@ import { JwtTokens, TokenDecoded, TokenPayload } from "../controllers/@types/tok
 import ApiError from "../middlewares/apiError";
 import { config } from "dotenv";
 
-config({path: './.env'});
+config({ path: './.env' });
 
 
 class AuthService {
     generateTokens(payload: TokenPayload): JwtTokens {
         const refreshToken = jwt.sign(payload, process.env.JWT_REF_SEC as string, { expiresIn: '30d' });
-        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' }); // 15 минут для accessToken
+        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' });
         return { refreshToken, accessToken };
     }
 
@@ -88,6 +88,7 @@ class AuthService {
             username: user.username,
         };
 
+        //перепроверить работу
 
         const jwtTokens = this.generateTokens(tokenPayload);
         return jwtTokens;
