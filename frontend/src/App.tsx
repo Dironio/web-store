@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import FeaturedProducts from './components/FeaturedProducts/FeaturedProducts';
+import PromoOffers from './components/PromoOffers/PromoOffers';
+import Products from './components/Products/Products';
 
 const App: React.FC = () => {
     const [cartCount, setCartCount] = useState(0);
@@ -29,6 +31,8 @@ const App: React.FC = () => {
         <div className="App">
             <Header />
             <FeaturedProducts />
+            <PromoOffers />
+            <Products />
         </div>
     );
 };
