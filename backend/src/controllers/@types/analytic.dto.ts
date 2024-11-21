@@ -31,7 +31,7 @@ export interface CreateAnalyticDto {
     timestamp?: Date;
     geolocation?: string;
     browser?: string;
-    session_id?: number;
+    session_id?: string;
     device_type?: string;
     duration?: Date;
     tech_metrics?: string;
@@ -47,7 +47,7 @@ export interface UpdateAnalyticDto {
     timestamp?: Date;
     geolocation?: string;
     browser?: string;
-    session_id?: number;
+    session_id?: string;
     device_type?: string;
     duration?: Date;
     tech_metrics?: string;
