@@ -42,37 +42,72 @@ class CartController {
 
     //
 
+    // @ControllerErrorHandler()
+    // async deleteCartByUserId(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    //     const result = await cartService.deleteCartByUserId(Number(req.params.id));
+    //     return res.status(200).json(result);
+    // }
 
     @ControllerErrorHandler()
-    async createItem(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.createItem(req.body);
-        return res.status(201).json(result)
+    async addItemToCart(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const userId = Number(req.params.id);
+        const productId = req.body;
+
+        if (!userId) {
+            return res.status(401).json({ error: "Пользователь не авторизован" });
+        }
+
+        if (!productId) {
+            return res.status(400).json({ error: "Отсутствует ID товара" });
+        }
+
+        const item = await cartService.addItemToCart(userId, productId);
+        return res.status(201).json(item);
     }
 
     @ControllerErrorHandler()
-    async getAllItem(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.getAllItem(Number(req.params.id));  //и в остальных
-        return res.status(201).json(result)
+    async getCartCount(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const userId = Number(req.params.id);
+
+        if (!userId) {
+            return res.status(200).json({ count: 0 });
+        }
+
+        const count = await cartService.getCartTotalItems(userId);
+        return res.status(200).json(count);
     }
 
     @ControllerErrorHandler()
-    async getOneItem(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.getOneItem(Number(req.params.id));
-        return res.status(201).json(result)
+    async getCartItems(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const userId = Number(req.params.id);
+
+        if (!userId) {
+            return res.status(401).json({ error: "Пользователь не авторизован" });
+        }
+
+        const items = await cartService.getCartItems(userId);
+        return res.status(200).json(items);
     }
 
-    @ControllerErrorHandler()
-    async updateItem(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.updateItem(req.body);
-        return res.status(201).json(result)
-    }
 
     @ControllerErrorHandler()
-    async deleteItem(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.deleteItem(Number(req.params.id));
-        return res.status(201).json(result)
+    async removeItemFromCart(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const userId = Number(req.params.id);
+        const productId = req.body;
+
+        if (!userId) {
+            return res.status(401).json({ error: "Пользователь не авторизован" });
+        }
+
+        if (!productId) {
+            return res.status(400).json({ error: "Отсутствует ID товара" });
+        }
+
+        const item = await cartService.removeItemFromCart(userId, productId);
+        return res.status(200).json(item);
     }
 }
+
 
 const cartController = new CartController();
 export default cartController;

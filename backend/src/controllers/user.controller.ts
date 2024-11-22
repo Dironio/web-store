@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import userService from "../services/user.service";
 import ControllerErrorHandler from "./tools/controllerErrorHandler";
-import cartService from "src/services/cart.service";
+import cartService from "../services/cart.service";
 
 class UserController {
     @ControllerErrorHandler()

@@ -76,7 +76,7 @@ const Products: React.FC = () => {
                                         </div>
                                         <div className="container-item-price">
                                             <h2 className="price-sale">{formatPrice(product.price)} ₽</h2>
-                                            {product.max_price && (
+                                            {product.max_price && product.price < product.max_price && (
                                                 <p className="price-percent">
                                                     {Math.round(
                                                         ((product.max_price - product.price) / product.max_price) * 100
@@ -90,7 +90,7 @@ const Products: React.FC = () => {
                                                 {formatPrice(product.max_price)} ₽
                                             </div>
                                         )}
-                                        <p className="container-item-name">{product.name}</p>
+                                        <p className="container-item-name" title={product.name}>{product.name}</p>
                                     </a>
                                     <footer className="container-item-buy">
                                         <Button

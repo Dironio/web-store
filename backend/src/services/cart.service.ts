@@ -29,24 +29,48 @@ class CartService {
 
     //
 
-    async createItem(dto: CreateCartItemDto) {
-        return await cartDal.createItem(dto);
+    // Добавление товара
+    async addItemToCart(userId: number, productId: number) {
+        const cartId = await cartDal.getCartIdByUserId(userId);
+        if (!cartId) {
+            throw new Error('Корзина не найдена');
+        }
+        return await cartDal.addItemToCart(cartId, productId);
     }
 
-    async getAllItem(user_id: number) {
-        return await cartDal.getAllItem(user_id);
+    async getCartTotalItems(userId: number) {
+        const cartId = await cartDal.getCartIdByUserId(userId);
+        if (!cartId) {
+            throw new Error('Корзина не найдена');
+        }
+        return await cartDal.getTotalItemsInCart(cartId);
     }
 
-    async getOneItem(id: number) {
-        return await cartDal.getOneItem(id);
+    // Получение списка товаров
+    async getCartItems(userId: number) {
+        const cartId = await cartDal.getCartIdByUserId(userId);
+        if (!cartId) {
+            throw new Error('Корзина не найдена');
+        }
+        return await cartDal.getItemsInCart(cartId);
     }
 
-    async updateItem(dto: UpdateCartItemDto) {
-        return await cartDal.updateItem(dto);
+    // Удаление товара
+    async removeItemFromCart(userId: number, productId: number) {
+        const cartId = await cartDal.getCartIdByUserId(userId);
+        if (!cartId) {
+            throw new Error('Корзина не найдена');
+        }
+        return await cartDal.removeItemFromCart(cartId, productId);
     }
 
-    async deleteItem(id: number) {
-        return await cartDal.deleteItem(id);
+    // Удаление корзины при удалении пользователя
+    async deleteCartByUserId(userId: number) {
+        const cart = await cartDal.deleteCartByUserId(userId);
+        if (!cart) {
+            throw new Error('Корзина не найдена для удаления');
+        }
+        return cart;
     }
 }
 

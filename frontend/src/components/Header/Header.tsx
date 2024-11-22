@@ -20,7 +20,9 @@ const Header: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/carts/count`, { credentials: 'include' })
+        fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
+            credentials: 'include',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setCartCount(data.count || 0);
@@ -96,7 +98,6 @@ const Header: React.FC = () => {
 
                     {/* Действия в хедере */}
                     <div className="header__actions">
-                        {/* Корзина */}
                         <ul className="header__cart">
                             <li className="header__cart-icon">
                                 <a href="/cart">
@@ -105,8 +106,7 @@ const Header: React.FC = () => {
                             </li>
                             <li className="header__cart-count">
                                 <a href="/cart" className="cart-count">
-                                    {cartCount > 99 ? '+99' : cartCount} 
-                                    {/* через lenght */}
+                                    {cartCount > 99 ? '+99' : cartCount} {/* через count */}
                                 </a>
                             </li>
                         </ul>
