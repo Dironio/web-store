@@ -88,15 +88,68 @@ class CartDal {
 
 
     async createItem(dao: CreateCartItemDao) { //???
-        const { cart_id, product_id } = dao;
-        const result = await pool.query(`
-            INSERT INTO cart_items (cart_id, product_id)
-            VALUES ($1, $2)
-            RETURNING *`,
-            [cart_id, product_id]
-        );
+        // const { cart_id, product_id } = dao;
+        // const result = await pool.query(`
+        //     INSERT INTO cart_items (cart_id, product_id)
+        //     VALUES ($1, $2)
+        //     RETURNING *`,
+        //     [cart_id, product_id]
+        // );
 
-        return result.rows[0];
+        // return result.rows[0];
+
+
+
+
+
+
+        const cartResult = await pool.query(`
+            SELECT id
+            FROM carts
+            WHERE user_id = $1
+          `, [dao.cart_id]);
+
+
+        const cartId = cartResult.rows[0]?.id;
+
+
+        if (!cartId) {
+            throw new Error('Корзина не найдена');
+        }
+
+
+        const existingItem = await pool.query(`
+            SELECT *
+            FROM cart_items
+            WHERE cart_id = $1 AND product_id = $2
+          `, [dao.cart_id, dao.product_id]);
+
+
+        if (existingItem.rows.length > 0) {
+            const result = await pool.query(`
+              UPDATE cart_items
+              SET quantity = quantity + $3
+              WHERE cart_id = $1 AND product_id = $2
+              RETURNING *
+            `, [dao.cart_id, dao.product_id]);
+
+
+            return result.rows[0];
+        } else {
+            const result = await pool.query(`
+              INSERT INTO cart_items (cart_id, product_id, quantity)
+              VALUES ($1, $2, $3)
+              RETURNING *
+            `, [dao.cart_id, dao.product_id]);
+
+
+            return result.rows[0];
+        }
+
+
+
+
+
     }
 
 
@@ -129,7 +182,7 @@ class CartDal {
         return result.rows[0];
     }
 
-    async updateItem(dao: UpdateCartItemDao) { //подумать как сделать и внизу также
+    async updateItem(dao: UpdateCartItemDao) { //переделать, убрать столбец
         const result = await pool.query(`
             UPDATE cart_items
             SET quantity = $3
@@ -140,14 +193,43 @@ class CartDal {
         return result.rows[0];
     }
 
-    async deleteItem(id: number) {
-        const result = await pool.query(`
-            DELETE FROM cart_items
-            WHERE cart_id = $1 AND product_id = $2
-            RETURNING *`,
-            []
-        );
-        return result.rows[0];
+    async deleteItem(id: number) {  //подумать, удалять при удалении пользователя? тогда надо ту функцию использовать? Удалять ли?
+        const cartResult = await pool.query(`
+            SELECT id
+            FROM carts
+            WHERE user_id = $1
+          `, [id]);
+        
+        
+          const cartId = cartResult.rows[0]?.id;
+        
+        
+          if (!cartId) {
+            throw new Error('Корзина не найдена');
+          }
+        
+        
+          if (productId) {
+            // удаление 1 возможно в другую функцию
+            const result = await pool.query(`
+              DELETE FROM cart_items
+              WHERE cart_id = $1 AND product_id = $2
+              RETURNING *
+            `, [cartId, productId]);
+        
+        
+            return result.rows[0];
+          } else {
+            // очистить полностью, возможно в другую функцию
+            const result = await pool.query(`
+              DELETE FROM cart_items
+              WHERE cart_id = $1
+            `, [cartId]);
+        
+        
+            return result.rowCount > 0;
+          }
+        
     }
 
     async clearCart(cartId: number) {
