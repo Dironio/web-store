@@ -1,9 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
-import FeaturedProducts from './components/FeaturedProducts/FeaturedProducts';
-import PromoOffers from './components/PromoOffers/PromoOffers';
-import Products from './components/Products/Products';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
 import axios from 'axios';

@@ -51,7 +51,7 @@ class CartController {
 
     @ControllerErrorHandler()
     async getAllItem(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.getAllItem();  //и в остальных
+        const result = await cartService.getAllItem(Number(req.params.id));  //и в остальных
         return res.status(201).json(result)
     }
 

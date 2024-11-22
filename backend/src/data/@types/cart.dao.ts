@@ -12,7 +12,15 @@ export interface UpdateCartDao {
     user_id?: number;
 }
 
+
+
+
 export interface CreateCartItemDao {
+    cart_id: number;
+    product_id: number;
+}
+
+export interface UpdateCartItemDao {
     cart_id: number;
     product_id: number;
 }

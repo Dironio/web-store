@@ -1,11 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import userService from "../services/user.service";
 import ControllerErrorHandler from "./tools/controllerErrorHandler";
+import cartService from "src/services/cart.service";
 
 class UserController {
     @ControllerErrorHandler()
     async create(req: Request, res: Response, next: NextFunction): Promise<Response> {
         const candidate = await userService.create(req.body);
+        await cartService.create({ user_id: candidate.id });
+
         return res.status(201).json(candidate);
     }
 
@@ -44,6 +47,8 @@ class UserController {
     async delete(req: Request, res: Response, next: NextFunction): Promise<Response> {
         const userId = Number(req.params.id);
         const result = await userService.delete(userId);
+
+        // await cartService.delete({user_id: result.id})
 
         if (!result) {
             res.status(404).json({ message: "User not found" });

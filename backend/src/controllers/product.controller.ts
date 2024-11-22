@@ -39,6 +39,12 @@ class ProductController {
         const result = await productService.getDiscount();
         return res.status(200).json(result);
     }
+
+    @ControllerErrorHandler()
+    async getPersonal(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const result = await productService.getPersonal();
+        return res.status(200).json(result);
+    }
 }
 
 const productController = new ProductController();

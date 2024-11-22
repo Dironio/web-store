@@ -1,4 +1,4 @@
-import { CreateCartDto, GetCartDto, UpdateCartDto } from "../controllers/@types/cart.dto";
+import { CreateCartDto, CreateCartItemDto, GetCartDto, UpdateCartDto, UpdateCartItemDto } from "../controllers/@types/cart.dto";
 import cartDal from "../data/cart.dal";
 
 
@@ -19,8 +19,8 @@ class CartService {
         return await cartDal.update(dto);
     }
 
-    async delete(id: number) {
-        return await cartDal.delete(id);
+    async delete(user_id: number) {
+        return await cartDal.delete(user_id);
     }
 
     async getCount(id: number) {
@@ -29,19 +29,19 @@ class CartService {
 
     //
 
-    async createItem(dto: CreateCartDto) {
+    async createItem(dto: CreateCartItemDto) {
         return await cartDal.createItem(dto);
     }
 
-    async getAllItem() { //req params?
-        return await cartDal.getAllItem();
+    async getAllItem(user_id: number) {
+        return await cartDal.getAllItem(user_id);
     }
 
     async getOneItem(id: number) {
         return await cartDal.getOneItem(id);
     }
 
-    async updateItem(dto: CreateCartDto) {
+    async updateItem(dto: UpdateCartItemDto) {
         return await cartDal.updateItem(dto);
     }
 

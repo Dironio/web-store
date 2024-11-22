@@ -1,13 +1,14 @@
 import { Router } from "express";
 import userController from "../controllers/user.controller";
+import authCheck from "src/middlewares/auth.middleware";
 
 
 const userRouter = Router();
 
 userRouter.post('/', userController.create);
-userRouter.get('/', userController.getAll);
-userRouter.get('/:id', userController.getOne);
-userRouter.patch('/', userController.update);
-userRouter.delete('/:id', userController.delete);
+userRouter.get('/', authCheck, userController.getAll);
+userRouter.get('/:id', authCheck, userController.getOne);
+userRouter.patch('/', authCheck, userController.update);
+userRouter.delete('/:id', authCheck, userController.delete);
 
 export default userRouter;

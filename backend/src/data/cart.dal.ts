@@ -1,5 +1,5 @@
 import pool from "../pool";
-import { CreateCartDao, CreateCartItemDao, UpdateCartDao } from "../data/@types/cart.dao";
+import { CreateCartDao, CreateCartItemDao, UpdateCartDao, UpdateCartItemDao } from "../data/@types/cart.dao";
 
 
 class CartDal {
@@ -7,8 +7,6 @@ class CartDal {
         const { user_id } = dao;
 
         // сделать проверку на созданную запись
-
-        //подумать над реализацией мб разделить
 
         const result = await pool.query(
             `INSERT INTO carts (user_id)
@@ -73,14 +71,16 @@ class CartDal {
         return result.rows[0];
     }
 
-    async getCount(id: number) {
+    async getCount(user_id: number) {
         const result = await pool.query(`
-            SELECT COUNT(*)
-            FROM carts
-            WHERE id = $1
-            `, [id]);
+            SELECT COUNT(*) AS count
+            FROM cart_items ci
+            JOIN carts c ON ci.cart_id = c.id
+            WHERE c.user_id = $1
+            `, [user_id]);
 
-        return result.rows[0];
+
+        return parseInt(result.rows[0].count, 10);
     }
 
 
@@ -100,14 +100,20 @@ class CartDal {
     }
 
 
-    async getAllItem() { //перепроверить запрос
+    async getAllItem(user_id: number) { //перепроверить запрос
         const result = await pool.query(`
-            SELECT  cart_id, product_id, p.*
+            SELECT 
+            ci.id AS cart_item_id, 
+            p.id AS product_id, 
+            p.name AS product_name, 
+            p.price, 
+            p.img 
             FROM cart_items ci
+            JOIN carts c ON ci.cart_id = c.id
             JOIN products p ON ci.product_id = p.id
-            WHERE ci.cart_id = $1`,
-            []
-        );
+            WHERE c.user_id = $1
+            `, [user_id]);
+
         return result.rows;
     }
 
@@ -123,7 +129,7 @@ class CartDal {
         return result.rows[0];
     }
 
-    async updateItem(dao:) { //подумать как сделать и внизу также
+    async updateItem(dao: UpdateCartItemDao) { //подумать как сделать и внизу также
         const result = await pool.query(`
             UPDATE cart_items
             SET quantity = $3

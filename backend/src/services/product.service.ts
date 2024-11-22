@@ -26,6 +26,10 @@ class ProductService {
     async getDiscount(): Promise<Product[]> {
         return await productDal.getDiscount();
     }
+
+    async getPersonal(): Promise<Product[]> {
+        return await productDal.getPersonal();
+    }
 }
 
 const productService = new ProductService();

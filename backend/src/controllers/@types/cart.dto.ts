@@ -3,12 +3,6 @@ export interface Cart {
     userId: number;
 }
 
-export interface CartItem {
-    id: number;
-    userId: number;
-    product_id: number;
-}
-
 export interface CreateCartDto {
     user_id: number;
 }
@@ -23,3 +17,20 @@ export interface UpdateCartDto {
     user_id?: number;
 }
 
+
+
+
+export interface CartItem {
+    userId: number;
+    product_id: number;
+}
+
+export interface CreateCartItemDto {
+    cart_id: number;
+    product_id: number;
+}
+
+export interface UpdateCartItemDto {
+    cart_id: number;
+    product_id: number;
+}

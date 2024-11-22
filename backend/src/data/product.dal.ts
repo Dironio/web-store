@@ -140,6 +140,18 @@ class ProductDal {
 
         return result.rows;
     }
+
+    async getPersonal() {
+        const result = await pool.query(`
+            SELECT *
+            FROM products
+            WHERE price BETWEEN 999 AND 6000
+            ORDER BY RANDOM()
+            LIMIT 4
+            `);
+
+        return result.rows;
+    }
 }
 
 const productDal = new ProductDal();
