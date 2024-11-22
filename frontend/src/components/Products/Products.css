@@ -31,7 +31,7 @@
 .recomendation__container {
     margin-top: 60px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px;
     width: 100%;
 }
@@ -98,6 +98,9 @@
     font-size: 18px;
     font-weight: 600;
     color: #020202;
+    max-height: 20px;
+    /* min-height: 20px; */
+    overflow: hidden;
 }
 
 .container-item-name:hover {
@@ -105,12 +108,21 @@
 }
 
 .container-item-buy {
-    display: flex;
+    /* display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     margin-top: 18px;
+    margin-bottom: 18px; */
+
+    display: flex;
+    width: 100%;
+    justify-content: space-between; /* Кнопки расположены по бокам */
+    align-items: center;
+    margin-top: auto; /* Прижимает блок с кнопками к низу */
+    padding-top: 12px; /* Добавляем немного пространства сверху секции */
     margin-bottom: 18px;
+
 }
 
 .item-buy-btn {
@@ -118,6 +130,7 @@
     background-color: #56A033;
     color: #fff;
     padding: 12px 55px;
+    border: 1px solid transparent;
     border-radius: 22px;
 }
 
@@ -126,6 +139,7 @@
     align-items: center;
     justify-content: center;
     background-color: #B8ECA0;
+    border: 1px solid transparent;
     border-radius: 16px;
     /* width: 26px;
     height: 26px; */
@@ -141,6 +155,19 @@
 
 
 /* Скелетон */
+.loader{
+    padding: 40px 0;
+    font-size: 28px;
+    font-weight: 600;
+
+}
+
+.end-message{
+    font-size: 36px;
+    font-weight: 600;
+}
+
+
 .recomendation__skeleton {
     display: flex;
     flex-direction: column;

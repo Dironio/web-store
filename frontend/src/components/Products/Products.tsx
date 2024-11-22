@@ -30,7 +30,11 @@ const Products: React.FC = () => {
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
 
-    const PAGE_SIZE = 10; 
+    const PAGE_SIZE = 10;
+
+    const formatPrice = (price: number) => {
+        return Math.floor(price).toLocaleString("ru-RU");
+    };
 
     const fetchProducts = async (page: number) => {
         try {
@@ -38,7 +42,7 @@ const Products: React.FC = () => {
                 credentials: 'include',
             });
             const data: Product[] = await res.json();
-            if (data.length < PAGE_SIZE) setHasMore(false); // Если товаров меньше, значит достигли конца
+            if (data.length < PAGE_SIZE) setHasMore(false);
             setProducts((prev) => [...prev, ...data]);
             setLoading(false);
         } catch (err) {
@@ -71,7 +75,7 @@ const Products: React.FC = () => {
                                             <img src={product.photo_url} alt={product.name} />
                                         </div>
                                         <div className="container-item-price">
-                                            <h2 className="price-sale">{product.price.toLocaleString()} ₽</h2>
+                                            <h2 className="price-sale">{formatPrice(product.price)} ₽</h2>
                                             {product.max_price && (
                                                 <p className="price-percent">
                                                     {Math.round(
@@ -83,7 +87,7 @@ const Products: React.FC = () => {
                                         </div>
                                         {product.max_price && (
                                             <div className="container-item-oldprice">
-                                                {product.max_price.toLocaleString()} ₽
+                                                {formatPrice(product.max_price)} ₽
                                             </div>
                                         )}
                                         <p className="container-item-name">{product.name}</p>
