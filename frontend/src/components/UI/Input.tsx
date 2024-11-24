@@ -1,55 +1,39 @@
-import React, { useState } from 'react';
-import sendAnalytics from '../../utils/analytics/analytics';
+import sendAnalytics from "../../utils/analytics/analytics";
+
 
 interface InputProps {
   type: 'text' | 'password' | 'email';
+  name?: string;
   className?: string;
   placeholder?: string;
   trackId: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  minLength?: number;
 }
 
-const Input: React.FC<InputProps> = ({ className, placeholder, trackId, type }) => {
-  const [value, setValue] = useState('');
-
+const Input: React.FC<InputProps> = (props: InputProps) => {
   const handleFocus = () => {
     sendAnalytics({
-      event_type: 'input_focus',
-      event_data: { track_id: trackId },
+      event_type: "input_focus",
+      event_data: { track_id: props.trackId },
       page_url: window.location.href,
     });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    sendAnalytics({
-      event_type: 'input_change',
-      event_data: { track_id: trackId, input_value: e.target.value },
-      page_url: window.location.href,
-    });
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      sendAnalytics({
-        event_type: 'input_submit',
-        event_data: { track_id: trackId, input_value: value },
-        page_url: window.location.href,
-      });
-    }
   };
 
   return (
     <input
-      type={type}
-      className={className}
-      placeholder={placeholder}
+      type={props.type}
+      className={props.className}
+      placeholder={props.placeholder}
       onFocus={handleFocus}
-      onChange={handleChange}
-      onKeyPress={handleKeyPress}
-      value={value}
+      onChange={props.onChange}
+      value={props.value}
+      required={props.required}
+      minLength={props.minLength}
     />
   );
 };
 
 export default Input;
-export {};
