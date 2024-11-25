@@ -34,7 +34,7 @@ class UserDal {
 
     async getOne(id: number): Promise<User> {
         const result = await pool.query(`
-            SELECT users.*, roles.name as role 
+            SELECT users.*, roles.role as role 
             FROM users
             JOIN roles on users.role_id = roles.id
             WHERE users.id = $1`,

@@ -4,15 +4,12 @@ import Button from "../UI/Button";
 import "../AuthForms/SignupForm.css";
 
 //СДЕЛАТЬ ЧТО ТО С ВВОДОМ ДАТЫ
-//СДЕЛАТЬ ЗАПРОС НА БЭК
-//СДЕЛАТЬ СТИЛИ ОШИБОК
-//СДЕЛАТЬ ОБРАБОТКУ ОШИБОК
 
 const SignupForm: React.FC = () => {
     const [isMale, setIsMale] = useState<boolean>(true);
     const [formData, setFormData] = useState({
         firstName: "",
-        lastname: "",
+        lastName: "",
         username: "",
         email: "",
         password: "",
@@ -20,13 +17,11 @@ const SignupForm: React.FC = () => {
         birthday: "",
     });
 
-
     const [errors, setErrors] = useState({
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
-        // birthday: "",
     });
 
     const [loading, setLoading] = useState(false);
@@ -38,107 +33,74 @@ const SignupForm: React.FC = () => {
     };
 
     const validate = () => {
-        const newErrors = { ...errors };
-        newErrors.username =
-            !formData.username || formData.username.length < 3
-                ? "Имя пользователя должно быть не менее 3 символов"
-                : "";
-        newErrors.email =
-            !formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
-                ? "Введите корректный email"
-                : "";
-        newErrors.password =
-            !formData.password || formData.password.length < 6
-                ? "Пароль должен быть не менее 6 символов"
-                : "";
-        newErrors.confirmPassword =
-            formData.password !== formData.confirmPassword
-                ? "Пароли не совпадают"
-                : "";
-        // newErrors.birthday = !formData.birthday ? "Дата рождения обязательна" : "";
+        const newErrors = {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        };
 
+        if (!formData.username || formData.username.length < 3) {
+            newErrors.username = "Имя пользователя должно быть не менее 3 символов";
+        }
+        if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Введите корректный email";
+        }
+        if (!formData.password || formData.password.length < 6) {
+            newErrors.password = "Пароль должен быть не менее 6 символов";
+        }
+        if (formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = "Пароли не совпадают";
+        }
 
         setErrors(newErrors);
         return Object.values(newErrors).every((error) => !error);
     };
 
-    const formatDateForBackend = (date: string) => {
-        const [year, month, day] = date.split("-");
-        return `${month}.${day}.${year}`;
-    };
-
-    const formatDateForFrontend = (date: string) => {
-        const [month, day, year] = date.split(".");
-        return `${year}-${month}-${day}`;
-    };
-
-    useEffect(() => {
-        const savedGender = localStorage.getItem("gender");
-        const savedBirthday = localStorage.getItem("birthday");
-
-
-        if (savedBirthday) {
-            setFormData((prev) => ({
-                ...prev,
-                birthday: formatDateForFrontend(savedBirthday),
-            }));
-        }
-
-
-        setIsMale(savedGender !== "female");
-    }, []);
-
-
     const handleGenderChange = (gender: "male" | "female") => {
         setIsMale(gender === "male");
-        localStorage.setItem("gender", gender);
     };
 
     const handleSubmit = async () => {
         if (!validate()) return;
 
-
-        const formattedDate = formatDateForBackend(formData.birthday);
-
-
         setLoading(true);
+
         try {
             const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                credentials: "include",
                 body: JSON.stringify({
-                    ...formData,
-                    birthday: formattedDate,
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password,
+                    firstName: formData.firstName || undefined,
+                    lastName: formData.lastName || undefined,
+                    birthday: formData.birthday || undefined,
                     gender: isMale ? "male" : "female",
                 }),
+                credentials: 'include',
             });
-
 
             if (!res.ok) {
                 const errorData = await res.json();
-                setErrors((prev) => ({
-                    ...prev,
-                    username: errorData.message || "Ошибка регистрации",
-                }));
-                setLoading(false);
-                return;
+                console.error('Ошибка регистрации:', errorData);
+                throw new Error(errorData.message || "Ошибка регистрации");
             }
 
-
             const data = await res.json();
-            console.log("Регистрация успешна:", data);
-        } catch (err) {
-            console.error("Ошибка сети:", err);
+            console.log(data);
+            window.location.href = "/";
+        } catch (err: any) {
+            console.error(err.message);
             setErrors((prev) => ({
                 ...prev,
-                username: "Ошибка сети. Попробуйте позже.",
+                username: err.message || "Ошибка сети. Попробуйте позже.",
             }));
         } finally {
             setLoading(false);
         }
     };
-
 
     return (
         <div className="registration-container">
@@ -146,108 +108,84 @@ const SignupForm: React.FC = () => {
                 <div className="right-initial">
                     <div className="initial-name">
                         <p className="name">Имя</p>
-                        <Input
+                        <input
                             type="text"
-                            name="name"
-                            trackId="register_name"
+                            name="firstName"
                             placeholder="Иван"
                             value={formData.firstName}
                             onChange={handleChange}
                             className="input-form"
                         />
-                        {/* {errors.firstName && <span className="error">{errors.firstName}</span>} */}
                     </div>
                     <div className="initial-lastname">
                         <p className="lastname">Фамилия</p>
-                        <Input
+                        <input
                             type="text"
-                            name="lastname"
-                            trackId="register_lastname"
+                            name="lastName"
                             placeholder="Иванов"
-                            value={formData.lastname}
+                            value={formData.lastName}
                             onChange={handleChange}
                             className="input-form"
                         />
-                        {/* {errors.lastname && <span className="error">{errors.lastname}</span>} */}
                     </div>
                 </div>
-
 
                 <div className="date-sex">
                     <div className="sex">
                         <p className="gender">Пол</p>
-                        <div className={`gender-choice ${isMale ? "" : "is-female"}`}>
-                            <Button
+                        <div className="gender-choice">
+                            <button
+                                type="button"
                                 className={`gender-option ${isMale ? "selected" : ""}`}
                                 onClick={() => handleGenderChange("male")}
-                                eventType="gender_select"
-                                eventData={{ gender: "male" }}
                             >
                                 Мужской
-                            </Button>
-                            <Button
+                            </button>
+                            <button
+                                type="button"
                                 className={`gender-option ${!isMale ? "selected" : ""}`}
                                 onClick={() => handleGenderChange("female")}
-                                eventType="gender_select"
-                                eventData={{ gender: "female" }}
                             >
                                 Женский
-                            </Button>
+                            </button>
                         </div>
                     </div>
-
-
                     <div className="date">
                         <p className="date-title">Дата рождения</p>
-                        <div className="input-date">
-                            <Input
-                                type="date"
-                                name="birthday"
-                                trackId="register_birthday"
-                                value={formData.birthday}
-                                onChange={handleChange}
-                                className="input-form"
-                            />
-                            {/* <img
-                                src="/assets/calendar.svg"
-                                alt="calendar-icon"
-                                className="calendar-icon"
-                                onClick={() =>
-                                    document.querySelector<HTMLInputElement>('input[name="birthday"]')?.click()
-                                }
-                            /> */}
-                            {/* {errors.birthday && <span className="error">{errors.birthday}</span>} */}
-                        </div>
+                        <input
+                            type="date"
+                            name="birthday"
+                            value={formData.birthday}
+                            onChange={handleChange}
+                            className="input-form"
+                        />
                     </div>
                 </div>
-
 
                 <div className="login-email">
                     <div className="login">
                         <p className="info-title">Логин</p>
-                        <Input
+                        <input
                             type="text"
                             name="username"
-                            trackId="register_username"
                             placeholder="username"
                             value={formData.username}
                             onChange={handleChange}
                             className={errors.username ? "input--error" : "input-form"}
                         />
-                        {errors.username && <span className="error">{errors.username}</span>}
+                        <span className="error">{errors.username}</span>
                     </div>
                     <div className="email">
                         <p className="info-title">Эл. почта</p>
-                        <Input
+                        <input
                             type="email"
                             name="email"
-                            trackId="register_email"
                             placeholder="email@email.ru"
                             value={formData.email}
                             onChange={handleChange}
                             className={errors.email ? "input--error" : "input-form"}
                         />
-                        {errors.email && <span className="error">{errors.email}</span>}
+                        <span className="error">{errors.email}</span>
                     </div>
                 </div>
 
@@ -281,17 +219,18 @@ const SignupForm: React.FC = () => {
                         )}
                     </div>
                 </div>
-               
+
+
                 <Button
-                    className="signup-btn"
+                    type="button"
                     eventType="click"
-                    eventData={{ track_id: 'signup_click', }}
-                    onClick={() => console.log(`Зарегистрировать аккаунт: `)}
+                    eventData={{ track_id: 'signup-click', }}
+                    onClick={handleSubmit}
+                    className="signup-btn"
+                    disabled={loading}
                 >
                     {loading ? "Регистрация..." : "Зарегистрироваться"}
                 </Button>
-
-                <p className="signup-info">Уже есть аккаунт?</p>
             </form>
         </div>
     );

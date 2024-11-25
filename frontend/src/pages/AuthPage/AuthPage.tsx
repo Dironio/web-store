@@ -34,7 +34,7 @@ const AuthPage: React.FC = () => {
                                 <Button
                                     className="login-form-btn"
                                     eventType="click"
-                                    eventData={{ track_id: 'login-form_click', }}
+                                    eventData={{ track_id: 'choice-form_click', }}
                                     onClick={() => console.log(`Зарегистрировать аккаунт: `)}
 
                                 >
@@ -44,7 +44,7 @@ const AuthPage: React.FC = () => {
                                 <Button
                                     className="login-form-btn"
                                     eventType="click"
-                                    eventData={{ track_id: 'login-form_click', }}
+                                    eventData={{ track_id: 'choice-form_click', }}
                                     onClick={() => console.log(`Зарегистрировать аккаунт: `)}
                                 >
                                     Войти

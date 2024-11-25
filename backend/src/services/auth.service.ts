@@ -65,6 +65,7 @@ class AuthService {
         const tokenPayload: TokenPayload = {
             id: user.id,
             username: user.username,
+            email: user.email
         };
 
 

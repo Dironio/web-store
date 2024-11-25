@@ -8,7 +8,7 @@ import authCheck from "../middlewares/auth.middleware";
 const authRouter: Router = Router()
 
 authRouter.post('/signup',
-    authValidate,
+    // authValidate,
     // errorMiddleware,
     authController.signup);
 
