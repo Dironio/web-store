@@ -6,6 +6,7 @@ import '../Header/Header.css';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
+//ОБРАБОТКА ОШИБОК ПОПРАВИТЬ 4 минимал логин, пароль от 4?
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

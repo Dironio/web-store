@@ -41,7 +41,7 @@
     color: #020202;
 }
 
-.switch-btn{
+.switch-btn {
     border: 1px solid transparent;
     display: flex;
     justify-content: center;
@@ -67,11 +67,10 @@
     color: #a7a7a7;
     margin-top: 28px;
     display: flex;
-    /* align-items: center; */
     justify-content: center;
 }
 
-.login-form-btn{
+.login-form-btn {
     color: #56a033;
     background-color: #fff;
     font-size: 20px;
@@ -84,14 +83,14 @@
     justify-content: center;
 }
 
-.input--error{
-        width: 100%;
-        border: 2px solid #E84747;
-        border-radius: 26px;
-        padding: 8px 20px;
-        height: 52px;
-        font-size: 16px;
-        font-weight: 400;
-        color: #020202;
-        outline: none;
+.input--error {
+    width: 100%;
+    border: 2px solid #E84747;
+    border-radius: 26px;
+    padding: 8px 20px;
+    height: 52px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #020202;
+    outline: none;
 }
