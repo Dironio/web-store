@@ -2,7 +2,7 @@ import React from 'react';
 import sendAnalytics from '../../utils/analytics/analytics';
 
 interface ButtonProps {
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
@@ -20,14 +20,15 @@ const Button: React.FC<ButtonProps> = ({
   eventData,
   children,
 }) => {
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     sendAnalytics({
       event_type: eventType,
       event_data: eventData,
       page_url: window.location.href,
     });
 
-    if (onClick) onClick();
+    if (onClick) onClick(event);
   };
 
   return (

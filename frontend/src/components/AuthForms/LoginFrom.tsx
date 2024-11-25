@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
+import "../AuthForms/LoginForm.css";
 
-const Login: React.FC = () => {
+const LoginForm: React.FC = () => {
   const [loginData, setLoginData] = useState({
-    identifier: "", // Логин или email
+    identifier: "",
     password: "",
   });
 
@@ -16,7 +17,6 @@ const Login: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // Сохраняем идентификатор в куки после успешного входа
   useEffect(() => {
     const savedIdentifier = Cookies.get("lastIdentifier");
     if (savedIdentifier) {
@@ -27,15 +27,26 @@ const Login: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" })); // Убираем ошибку при вводе
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!loginData.identifier) newErrors.identifier = "Введите логин или email";
-    if (!loginData.password) newErrors.password = "Введите пароль";
+    const newErrors = {
+      identifier: "",
+      password: "",
+    };
+
+    if (!loginData.identifier) {
+      newErrors.identifier = "Введите логин или email";
+    }
+
+    if (!loginData.password) {
+      newErrors.password = "Введите пароль";
+    }
+
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+
+    return Object.values(newErrors).every((error) => error === "");
   };
 
   const handleSubmit = async () => {
@@ -46,7 +57,7 @@ const Login: React.FC = () => {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // Для передачи куков
+        credentials: "include",
         body: JSON.stringify(loginData),
       });
 
@@ -112,4 +123,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
 import axios from 'axios';
 import HomePage from './pages/HomePage/HomePage';
+import AuthPage from './pages/AuthPage/AuthPage';
 
 export interface User {
     id: number;
@@ -72,7 +73,7 @@ const App: React.FC = () => {
             <UserContext.Provider value={user}>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    {/* <Route path="/auth" element={<AuthPage />} /> */}
+                    <Route path="/auth" element={<AuthPage />} />
                 </Routes>
             </UserContext.Provider>
             <Footer />
