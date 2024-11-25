@@ -4,6 +4,10 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import "../AuthForms/LoginForm.css";
 
+//ИСПРАВИТЬ СТИЛИ ОШИБОК
+//ЗАБЫЛИ ПАРОЛЬ ПОПРАВИТЬ
+//ЗАПРОСЫ НА БЭК
+
 const LoginForm: React.FC = () => {
   const [loginData, setLoginData] = useState({
     identifier: "",
@@ -86,38 +90,55 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Войти</h2>
-      <form>
-        <Input
-          type="text"
-          name="identifier"
-          trackId="login_identifier"
-          placeholder="Логин или email"
-          value={loginData.identifier}
-          onChange={handleChange}
-          className={errors.identifier ? "input--error" : ""}
-        />
-        {errors.identifier && <span className="error">{errors.identifier}</span>}
+    <div>
+      <form className="login-form">
+        <div className="login-input">
+          <div className="login">
+            <p className="info-title">Логин или эл. почта</p>
+            <Input
+              type="text"
+              name="identifier"
+              trackId="login_identifier"
+              placeholder="username"
+              value={loginData.identifier}
+              onChange={handleChange}
+              className={errors.identifier ? "input--error" : "input-form"}
+            />
+            {errors.identifier && <span className="error">{errors.identifier}</span>}
+          </div>
 
-        <Input
-          type="password"
-          name="password"
-          trackId="login_password"
-          placeholder="Пароль"
-          value={loginData.password}
-          onChange={handleChange}
-          className={errors.password ? "input--error" : ""}
-        />
-        {errors.password && <span className="error">{errors.password}</span>}
+        </div>
+
+        <div className="password-input">
+          <div className="first-pass">
+            <p className="pass-title">Пароль</p>
+            <Input
+              type="password"
+              name="password"
+              trackId="register_password"
+              placeholder="Пароль"
+              // value={formData.password}
+              onChange={handleChange}
+              className="input-form"
+            // className={errors.password ? "input--error" : "input-form"}
+            />
+            {errors.password && <span className="error">{errors.password}</span>}
+          </div>
+        </div>
+
+        <p className="forgot-pass">Забыли пароль?</p>
 
         <Button
+          className="form-btn"
+
+          eventType="click"
+          eventData={{ track_id: 'login_click', }}
           onClick={handleSubmit}
-          className="login-button"
-          eventType="login_attempt"
         >
           {loading ? "Вход..." : "Войти"}
         </Button>
+
+        <p className="form-info">Уже есть аккаунт?</p>
       </form>
     </div>
   );

@@ -4,6 +4,9 @@ import Button from '../UI/Button';
 import Input from '../UI/Input';
 import '../Header/Header.css';
 
+//ДОБАВИТЬ ЛИНКИ
+//СДЕЛАТЬ МОДАЛКИ
+
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartCount, setCartCount] = useState(0);
@@ -121,7 +124,7 @@ const Header: React.FC = () => {
                                 </li>
                             ) : (
                                 <li className="header__auth-icon">
-                                    <a href="/login">
+                                    <a href="/auth">
                                         <img src="/assets/auth.svg" alt="Войти" />
                                     </a>
                                 </li>

@@ -28,13 +28,14 @@ const AuthPage: React.FC = () => {
 
 
 
-                        <div className="switch-btn">
+                        <div className="switch-btn"
+                            onClick={() => setIsLoginForm((prev) => !prev)}>
                             {isLoginForm ?
                                 <Button
-                                    className="signup-btn"
+                                    className="login-form-btn"
                                     eventType="click"
                                     eventData={{ track_id: 'login-form_click', }}
-                                    onClick={() => setIsLoginForm((prev) => !prev)}
+                                    onClick={() => console.log(`Зарегистрировать аккаунт: `)}
 
                                 >
                                     Зарегистрироваться

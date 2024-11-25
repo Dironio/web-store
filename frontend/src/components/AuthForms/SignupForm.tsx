@@ -3,6 +3,10 @@ import Input from "../UI/Input";
 import Button from "../UI/Button";
 import "../AuthForms/SignupForm.css";
 
+//СДЕЛАТЬ ЧТО ТО С ВВОДОМ ДАТЫ
+//СДЕЛАТЬ ЗАПРОС НА БЭК
+//СДЕЛАТЬ СТИЛИ ОШИБОК
+//СДЕЛАТЬ ОБРАБОТКУ ОШИБОК
 
 const SignupForm: React.FC = () => {
     const [isMale, setIsMale] = useState<boolean>(true);

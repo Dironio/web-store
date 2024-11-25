@@ -1,138 +1,15 @@
-/* .auth__container {
-    display: flex;
-    background-color: white;
-    border-radius: 32px;
-    overflow: hidden;
-}
-
-
-
-.container-right {
-    flex: 1;
-    padding: 48px;
-}
-
-.container-title {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 40px;
-    color: #000;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.right-initial {
-    display: flex;
-    gap: 20px;
-}
-
-.initial-name, .initial-lastname {
-    flex: 1;
-}
-
-.name, .lastname, .pol, .login-email p, .password p {
-    margin-bottom: 12px;
-    color: #666;
-    font-size: 16px;
-}
-
-.date-sex {
-    display: flex;
-    gap: 20px;
-}
-
-.sex, .date {
-    flex: 1;
-}
-
-.pol-choice {
-    display: flex;
-    gap: 12px;
-}
-
-.pol-choice p {
-    padding: 16px 32px;
-    border-radius: 12px;
-    cursor: pointer;
-    color: #666;
-    border: 1px solid #E0E0E0;
-    transition: all 0.3s;
-}
-
-.pol-choice p:first-child {
-    background-color: #69B347;
-    color: white;
-    border: none;
-}
-
-.input-date {
-    position: relative;
-}
-
-.input-date img {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
-.login-email {
-    display: flex;
-    gap: 20px;
-}
-
-.login, .email {
-    flex: 1;
-}
-
-.password {
-    display: flex;
-    gap: 20px;
-}
-
-.firts-password, .repeate-pass {
-    flex: 1;
-}
-
-button {
+/* .login-input{
     width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
+}
+ */
+
+ .forgot-pass{
+    margin-top: 14px;
+    color: #56A033;
     font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-button:first-of-type {
-    background-color: #B8ECA0;
-    color: #000;
-    margin-top: 20px;
-}
-
-button:first-of-type:hover {
-    background-color: #a5d98f;
-}
-
-button:last-of-type {
-    background-color: transparent;
-    color: #69B347;
     font-weight: 500;
-    padding: 8px;
-}
+ }
 
-button:last-of-type:hover {
-    background-color: #f5f5f5;
-}
-
-form > p {
-    text-align: center;
-    color: #666;
-    margin: 8px 0;
-    font-size: 14px;
-} */
+ .login-form{
+    margin-top: auto;
+ }

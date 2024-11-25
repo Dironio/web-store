@@ -4,9 +4,10 @@
 
 .auth__container {
     display: flex;
-    background-color: white;
+    background-color: #B8ECA0;
     border-radius: 32px;
     overflow: hidden;
+    height: 834px;
 }
 
 .container-left {
@@ -20,12 +21,17 @@
 
 .container-left img {
     max-width: 100%;
-    height: 400px;
+    height: 480px;
 }
 
 .container-right {
     flex: 1;
     padding: 48px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    padding: 68px 71px;
+    border-radius: 26px;
+    align-content: center;
 }
 
 .container-title {
@@ -76,4 +82,16 @@
     margin-top: 20px;
     display: flex;
     justify-content: center;
+}
+
+.input--error{
+        width: 100%;
+        border: 2px solid #E84747;
+        border-radius: 26px;
+        padding: 8px 20px;
+        height: 52px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #020202;
+        outline: none;
 }

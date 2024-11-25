@@ -35,7 +35,7 @@
     width: 100%;
     border: 2px solid #b8eca0;
     border-radius: 26px;
-    padding: 8px 12px;
+    padding: 8px 20px;
     height: 52px;
     font-size: 16px;
     font-weight: 400;
@@ -89,7 +89,7 @@
     text-align: center;
     font-weight: bold;
     font-size: 16px;
-    padding: 15px 42px;
+    padding: 15px 27px;
     z-index: 1;
     position: relative;
     border: none;
@@ -160,7 +160,7 @@
 }
 
 
-.signup-btn {
+.form-btn {
     background-color: #b8eca0;
     color: #56a033;
     font-size: 16px;
@@ -173,7 +173,7 @@
     margin-top: 48px;
 }
 
-.signup-info {
+.form-info {
     font-size: 20px;
     font-weight: 500;
     color: #a7a7a7;
@@ -183,7 +183,7 @@
     justify-content: center;
 }
 
-.login-form-btn{
+.login-form-btn {
     color: #56a033;
     background-color: #fff;
     font-size: 20px;
