@@ -7,8 +7,15 @@ import SpecialProducts from "../../components/SpecialProducts/SpecialProducts";
 
 
 const HomePage: React.FC = () => {
-    const user = useContext(UserContext);
+    const userContext = useContext(UserContext);
 
+
+    if (!userContext) {
+        console.error("UserContext is not available");
+        return null;
+    }
+
+    const { user } = userContext;
 
     return (
         <div>

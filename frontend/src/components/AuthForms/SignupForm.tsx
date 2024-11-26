@@ -5,7 +5,6 @@ import "../AuthForms/SignupForm.css";
 import BirthdayComponent from "../UI/BirthdayComponent";
 import { useNavigate } from "react-router-dom";
 
-//СДЕЛАТЬ ЧТО ТО С ВВОДОМ ДАТЫ
 
 const SignupForm: React.FC = () => {
     const [isMale, setIsMale] = useState<boolean>(true);
@@ -106,6 +105,27 @@ const SignupForm: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        const savedFormData = localStorage.getItem("signupFormData");
+        if (savedFormData) {
+            setFormData((prev) => ({
+                ...prev,
+                ...JSON.parse(savedFormData),
+                password: "",
+                confirmPassword: ""
+            }));
+        }
+    }, []);
+
+
+    useEffect(() => {
+        const { password, confirmPassword, ...dataToSave } = formData;
+        console.log("localStorage:", dataToSave);
+        localStorage.setItem("signupFormData", JSON.stringify(dataToSave));
+    }, [formData]);
+
+
+
     return (
         <div className="registration-container">
             <form onSubmit={(e) => e.preventDefault()}>
@@ -162,7 +182,9 @@ const SignupForm: React.FC = () => {
                     <div className="date">
                         <p className="date-title">Дата рождения</p>
                         <div className="input-date">
-                            <BirthdayComponent />
+                            <BirthdayComponent value={formData.birthday}
+                                onChange={(value) => setFormData((prev) => ({ ...prev, birthday: value }))}
+                            />
                             <img
                                 src="/assets/calendar.svg"
                                 alt="calendar-icon"

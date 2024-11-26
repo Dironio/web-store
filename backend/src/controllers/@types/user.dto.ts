@@ -17,7 +17,6 @@ export interface User {
 }
 
 export interface CreateUserDto {
-    id?: number;
     username: string;
     email: string;
     password: string;
@@ -41,6 +40,7 @@ export interface GetUserDto {
     lastName?: string;
     img?: string;
     age?: number;
+    gender?: string;
     birthday?: Date;
     role_id?: number;
     role:string;
@@ -55,7 +55,8 @@ export interface CreateUserDb {
 
 export interface LoginUserDto {
     username: string
-    email: string
+    // email?: string
+    // indentity: string;
     password: string
 }
 
@@ -74,17 +75,6 @@ export interface UpdateUserDto {
     role_id?: number;
     created_at?: Date;
     updated_at?: Date;
-}
-
-export interface CreateUserDto {
-    email: string;
-    username: string;
-    password: string;
-}
-
-export interface LoginUserDto {
-    username: string;
-    password: string;
 }
 
 export interface CreatedUser {

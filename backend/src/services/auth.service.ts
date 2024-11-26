@@ -8,6 +8,7 @@ import { config } from "dotenv";
 
 config({ path: './.env' });
 
+//переделать вход только под юзернейм
 
 class AuthService {
     generateTokens(payload: TokenPayload): JwtTokens {
@@ -53,7 +54,7 @@ class AuthService {
 
 
     async login(dto: LoginUserDto): Promise<CreatedUser> {
-        const user = await userService.getUserByUsername(dto.username, dto.email);
+        const user = await userService.getUserByUsername(dto.username);
         if (!user) throw ApiError.NotFound('User not found');
         if (!user.password) throw ApiError.BadRequest('Password is missing');
 

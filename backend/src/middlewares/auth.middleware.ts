@@ -1,27 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import JWT from 'jsonwebtoken';
+import ApiError from "./apiError";
+import { TokenPayload } from "src/controllers/@types/tokenPayLoad";
+import authService from "../services/auth.service";
 
 function authCheck(req: Request, res: Response, next: NextFunction) {
-    if (req.method === 'OPTIONS') {
-        return next();
-    }
-
     try {
-        const token = req.headers.authorization?.split(' ')[1];
-
-        if (!token) {
-            return res.status(401).json('Invalid token');
+        const accessToken: string | undefined = req.headers.authorization?.split(' ')[1];
+        if (!accessToken) {
+            throw ApiError.UnauthorizedError();
         }
 
-        const decoded = JWT.verify(token, String(process.env.jwt));
-        res.locals.user = decoded;
-        next();
+        const userData: TokenPayload | null = authService.validateAccessToken(accessToken);
+        if (!userData) {
+            throw ApiError.UnauthorizedError();
+        }
 
-    } catch (e: any) {
-        return res.status(401).json({
-            error: 'Authentication failed. Invalid token',
-            details: e
-        });
+        res.locals.tokenPayload = userData;
+        console.log('Auth succ')
+        next();
+    } catch (err) {
+        next(err);
     }
 }
 

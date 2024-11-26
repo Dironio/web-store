@@ -6,11 +6,11 @@ import '../Header/Header.css';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
-//ОБРАБОТКА ОШИБОК ПОПРАВИТЬ 4 минимал логин, пароль от 4?
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartCount, setCartCount] = useState(0);
+    const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/auth/current`, { credentials: 'include' })
@@ -18,10 +18,14 @@ const Header: React.FC = () => {
             .then((data) => {
                 if (data?.user) {
                     setIsLoggedIn(true);
+                    setUserAvatar(data.user.avatar || "/assets/default-avatar.svg");
                 }
             })
             .catch((err) => console.error('Ошибка получения статуса пользователя:', err));
     }, []);
+
+
+
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
@@ -131,6 +135,7 @@ const Header: React.FC = () => {
                                 </li>
                             )}
                         </ul>
+
                     </div>
                 </div>
             </div>

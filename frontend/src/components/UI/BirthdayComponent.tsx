@@ -4,7 +4,12 @@ import { getYear, getMonth } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import "../UI/BirthdayComponent.css";
 
-const BirthdayComponent: React.FC = () => {
+interface BirthdayComponentProps {
+    value: string;
+    onChange: (value: string) => void;
+}
+
+const BirthdayComponent: React.FC<BirthdayComponentProps> = ({ value, onChange }) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const years = Array.from({ length: 106 }, (_, i) => 1920 + i);
 
