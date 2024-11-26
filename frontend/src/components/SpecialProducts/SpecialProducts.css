@@ -1,0 +1,119 @@
+.special__container {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    width: 100%;
+}
+
+.special {
+    margin-top: 60px;
+}
+
+.special-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #020202;
+    margin-bottom: 20px;
+}
+
+
+.special-title {
+    display: flex;
+    font-size: 36px;
+    font-weight: 700;
+    color: #020202;
+}
+
+
+.special__container-item {
+    width: 100%;
+    padding: 0 20px;
+    border: 1px solid transparent;
+    background: #fff;
+    border-radius: 24px;
+}
+
+.container-item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit;
+}
+
+.container-item-img {
+    width: 100%;
+    max-width: 320px;
+}
+
+.container-item-img img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+}
+
+.container-item-price {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.price-sale {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #020202;
+}
+
+.price-percent {
+    margin: 0;
+    background-color: #B8ECA0;
+    color: #56A033;
+    padding: 3px 10px;
+    border-radius: 16px;
+}
+
+.container-item-oldprice {
+    text-decoration: line-through;
+    color: #A7A7A7;
+    margin-top: 5px;
+}
+
+.container-item-name {
+    margin-top: 10px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+    color: #020202;
+    max-height: 20px;
+    /* min-height: 20px; */
+    overflow: hidden;
+}
+
+.container-item-name:hover {
+    color: #A7A7A7;
+}
+
+.container-item-buy {
+    /* display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    margin-bottom: 18px; */
+
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    /* Кнопки расположены по бокам */
+    align-items: center;
+    margin-top: auto;
+    /* Прижимает блок с кнопками к низу */
+    padding-top: 12px;
+    /* Добавляем немного пространства сверху секции */
+    margin-bottom: 18px;
+
+}

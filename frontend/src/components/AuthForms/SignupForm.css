@@ -115,13 +115,13 @@
     position: relative;
 }
 
-.input-date img {
+/* .input-date img {
     position: absolute;
     right: 12px;
     height: 20px;
     width: 20px;
     pointer-events: none;
-}
+} */
 
 
 .input-date input[type="date"] {
@@ -133,13 +133,13 @@
 
 
 .input-date .calendar-icon {
+    cursor: pointer;
     position: absolute;
-    right: 10px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
     width: 24px;
     height: 24px;
-    cursor: pointer;
 }
 
 .login-email {
@@ -203,6 +203,6 @@
     margin-top: 4px;
 }
 
-.input--error + .error {
+.input--error+.error {
     visibility: visible;
 }

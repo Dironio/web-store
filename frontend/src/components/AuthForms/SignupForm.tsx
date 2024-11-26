@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import "../AuthForms/SignupForm.css";
+import BirthdayComponent from "../UI/BirthdayComponent";
+import { useNavigate } from "react-router-dom";
 
 //СДЕЛАТЬ ЧТО ТО С ВВОДОМ ДАТЫ
 
 const SignupForm: React.FC = () => {
     const [isMale, setIsMale] = useState<boolean>(true);
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -57,8 +60,8 @@ const SignupForm: React.FC = () => {
         return Object.values(newErrors).every((error) => !error);
     };
 
-    const handleGenderChange = (gender: "male" | "female") => {
-        setIsMale(gender === "male");
+    const handleGenderChange = (gender: "Мужской" | "Женский") => {
+        setIsMale(gender === "Мужской");
     };
 
     const handleSubmit = async () => {
@@ -77,7 +80,7 @@ const SignupForm: React.FC = () => {
                     firstName: formData.firstName || undefined,
                     lastName: formData.lastName || undefined,
                     birthday: formData.birthday || undefined,
-                    gender: isMale ? "male" : "female",
+                    gender: isMale ? "Мужской" : "Женский",
                 }),
                 credentials: 'include',
             });
@@ -90,7 +93,8 @@ const SignupForm: React.FC = () => {
 
             const data = await res.json();
             console.log(data);
-            window.location.href = "/";
+            navigate('/')
+            navigate(0)
         } catch (err: any) {
             console.error(err.message);
             setErrors((prev) => ({
@@ -133,35 +137,43 @@ const SignupForm: React.FC = () => {
                 <div className="date-sex">
                     <div className="sex">
                         <p className="gender">Пол</p>
-                        <div className="gender-choice">
-                            <button
+                        <div className={`gender-choice ${isMale ? "" : "is-female"}`}>
+                            <Button
                                 type="button"
                                 className={`gender-option ${isMale ? "selected" : ""}`}
-                                onClick={() => handleGenderChange("male")}
+                                onClick={() => handleGenderChange("Мужской")}
+                                eventType="gender_select"
+                                eventData={{ gender: "Мужской" }}
                             >
                                 Мужской
-                            </button>
-                            <button
+                            </Button>
+                            <Button
+
                                 type="button"
                                 className={`gender-option ${!isMale ? "selected" : ""}`}
-                                onClick={() => handleGenderChange("female")}
+                                onClick={() => handleGenderChange("Женский")}
+                                eventType="gender_select"
+                                eventData={{ gender: "Женский" }}
                             >
                                 Женский
-                            </button>
+                            </Button>
                         </div>
                     </div>
                     <div className="date">
                         <p className="date-title">Дата рождения</p>
-                        <input
-                            type="date"
-                            name="birthday"
-                            value={formData.birthday}
-                            onChange={handleChange}
-                            className="input-form"
-                        />
+                        <div className="input-date">
+                            <BirthdayComponent />
+                            <img
+                                src="/assets/calendar.svg"
+                                alt="calendar-icon"
+                                className="calendar-icon"
+                                onClick={() =>
+                                    document.querySelector<HTMLInputElement>(`imput-date`)?.click()
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
-
                 <div className="login-email">
                     <div className="login">
                         <p className="info-title">Логин</p>

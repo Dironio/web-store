@@ -21,14 +21,16 @@
     margin-top: 60px;
 }
 
-.recomendation-title {
+.recomendation-title,
+.special-container {
     display: flex;
     font-size: 36px;
     font-weight: 700;
     color: #020202;
 }
 
-.recomendation__container {
+.recomendation__container,
+.special-container {
     margin-top: 60px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -36,7 +38,8 @@
     width: 100%;
 }
 
-.recomendation__container-item {
+.recomendation__container-item,
+.special-container {
     width: 100%;
     padding: 0 20px;
     border: 1px solid transparent;
@@ -117,10 +120,13 @@
 
     display: flex;
     width: 100%;
-    justify-content: space-between; /* Кнопки расположены по бокам */
+    justify-content: space-between;
+    /* Кнопки расположены по бокам */
     align-items: center;
-    margin-top: auto; /* Прижимает блок с кнопками к низу */
-    padding-top: 12px; /* Добавляем немного пространства сверху секции */
+    margin-top: auto;
+    /* Прижимает блок с кнопками к низу */
+    padding-top: 12px;
+    /* Добавляем немного пространства сверху секции */
     margin-bottom: 18px;
 
 }
@@ -155,14 +161,14 @@
 
 
 /* Скелетон */
-.loader{
+.loader {
     padding: 40px 0;
     font-size: 28px;
     font-weight: 600;
 
 }
 
-.end-message{
+.end-message {
     font-size: 36px;
     font-weight: 600;
 }

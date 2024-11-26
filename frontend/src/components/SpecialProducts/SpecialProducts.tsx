@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { User, UserContext } from "../../App";
 import Button from "../UI/Button";
+import '../SpecialProducts/SpecialProducts.css'
 
 interface Product {
     id: number;
@@ -64,50 +65,55 @@ const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
 
 
     return (
-        <section className="special">
-            <h2 className="special-title">Специальные предложения</h2>
-            <div className="special__container">
-                {products.slice(0, 4).map((product) => (
-                    <article key={product.id} className="special__container-item">
-                        <a href="#" className="container-item-link">
-                            <div className="container-item-img">
-                                <img src={product.photo_url} alt={product.name} />
-                            </div>
-                            <div className="container-item-price">
-                                <h2 className="price-sale">{formatPrice(product.price)} ₽</h2>
+        <div className="wrapper">
+            <section className="special">
+                <h2 className="special-title">Специальные предложения</h2>
+                <div className="special__container">
+                    {products.slice(0, 4).map((product) => (
+                        <article key={product.id} className="special__container-item">
+                            <a href="#" className="container-item-link">
+                                <div className="container-item-img">
+                                    <img src={product.photo_url} alt={product.name} />
+                                </div>
+                                <div className="container-item-price">
+                                    <h2 className="price-sale">{formatPrice(product.price)} ₽</h2>
+                                    {product.max_price && product.price < product.max_price && (
+                                        <p className="price-percent">
+                                            {Math.round(
+                                                ((product.max_price - product.price) / product.max_price) * 100
+                                            )}
+                                            %
+                                        </p>
+                                    )}
+                                </div>
                                 {product.max_price && (
-                                    <p className="price-percent">
-                                        {Math.round(((product.max_price - product.price) / product.max_price) * 100)}%
-                                    </p>
+                                    <div className="container-item-oldprice">{formatPrice(product.max_price)} ₽</div>
                                 )}
-                            </div>
-                            {product.max_price && (
-                                <div className="container-item-oldprice">{formatPrice(product.max_price)} ₽</div>
-                            )}
-                            <p className="container-item-name">{product.name}</p>
-                            <footer className="container-item-buy">
-                                <Button
-                                    className="item-buy-btn"
-                                    eventType="click"
-                                    eventData={{ track_id: 'buy_click', product_id: product.id }}
-                                    onClick={() => console.log(`Купить продукт: ${product.name}`)}
-                                >
-                                    Купить
-                                </Button>
-                                <Button
-                                    className="item-cart-btn"
-                                    eventType="click"
-                                    eventData={{ track_id: 'add_to_cart_click', product_id: product.id }}
-                                    onClick={() => console.log(`Добавить в корзину: ${product.name}`)}
-                                >
-                                    <img src="/assets/cartprod.svg" alt="Добавить в корзину" />
-                                </Button>
-                            </footer>
-                        </a>
-                    </article>
-                ))}
-            </div>
-        </section>
+                                <p className="container-item-name">{product.name}</p>
+                                <footer className="container-item-buy">
+                                    <Button
+                                        className="item-buy-btn"
+                                        eventType="click"
+                                        eventData={{ track_id: 'buy_click', product_id: product.id }}
+                                        onClick={() => console.log(`Купить продукт: ${product.name}`)}
+                                    >
+                                        Купить
+                                    </Button>
+                                    <Button
+                                        className="item-cart-btn"
+                                        eventType="click"
+                                        eventData={{ track_id: 'add_to_cart_click', product_id: product.id }}
+                                        onClick={() => console.log(`Добавить в корзину: ${product.name}`)}
+                                    >
+                                        <img src="/assets/cartprod.svg" alt="Добавить в корзину" />
+                                    </Button>
+                                </footer>
+                            </a>
+                        </article>
+                    ))}
+                </div>
+            </section>
+        </div>
     );
 };
 
