@@ -44,15 +44,26 @@ class UserDal {
         return result.rows[0];
     }
 
-    async getUserByUsername(username: string, email: string): Promise<User> {
+    async getUserByIndentity(username: string, email: string): Promise<User> {
         const result = await pool.query(`
             SELECT * FROM users
-            WHERE username = $1 or email = $2`,
+            WHERE username = '$1' or email = '$2'`,
             [username, email]
         );
 
         return result.rows[0];
     }
+
+    async getUserByUsername(username: string): Promise<User> {
+        const result = await pool.query(`
+            SELECT * FROM users
+            WHERE username = $1`,
+            [username]
+        );
+
+        return result.rows[0];
+    }
+
 
     async update(dao: UpdateUserDao): Promise<User> {
         const { id, username, email, password, firstName, lastName, img, age, birthday, gender, role_id } = dao;

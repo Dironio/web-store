@@ -40,8 +40,12 @@ class UserService {
         return await userDal.getOne(userId)
     }
 
-    async getUserByUsername(username: string, email: string): Promise<User> {
-        return await userDal.getUserByUsername(username, email);
+    async getUserByIndentity(username: string, email: string): Promise<User> {
+        return await userDal.getUserByIndentity(username, email);
+    }
+
+    async getUserByUsername(username: string): Promise<User> {
+        return await userDal.getUserByUsername(username);
     }
 
     async update(dto: UpdateUserDto): Promise<User> {

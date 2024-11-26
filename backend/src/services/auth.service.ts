@@ -37,7 +37,7 @@ class AuthService {
 
 
     async signup(dto: CreateUserDto): Promise<CreatedUser> {
-        const existingUser = await userService.getUserByUsername(dto.username, dto.email);
+        const existingUser = await userService.getUserByIndentity(dto.username, dto.email);
         if (existingUser) throw ApiError.BadRequest('Email or username already used');
 
         const newUser = await userService.create(dto);
@@ -66,7 +66,7 @@ class AuthService {
         const tokenPayload: TokenPayload = {
             id: user.id,
             username: user.username,
-            email: user.email
+            // email: user.email
         };
 
 

@@ -132,9 +132,10 @@ const SignupForm: React.FC = () => {
                 <div className="right-initial">
                     <div className="initial-name">
                         <p className="name">Имя</p>
-                        <input
+                        <Input
                             type="text"
                             name="firstName"
+                            trackId="firstname-signup"
                             placeholder="Иван"
                             value={formData.firstName}
                             onChange={handleChange}
@@ -143,9 +144,10 @@ const SignupForm: React.FC = () => {
                     </div>
                     <div className="initial-lastname">
                         <p className="lastname">Фамилия</p>
-                        <input
+                        <Input
                             type="text"
                             name="lastName"
+                            trackId="lastname-signup"
                             placeholder="Иванов"
                             value={formData.lastName}
                             onChange={handleChange}
@@ -199,9 +201,10 @@ const SignupForm: React.FC = () => {
                 <div className="login-email">
                     <div className="login">
                         <p className="info-title">Логин</p>
-                        <input
+                        <Input
                             type="text"
                             name="username"
+                            trackId="username-signup"
                             placeholder="username"
                             value={formData.username}
                             onChange={handleChange}
@@ -211,9 +214,10 @@ const SignupForm: React.FC = () => {
                     </div>
                     <div className="email">
                         <p className="info-title">Эл. почта</p>
-                        <input
+                        <Input
                             type="email"
                             name="email"
+                            trackId="email-signup"
                             placeholder="email@email.ru"
                             value={formData.email}
                             onChange={handleChange}

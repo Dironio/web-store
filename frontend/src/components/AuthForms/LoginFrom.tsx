@@ -10,7 +10,6 @@ import axios from "axios";
 interface LoginResponse {
   user: {
     username: string;
-    email: string;
     password: string;
   };
   token: string;
@@ -22,13 +21,13 @@ const LoginForm: React.FC = () => {
 
 
   const [loginData, setLoginData] = useState({
-    identifier: "",
+    username: "",
     password: "",
   });
 
 
   const [errors, setErrors] = useState({
-    identifier: "",
+    username: "",
     password: "",
   });
 
@@ -39,7 +38,7 @@ const LoginForm: React.FC = () => {
   useEffect(() => {
     const savedIdentifier = Cookies.get("lastIdentifier");
     if (savedIdentifier) {
-      setLoginData((prev) => ({ ...prev, identifier: savedIdentifier }));
+      setLoginData((prev) => ({ ...prev, username: savedIdentifier }));
     }
   }, []);
 
@@ -53,13 +52,13 @@ const LoginForm: React.FC = () => {
 
   const validate = () => {
     const newErrors = {
-      identifier: "",
+      username: "",
       password: "",
     };
 
 
-    if (!loginData.identifier) {
-      newErrors.identifier = "Введите логин или email";
+    if (!loginData.username) {
+      newErrors.username = "Введите логин или email";
     }
 
 
@@ -91,12 +90,10 @@ const LoginForm: React.FC = () => {
         }
       );
 
-
-      // Данные теперь имеют строго типизированный доступ
       const data = response.data;
 
 
-      Cookies.set("lastIdentifier", loginData.identifier, { expires: 30 });
+      Cookies.set("lastIdentifier", loginData.username, { expires: 30 });
       console.log("Успешный вход:", data);
 
 
@@ -123,17 +120,17 @@ const LoginForm: React.FC = () => {
       <form className="login-form">
         <div className="login-input">
           <div className="login">
-            <p className="info-title">Логин или эл. почта</p>
+            <p className="info-title">Логин</p>
             <Input
               type="text"
-              name="identifier"
+              name="username"
               trackId="login_identifier"
               placeholder="username"
-              value={loginData.identifier}
+              value={loginData.username}
               onChange={handleChange}
-              className={errors.identifier ? "input--error" : "input-form"}
+              className={errors.username ? "input--error" : "input-form"}
             />
-            {errors.identifier && <span className="error">{errors.identifier}</span>}
+            {errors.username && <span className="error">{errors.username}</span>}
           </div>
 
         </div>
