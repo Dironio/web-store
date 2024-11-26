@@ -81,19 +81,24 @@ const SignupForm: React.FC = () => {
                     birthday: formData.birthday || undefined,
                     gender: isMale ? "Мужской" : "Женский",
                 }),
-                credentials: 'include',
+                credentials: "include",
             });
+
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Некорректный ответ от сервера.");
+            }
 
             if (!res.ok) {
                 const errorData = await res.json();
-                console.error('Ошибка регистрации:', errorData);
+                console.error("Ошибка регистрации:", errorData);
                 throw new Error(errorData.message || "Ошибка регистрации");
             }
 
             const data = await res.json();
             console.log(data);
-            navigate('/')
-            navigate(0)
+            navigate("/");
+            navigate(0);
         } catch (err: any) {
             console.error(err.message);
             setErrors((prev) => ({

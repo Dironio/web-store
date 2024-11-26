@@ -18,7 +18,9 @@ export interface User {
     img: string;
     age: number;
     birthday: Date;
+    gender: string;
     role_id: number;
+    role: string;
     created_at: Date;
     updated_at: Date;
 }
@@ -38,16 +40,17 @@ const App: React.FC = () => {
 
 
     useEffect(() => {
-        const token = Cookies.get("authToken");
-        if (token) {
-            fetch(`${process.env.REACT_APP_API_URL}/auth/current`, {
-                method: "GET",
-                headers: { Authorization: `Bearer ${token}` },
+        fetch(`${process.env.REACT_APP_API_URL}/auth/current`, {
+            method: "GET",
+            credentials: "include",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data?.user) {
+                    setUser(data.user);
+                }
             })
-                .then((res) => res.json())
-                .then((data) => setUser(data.user))
-                .catch((err) => console.error("Ошибка получения пользователя:", err));
-        }
+            .catch((err) => console.error("Ошибка получения пользователя:", err));
     }, []);
 
 

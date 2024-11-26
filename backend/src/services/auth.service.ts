@@ -37,7 +37,7 @@ class AuthService {
 
 
     async signup(dto: CreateUserDto): Promise<CreatedUser> {
-        const existingUser = await userService.getUserByIndentity(dto.username, dto.email);
+        const existingUser = await userService.getUserByIndentity({ username: dto.username, email: dto.email });
         if (existingUser) throw ApiError.BadRequest('Email or username already used');
 
         const newUser = await userService.create(dto);
@@ -55,29 +55,28 @@ class AuthService {
 
     async login(dto: LoginUserDto): Promise<CreatedUser> {
         const user = await userService.getUserByUsername(dto.username);
+
         if (!user) throw ApiError.NotFound('User not found');
+
         if (!user.password) throw ApiError.BadRequest('Password is missing');
 
-
         const isPasswordValid = await bcrypt.compare(dto.password, user.password);
-        if (!isPasswordValid) throw ApiError.UnauthorizedError('Invalid password');
 
+        if (!isPasswordValid) throw ApiError.UnauthorizedError('Invalid password');
 
         const tokenPayload: TokenPayload = {
             id: user.id,
             username: user.username,
-            // email: user.email
         };
-
 
         const jwtTokens = this.generateTokens(tokenPayload);
         return { user, tokens: jwtTokens };
     }
 
 
-    async refresh(refreshToken: string): Promise<JwtTokens> {
-        if (!refreshToken) throw ApiError.UnauthorizedError();
-        const userData = this.validateRefreshToken(refreshToken);
+    async refresh(accessToken: string): Promise<JwtTokens> {
+        if (!accessToken) throw ApiError.UnauthorizedError();
+        const userData = this.validateRefreshToken(accessToken);
         if (!userData) throw ApiError.UnauthorizedError();
 
 

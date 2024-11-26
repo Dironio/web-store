@@ -1,47 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import sendAnalytics from '../../utils/analytics/analytics';
 import Button from '../UI/Button';
 import Input from '../UI/Input';
 import '../Header/Header.css';
+import { UserContext } from '../../App';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
 
 const Header: React.FC = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [userAvatar, setUserAvatar] = useState<string | null>(null);
     const [cartCount, setCartCount] = useState(0);
-    const [userAvatar, setUserAvatar] = useState<string | null>(null);
-
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/auth/current`, { credentials: 'include' })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data?.user) {
-                    setIsLoggedIn(true);
-                    setUserAvatar(data.user.avatar || "/assets/default-avatar.svg");
-                }
-            })
-            .catch((err) => console.error('Ошибка получения статуса пользователя:', err));
-    }, []);
-
-
-
+    const userContext = useContext(UserContext);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
-            credentials: 'include',
+            credentials: "include",
         })
             .then((res) => res.json())
             .then((data) => {
                 setCartCount(data.count || 0);
             })
-            .catch((err) => console.error('Ошибка получения количества товаров в корзине:', err));
+            .catch((err) => console.error("Ошибка получения количества товаров в корзине:", err));
     }, []);
 
     const handleLogoClick = () => {
         sendAnalytics({
-            event_type: 'click',
-            event_data: { track_id: 'logo_click' },
+            event_type: "click",
+            event_data: { track_id: "logo_click" },
             page_url: window.location.href,
         });
     };
@@ -121,10 +108,13 @@ const Header: React.FC = () => {
 
                         {/* Авторизация */}
                         <ul className="header__auth">
-                            {isLoggedIn ? (
+                            {userContext?.user ? (
                                 <li className="header__auth-icon">
                                     <a href="/profile">
-                                        <img src="/assets/login.svg" alt="Профиль" />
+                                        <img
+                                            src={userContext.user.img || "/assets/default-avatar.svg"}
+                                            alt="Профиль"
+                                        />
                                     </a>
                                 </li>
                             ) : (

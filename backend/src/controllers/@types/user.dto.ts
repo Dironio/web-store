@@ -11,6 +11,7 @@ export interface User {
     age: number;
     gender: string;
     birthday: Date;
+    role: string;
     role_id: number;
     created_at: Date;
     updated_at: Date;

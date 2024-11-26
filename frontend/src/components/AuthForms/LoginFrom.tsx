@@ -6,7 +6,6 @@ import "../AuthForms/LoginForm.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-//ЗАПРОСЫ НА БЭК
 interface LoginResponse {
   user: {
     username: string;
@@ -97,7 +96,8 @@ const LoginForm: React.FC = () => {
       console.log("Успешный вход:", data);
 
 
-      navigate("/profile");
+      navigate("/");
+      navigate(0)
     } catch (err) {
       console.error("Ошибка сети:", err);
 
