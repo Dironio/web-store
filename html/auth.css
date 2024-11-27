@@ -214,6 +214,128 @@ ul {
 
 
 
+
+
+
+
+
+
+.page-profile {
+    background: #fff;
+    border: 1px solid transparent;
+    border-radius: 24px;
+    padding: 40px;
+    /* display: flex; */
+    width: 1200px;
+    margin-top: 60px;
+}
+
+.profile-person {
+    display: flex;
+    justify-content: space-between;
+    min-width: 100%;
+}
+
+.profile-person__info {
+    display: flex;
+}
+
+.info-img {
+    display: flex;
+    width: 120px;
+    height: 120px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    align-items: center;
+}
+
+.info-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 28px;
+}
+
+.user-role,
+.user-username {
+    font-size: 24px;
+    font-weight: 600;
+    color: #656565;
+    margin-bottom: 18px;
+}
+
+.user-email {
+    font-size: 20px;
+    font-weight: 600;
+    color: #A7A7A7;
+}
+
+.update-user {
+    align-content: center;
+}
+
+.update-user-btn {
+    border: 1px solid #B8ECA0;
+    border-radius: 24px;
+    background: #B8ECA0;
+    color: #56A033;
+    padding: 16px 33px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.separation-line {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    width: 100%;
+    padding: 0;
+    height: 0;
+    border: none;
+    border-top: 1px solid #C4C4C4;
+}
+
+.gen-info{
+    border: 1px solid #C4C4C4;
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 28px;
+}
+
+.gen-info__initial{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*  */
 
 /* .auth__container {
@@ -438,7 +560,7 @@ form > p {
 
 
 
-
+/* 
 
 .auth__container {
     display: flex;
@@ -605,4 +727,4 @@ form > p {
     color: #666;
     margin: 8px 0;
     font-size: 14px;
-}
+} */
