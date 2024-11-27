@@ -3,28 +3,12 @@ import sendAnalytics from '../../utils/analytics/analytics';
 import Button from '../UI/Button';
 import Input from '../UI/Input';
 import '../Header/Header.css';
-import { UserContext } from '../../App';
+import { User } from '../../App';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
 
-const Header: React.FC = () => {
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const [userAvatar, setUserAvatar] = useState<string | null>(null);
-    const [cartCount, setCartCount] = useState(0);
-    const userContext = useContext(UserContext);
-
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
-            credentials: "include",
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setCartCount(data.count || 0);
-            })
-            .catch((err) => console.error("Ошибка получения количества товаров в корзине:", err));
-    }, []);
-
+const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cartCount }) => {
     const handleLogoClick = () => {
         sendAnalytics({
             event_type: "click",
@@ -32,6 +16,30 @@ const Header: React.FC = () => {
             page_url: window.location.href,
         });
     };
+
+
+
+    // const [cartCount, setCartCount] = useState(0);
+    // const userContext = useContext(UserContext);
+
+    // useEffect(() => {
+    //     fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
+    //         credentials: "include",
+    //     })
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setCartCount(data.count || 0);
+    //         })
+    //         .catch((err) => console.error("Ошибка получения количества товаров в корзине:", err));
+    // }, []);
+
+    // const handleLogoClick = () => {
+    //     sendAnalytics({
+    //         event_type: "click",
+    //         event_data: { track_id: "logo_click" },
+    //         page_url: window.location.href,
+    //     });
+    // };
 
     return (
         <header className="bg-white">
@@ -108,11 +116,11 @@ const Header: React.FC = () => {
 
                         {/* Авторизация */}
                         <ul className="header__auth">
-                            {userContext?.user ? (
+                            {user ? (
                                 <li className="header__auth-icon">
                                     <a href="/profile">
                                         <img
-                                            src={userContext.user.img || "/assets/default-avatar.svg"}
+                                            src={user.img || "/assets/default-avatar.svg"}
                                             alt="Профиль"
                                         />
                                     </a>
@@ -126,10 +134,44 @@ const Header: React.FC = () => {
                             )}
                         </ul>
 
-                    </div>
+
+                        {/* Блок авторизации */}
+                        <ul className="header__auth">
+                            {user ? (
+                                <li className="header__auth-icon">
+                                    <a href="/profile">
+                                        <img src={user.img || "/assets/default-avatar.svg"} alt="Профиль" />
+                                    </a>
+                                </li>
+                            ) : (
+                                <li className="header__auth-icon">
+                                    <a href="/auth">
+                                        <img src="/assets/auth.svg" alt="Войти" />
+                                    </a>
+                                </li>
+                            )}
+                        </ul>
+
+                        {/* <Button
+                            onClick={openModal}
+                            className="personal-account"
+                            eventType="open_modal"
+                            eventData={{ user: user?.username }}
+                        >
+                            Личный кабинет
+                        </Button>
+
+                        {isModalOpen && user && (
+                            <ModalProfile user={user} onClose={closeModal} onLogout={logout} />
+                        )} */}
+                    
+
+
+
                 </div>
             </div>
-        </header>
+        </div>
+        </header >
     );
 };
 

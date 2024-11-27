@@ -13,10 +13,9 @@ config({ path: './.env' });
 class AuthService {
     generateTokens(payload: TokenPayload): JwtTokens {
         const refreshToken = jwt.sign(payload, process.env.JWT_REF_SEC as string, { expiresIn: '30d' });
-        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15d' });
+        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' }); // 15 минут для accessToken
         return { refreshToken, accessToken };
     }
-
 
     validateRefreshToken(refreshToken: string): TokenDecoded | null {
         try {
@@ -25,7 +24,6 @@ class AuthService {
             return null;
         }
     }
-
 
     validateAccessToken(accessToken: string): TokenPayload | null {
         try {
@@ -74,30 +72,24 @@ class AuthService {
     }
 
 
-    async refresh(accessToken: string): Promise<JwtTokens> {
-        if (!accessToken) throw ApiError.UnauthorizedError();
-        const userData = this.validateRefreshToken(accessToken);
+    async refresh(refreshToken: string): Promise<JwtTokens> {
+        if (!refreshToken) throw ApiError.UnauthorizedError();
+
+        const userData = this.validateRefreshToken(refreshToken);
         if (!userData) throw ApiError.UnauthorizedError();
 
-
         const user = await userService.getOne(userData.id);
-        if (!user) throw ApiError.UnauthorizedError('User not found');
-
+        if (!user) throw ApiError.UnauthorizedError("User not found");
 
         const tokenPayload: TokenPayload = {
             id: user.id,
             username: user.username,
         };
 
-        //перепроверить работу
-
         const jwtTokens = this.generateTokens(tokenPayload);
+
         return jwtTokens;
     }
-
-    // async logout(): Promise<void> {
-
-    // }
 }
 
 const authService = new AuthService();

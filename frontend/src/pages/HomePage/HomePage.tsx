@@ -1,21 +1,25 @@
 import { useContext } from "react";
-import { UserContext } from "../../App";
+// import { UserContext } from "../../App";
 import FeaturedProducts from "../../components/FeaturedProducts/FeaturedProducts";
 import PromoOffers from "../../components/PromoOffers/PromoOffers";
 import Products from "../../components/Products/Products";
 import SpecialProducts from "../../components/SpecialProducts/SpecialProducts";
+import { User } from "../../App";
+
+interface HomePageProps {
+    user: User | null;
+}
+
+const HomePage: React.FC<HomePageProps> = ({user}) => {
+    // const userContext = useContext(UserContext);
 
 
-const HomePage: React.FC = () => {
-    const userContext = useContext(UserContext);
+    // if (!userContext) {
+    //     console.error("UserContext is not available");
+    //     return null;
+    // }
 
-
-    if (!userContext) {
-        console.error("UserContext is not available");
-        return null;
-    }
-
-    const { user } = userContext;
+    // const { user } = userContext;
 
     return (
         <div>

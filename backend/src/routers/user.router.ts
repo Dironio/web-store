@@ -8,11 +8,11 @@ const userRouter = Router();
 userRouter.post('/', userController.create);
 
 userRouter.get('/',
-    //  authCheck,
+     authCheck,
     userController.getAll);
 
 userRouter.get('/:id',
-    // authCheck,
+    authCheck,
     userController.getOne);
 
 userRouter.patch('/', authCheck, userController.update);

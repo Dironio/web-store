@@ -1,0 +1,60 @@
+.modal-profile {
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 22px;
+}
+
+.modal-profile__info {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    padding: 25px;
+}
+
+.info-img {
+    border: 1px solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.info-initial {
+    margin-left: 25px;
+}
+
+.initial-username {
+    font-size: 24px;
+    font-weight: 600;
+    color: #656565;
+    margin-bottom: 10px;
+}
+
+.initial-email {
+    font-size: 20px;
+    font-weight: 500;
+    color: #A7A7A7;
+}
+
+.logout-btn {
+    border: 1px solid #E84747;
+    border-radius: 16px;
+    cursor: pointer;
+    background: transparent;
+    color: #E84747;
+
+    padding: 8px 13px;
+    margin-left: 50px;
+}
+
+.personal-account {
+    border: 1px solid transparent;
+    border-radius: 22px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    background: #B8ECA0;
+    color: #56A033;
+    padding: 10px 45px;
+    margin-left: 90px;
+    margin-bottom: 25px;
+}

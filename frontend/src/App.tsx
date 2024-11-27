@@ -25,33 +25,10 @@ export interface User {
     updated_at: Date;
 }
 
-interface UserContextType {
-    user: User | null;
-    setUser: React.Dispatch<React.SetStateAction<User | null>>;
-}
-
-
-export const UserContext = createContext<UserContextType | null>(null);
-
-
 const App: React.FC = () => {
     const [cartCount, setCartCount] = useState(0);
     const [user, setUser] = useState<User | null>(null);
-
-
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/auth/current`, {
-            method: "GET",
-            credentials: "include",
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data?.user) {
-                    setUser(data.user);
-                }
-            })
-            .catch((err) => console.error("Ошибка получения пользователя:", err));
-    }, []);
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -75,7 +52,53 @@ const App: React.FC = () => {
     }, []);
 
 
-    console.log(user);
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         try {
+    //             setLoading(true);
+    //             const response = await axios.get<User>(`${process.env.REACT_APP_API_URL}/auth/current`, {
+    //                 withCredentials: true,
+    //             });
+    //             setUser(response.data);
+    //         } catch (error) {
+    //             console.error("Ошибка проверки авторизации:", error);
+    //             setUser(null);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+
+    //     fetchUser();
+    // }, []);
+
+
+
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                setLoading(true); // Начинаем загрузку
+                const response = await axios.get<User>(`${process.env.REACT_APP_API_URL}/auth/current`, {
+                    withCredentials: true,
+                });
+                setUser(response.data); // Устанавливаем данные пользователя
+            } catch (error) {
+                console.log("Не удалось получить пользователя", error);
+                setUser(null); // Если произошла ошибка, сбрасываем пользователя
+            } finally {
+                setLoading(false); // Завершаем загрузку
+            }
+        };
+        fetchUser();
+    }, []);
+
+
+
+    if (loading) {
+        return <div>Загрузка...</div>;
+    }
+
 
     return (
         // <div className="App">
@@ -92,21 +115,24 @@ const App: React.FC = () => {
 
 
         <div className="App">
-            <UserContext.Provider value={{ user, setUser }}>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route
-                        path="/auth"
-                        element={user ? <Navigate to="/profile" /> : <AuthPage />}
-                    />
-                    <Route
-                        path="/profile"
-                    // element={user ? <ProfilePage /> : <Navigate to="/auth" />}
-                    />
-                </Routes>
-                <Footer />
-            </UserContext.Provider>
+            {/* <UserContext.Provider> */}
+            <Header user={user} cartCount={cartCount} />
+            <Routes>
+                <Route path="/" element={<HomePage user={user} />} />
+                <Route
+                    path="/auth"
+                    element={
+                        user ? <Navigate to="/profile" /> :
+                            <AuthPage />
+                    }
+                />
+                <Route
+                    path="/profile"
+                // element={user ? <ProfilePage /> : <Navigate to="/auth" />}
+                />
+            </Routes>
+            <Footer />
+            {/* </UserContext.Provider> */}
         </div>
 
 

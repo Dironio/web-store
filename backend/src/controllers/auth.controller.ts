@@ -39,19 +39,11 @@ class AuthController {
 
     @ControllerErrorHandler()
     async refresh(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const accessToken = req.cookies.accessToken;
-        const userData = authService.validateAccessToken(accessToken);
+        const refreshToken = req.cookies.refreshToken;
+        const tokens = await authService.refresh(refreshToken);
 
-        if (!userData) throw ApiError.UnauthorizedError();
-
-        const tokens = await authService.refresh(accessToken);
-        const user = await userService.getOne(userData.id);
-
-        res.cookie(...this.getTokenParams(tokens.accessToken));
-        return res.json({
-            user,
-            accessToken: tokens.accessToken,
-        });
+        res.cookie(...this.getTokenParams(tokens.refreshToken));
+        return res.json(tokens);
     }
 }
 

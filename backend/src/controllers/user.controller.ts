@@ -20,15 +20,14 @@ class UserController {
 
     @ControllerErrorHandler()
     async getOne(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const userId = Number(req.params.id);
-        const user = await userService.getOne(userId);
+        const result = await userService.getOne(Number(req.params.id));
 
-        if (!user) {
+        if (!result) {
             res.status(404).json({ message: "User not found" });
             return;
         }
 
-        return res.status(200).json(user);
+        return res.status(200).json(result);
     }
 
     @ControllerErrorHandler()

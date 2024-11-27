@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { User, UserContext } from "../../App";
+import { User } from "../../App";
 import Button from "../UI/Button";
 import '../SpecialProducts/SpecialProducts.css'
 
