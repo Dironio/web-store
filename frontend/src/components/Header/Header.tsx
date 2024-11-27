@@ -4,17 +4,37 @@ import Button from '../UI/Button';
 import Input from '../UI/Input';
 import '../Header/Header.css';
 import { User } from '../../App';
+import ModalProfile from '../Modal/ModalProfile';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
 
 const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cartCount }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const handleLogoClick = () => {
         sendAnalytics({
             event_type: "click",
             event_data: { track_id: "logo_click" },
             page_url: window.location.href,
         });
+    };
+
+
+    const handleProfileClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        if (user) {
+            setIsModalOpen(true);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleLogout = () => {
+        // сделать потом
+        setIsModalOpen(false);
     };
 
 
@@ -115,13 +135,14 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                         </ul>
 
                         {/* Авторизация */}
-                        <ul className="header__auth">
+                        {/* <ul className="header__auth">
                             {user ? (
                                 <li className="header__auth-icon">
-                                    <a href="/profile">
+                                    <a href="#" onClick={handleProfileClick}>
                                         <img
                                             src={user.img || "/assets/default-avatar.svg"}
                                             alt="Профиль"
+                                            className="profile-avatar"
                                         />
                                     </a>
                                 </li>
@@ -132,45 +153,73 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                     </a>
                                 </li>
                             )}
-                        </ul>
+                        </ul> */}
 
-
-                        {/* Блок авторизации */}
+                        {/* Модальное окно */}
+                        {/* {isModalOpen && user && (
+                            <ModalProfile
+                                user={user}
+                                onClose={handleCloseModal}
+                                onLogout={handleLogout}
+                            />
+                        )} */}
                         <ul className="header__auth">
                             {user ? (
                                 <li className="header__auth-icon">
-                                    <a href="/profile">
-                                        <img src={user.img || "/assets/default-avatar.svg"} alt="Профиль" />
+                                    <a href="#" onClick={handleProfileClick}>
+                                        <img
+                                            src={user.img || "/assets/default-avatar.svg"}
+                                            alt="Профиль"
+                                            className="profile-avatar"
+                                        />
                                     </a>
                                 </li>
                             ) : (
+                                // <li className="header__auth-icon">
+                                //     <a href="/auth">
+                                //         <img src="/assets/auth.svg" alt="Войти" />
+                                //     </a>
+                                // </li>
+
+
                                 <li className="header__auth-icon">
-                                    <a href="/auth">
-                                        <img src="/assets/auth.svg" alt="Войти" />
+                                    <a href="#" onClick={handleProfileClick}>
+                                        <img
+                                            // src={user.img || "/assets/default-avatar.svg"}
+                                            alt="Профиль"
+                                            className="profile-avatar"
+                                        />
                                     </a>
                                 </li>
+
                             )}
                         </ul>
 
-                        {/* <Button
-                            onClick={openModal}
-                            className="personal-account"
-                            eventType="open_modal"
-                            eventData={{ user: user?.username }}
-                        >
-                            Личный кабинет
-                        </Button>
+                        {/* Модальное окно */}
+                        {isModalOpen
+                            // && user 
+                            && (
+                                <div className="modal-backdrop" onClick={handleCloseModal}>
+                                    <div
+                                        className="modal-profile"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <ModalProfile
+                                            // user={user}
+                                            onClose={handleCloseModal}
+                                            onLogout={handleLogout}
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
-                        {isModalOpen && user && (
-                            <ModalProfile user={user} onClose={closeModal} onLogout={logout} />
-                        )} */}
-                    
 
 
 
+
+                    </div>
                 </div>
             </div>
-        </div>
         </header >
     );
 };
