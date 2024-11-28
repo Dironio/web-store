@@ -163,6 +163,7 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                 onLogout={handleLogout}
                             />
                         )} */}
+
                         <ul className="header__auth">
                             {user ? (
                                 <li className="header__auth-icon">

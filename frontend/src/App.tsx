@@ -7,6 +7,7 @@ import axios from 'axios';
 import HomePage from './pages/HomePage/HomePage';
 import AuthPage from './pages/AuthPage/AuthPage';
 import Cookies from 'js-cookie';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 export interface User {
     id: number;
@@ -128,7 +129,7 @@ const App: React.FC = () => {
                 />
                 <Route
                     path="/profile"
-                // element={user ? <ProfilePage /> : <Navigate to="/auth" />}
+                    element={user ? <ProfilePage /> : <Navigate to="/auth" />}
                 />
             </Routes>
             <Footer />

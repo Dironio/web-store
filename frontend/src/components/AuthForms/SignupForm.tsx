@@ -4,6 +4,7 @@ import Button from "../UI/Button";
 import "../AuthForms/SignupForm.css";
 import BirthdayComponent from "../UI/BirthdayComponent";
 import { useNavigate } from "react-router-dom";
+import GenderChoice from "../UI/GenderChoice";
 
 
 const SignupForm: React.FC = () => {
@@ -17,6 +18,7 @@ const SignupForm: React.FC = () => {
         password: "",
         confirmPassword: "",
         birthday: "",
+        gender: "Мужской"
     });
 
     const [errors, setErrors] = useState({
@@ -162,30 +164,10 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div className="date-sex">
-                    <div className="sex">
-                        <p className="gender">Пол</p>
-                        <div className={`gender-choice ${isMale ? "" : "is-female"}`}>
-                            <Button
-                                type="button"
-                                className={`gender-option ${isMale ? "selected" : ""}`}
-                                onClick={() => handleGenderChange("Мужской")}
-                                eventType="gender_select"
-                                eventData={{ gender: "Мужской" }}
-                            >
-                                Мужской
-                            </Button>
-                            <Button
+                    <GenderChoice
+                        onGenderChange={(gender) => setFormData((prev) => ({ ...prev, gender }))}
+                    />
 
-                                type="button"
-                                className={`gender-option ${!isMale ? "selected" : ""}`}
-                                onClick={() => handleGenderChange("Женский")}
-                                eventType="gender_select"
-                                eventData={{ gender: "Женский" }}
-                            >
-                                Женский
-                            </Button>
-                        </div>
-                    </div>
                     <div className="date">
                         <p className="date-title">Дата рождения</p>
                         <div className="input-date">
