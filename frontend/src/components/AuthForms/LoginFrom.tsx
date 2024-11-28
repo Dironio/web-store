@@ -11,7 +11,7 @@ interface LoginResponse {
     username: string;
     password: string;
   };
-  token: string;
+  accessToken: string;
 }
 
 
@@ -91,7 +91,7 @@ const LoginForm: React.FC = () => {
 
       const data = response.data;
 
-
+      localStorage.setItem(`accessToken`, data.accessToken);
       Cookies.set("lastIdentifier", loginData.username, { expires: 30 });
       console.log("Успешный вход:", data);
 

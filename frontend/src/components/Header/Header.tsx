@@ -176,28 +176,28 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                     </a>
                                 </li>
                             ) : (
-                                // <li className="header__auth-icon">
-                                //     <a href="/auth">
-                                //         <img src="/assets/auth.svg" alt="Войти" />
-                                //     </a>
-                                // </li>
-
-
                                 <li className="header__auth-icon">
-                                    <a href="#" onClick={handleProfileClick}>
-                                        <img
-                                            // src={user.img || "/assets/default-avatar.svg"}
-                                            alt="Профиль"
-                                            className="profile-avatar"
-                                        />
+                                    <a href="/auth">
+                                        <img src="/assets/auth.svg" alt="Войти" />
                                     </a>
                                 </li>
+
+
+                                // <li className="header__auth-icon">
+                                //     <a href="#" onClick={handleProfileClick}>
+                                //         <img
+                                //             // src={user.img || "/assets/default-avatar.svg"}
+                                //             alt="Профиль"
+                                //             className="profile-avatar"
+                                //         />
+                                //     </a>
+                                // </li>
 
                             )}
                         </ul>
 
                         {/* Модальное окно */}
-                        {isModalOpen
+                        {/* {isModalOpen
                             // && user 
                             && (
                                 <div className="modal-backdrop" onClick={handleCloseModal}>
@@ -212,7 +212,7 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                         />
                                     </div>
                                 </div>
-                            )}
+                            )} */}
 
 
 

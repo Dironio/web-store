@@ -13,7 +13,7 @@ config({ path: './.env' });
 class AuthService {
     generateTokens(payload: TokenPayload): JwtTokens {
         const refreshToken = jwt.sign(payload, process.env.JWT_REF_SEC as string, { expiresIn: '30d' });
-        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '15m' }); // 15 минут для accessToken
+        const accessToken = jwt.sign(payload, process.env.JWT_ACC_SEC as string, { expiresIn: '30d' });
         return { refreshToken, accessToken };
     }
 

@@ -79,16 +79,30 @@ const App: React.FC = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                setLoading(true); // Начинаем загрузку
-                const response = await axios.get<User>(`${process.env.REACT_APP_API_URL}/auth/current`, {
-                    withCredentials: true,
-                });
-                setUser(response.data); // Устанавливаем данные пользователя
+                setLoading(true);
+
+                const token = localStorage.getItem("accessToken");
+                if (!token) {
+                    console.error("Токен отсутствует");
+                    return;
+                }
+
+                const response = await axios.get<User>(
+                    `${process.env.REACT_APP_API_URL}/auth/current`,
+                    {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                console.log(response.data);
+                setUser(response.data);
             } catch (error) {
-                console.log("Не удалось получить пользователя", error);
-                setUser(null); // Если произошла ошибка, сбрасываем пользователя
+                console.error("Не удалось получить пользователя", error);
+                setUser(null);
             } finally {
-                setLoading(false); // Завершаем загрузку
+                setLoading(false);
             }
         };
         fetchUser();
