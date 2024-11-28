@@ -38,12 +38,11 @@ class AuthController {
     }
 
     @ControllerErrorHandler()
-    async refresh(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const refreshToken = req.cookies.refreshToken;
-        const tokens = await authService.refresh(refreshToken);
+    async current(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        const tokenPayload = res.locals.tokenPayload;
+        const user = await userService.getOne(tokenPayload.id);
 
-        res.cookie(...this.getTokenParams(tokens.refreshToken));
-        return res.json(tokens);
+        return res.json(user);
     }
 }
 
