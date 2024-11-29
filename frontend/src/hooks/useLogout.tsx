@@ -9,10 +9,13 @@ export const useLogout = (onComplete: () => void) => {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`, {
                 withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },
             });
             console.log(response.data);
+
+            localStorage.removeItem("accessToken");
+
             onComplete();
             navigate("/");
             navigate(0);
