@@ -6,13 +6,21 @@ import '../Header/Header.css';
 import { User } from '../../App';
 import ModalProfile from '../Modal/ModalProfile';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLogout } from '../../hooks/useLogout';
+import { useModal } from '../../hooks/useModal';
+import Modal from '../Modal/Modal';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
 
 const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cartCount }) => {
-    const navigate = useNavigate()
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const { handleLogout } = useLogout(() => closeModal());
+    const { isModalOpen, openModal, closeModal } = useModal();
+
+    const toggleModal = () => {
+        isModalOpen ? closeModal() : openModal();
+    };
 
     const handleLogoClick = (path: string) => {
         sendAnalytics({
@@ -20,35 +28,6 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
             event_data: { track_id: "logo_click" },
             page_url: window.location.href,
         });
-    };
-
-
-    const handleProfileClick = (event: React.MouseEvent) => {
-        event.preventDefault();
-        if (user) {
-            setIsModalOpen(true);
-        }
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
-
-
-    // async function logout(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    //     event.preventDefault()
-    //     console.log()
-    //     const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`, {
-    //         withCredentials: true
-    //     })
-    //     console.log(response.data)
-    //     navigate('/')
-    //     navigate(0)
-    // }
-
-    const handleLogout = () => {
-        // сделать потом
-        setIsModalOpen(false);
     };
 
     return (
@@ -138,11 +117,14 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                             </li>
                         </ul>
 
-                        {/* Авторизация */}
-                        <ul className="header__auth">
+                         {/* Авторизация */}
+                         <ul className="header__auth">
                             {user ? (
                                 <li className="header__auth-icon">
-                                    <a href="#" onClick={handleProfileClick}>
+                                    <a href="#" onClick={(e) => { 
+                                        e.preventDefault(); 
+                                        toggleModal(); 
+                                    }}>
                                         <img
                                             src={user.img || "/assets/login.svg"}
                                             alt="Профиль"
@@ -156,32 +138,19 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                         <img src="/assets/auth.svg" alt="Войти" />
                                     </a>
                                 </li>
-
                             )}
                         </ul>
 
                         {/* Модальное окно */}
-                        {isModalOpen
-                            && user
-                            && (
-                                <div className="modal-backdrop" onClick={handleCloseModal}>
-                                    <div
-                                        className="modal-profile"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <ModalProfile
-                                            user={user}
-                                            onClose={handleCloseModal}
-                                            onLogout={handleLogout}
-                                        />
-                                    </div>
-                                </div>
-                            )}
-
-
-
-
-
+                        {isModalOpen && user && (
+                            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                <ModalProfile
+                                    user={user}
+                                    onClose={closeModal}
+                                    onLogout={handleLogout}
+                                />
+                            </Modal>
+                        )}
                     </div>
                 </div>
             </div>
