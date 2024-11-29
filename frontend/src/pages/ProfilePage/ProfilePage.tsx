@@ -32,10 +32,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
                 <hr className="separation-line" />
 
-
-
-
-
                 <section className="gen-info">
                     <div className="gen-info__info">
                         <div className="gen-info__general">
@@ -66,14 +62,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
                         <p className="gender-title">Пол</p>
                         <GenderChoice />
                     </div>
-                    {/* <div className="sex">
-                        <p className="pol">Пол</p>
-                        <div className="pol-choice">
-                            <p>Мужской</p>
-                            <p>Женский</p>
-                        </div>
-                    </div> */}
                 </section>
+
+
+
             </section>
         </div>
     )

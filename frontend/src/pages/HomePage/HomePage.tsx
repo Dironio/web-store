@@ -10,17 +10,7 @@ interface HomePageProps {
     user: User | null;
 }
 
-const HomePage: React.FC<HomePageProps> = ({user}) => {
-    // const userContext = useContext(UserContext);
-
-
-    // if (!userContext) {
-    //     console.error("UserContext is not available");
-    //     return null;
-    // }
-
-    // const { user } = userContext;
-
+const HomePage: React.FC<HomePageProps> = ({ user }) => {
     return (
         <div>
             <FeaturedProducts />

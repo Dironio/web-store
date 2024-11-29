@@ -52,30 +52,6 @@ const App: React.FC = () => {
         fetchCartCount();
     }, []);
 
-
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         try {
-    //             setLoading(true);
-    //             const response = await axios.get<User>(`${process.env.REACT_APP_API_URL}/auth/current`, {
-    //                 withCredentials: true,
-    //             });
-    //             setUser(response.data);
-    //         } catch (error) {
-    //             console.error("Ошибка проверки авторизации:", error);
-    //             setUser(null);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-
-    //     fetchUser();
-    // }, []);
-
-
-
-
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -116,24 +92,11 @@ const App: React.FC = () => {
 
 
     return (
-        // <div className="App">
-        //     <Header />
-        //     <UserContext.Provider value={{ user, setUser }}>
-        //         <Routes>
-        //             <Route path="/" element={<HomePage />} />
-        //             <Route path="/auth" element={<AuthPage />} />
-        //         </Routes>
-        //     </UserContext.Provider>
-        //     <Footer />
-        // </div>
-
-
-
         <div className="App">
-            {/* <UserContext.Provider> */}
             <Header user={user} cartCount={cartCount} />
             <Routes>
                 <Route path="/" element={<HomePage user={user} />} />
+
                 <Route
                     path="/auth"
                     element={
@@ -145,47 +108,33 @@ const App: React.FC = () => {
                     path="/profile"
                     element={
                         user ?
-                            <ProfilePage user={user}/>
+                            <ProfilePage user={user} />
                             : <Navigate to="/auth" />
                     }
                 />
+
+                {/* <Route
+                    path='/cart'
+                    element={
+                        user ?
+                            <CartPage user={user} />
+                            : <Navigate to="/auth" />
+                    }
+                /> */}
+
+
+                {/* <Route path="/faq" element={<FAQ />} />
+                <Route path="/sell-products" element={<SellProducts />} />
+                <Route path="/collaboration" element={<Collaboration />} />
+                <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/vacancies" element={<Vacancies />} />
+                <Route path="/support" element={<Support />} /> */}
+
             </Routes>
             <Footer />
-            {/* </UserContext.Provider> */}
         </div>
-
-
-        // // <div className="App">
-        // <Router>
-        //     <div className="App">
-
-        //         {/* Главный контент */}
-        //         {/* <Routes> */}
-        //         {/* <Route path="/" element={<Home />} />
-        //                 <Route path="/faq" element={<FAQ />} />
-        //                 <Route path="/sell-products" element={<SellProducts />} />
-        //                 <Route path="/collaboration" element={<Collaboration />} />
-        //                 <Route path="/analytics" element={<AnalyticsPage />} />
-        //                 <Route path="/about" element={<About />} />
-        //                 <Route path="/contacts" element={<Contacts />} />
-        //                 <Route path="/vacancies" element={<Vacancies />} />
-        //                 <Route path="/support" element={<Support />} /> */}
-        //         {/* </Routes> */}
-
-
-        //         {/* Футер */}
-        //         <Header />
-        //         <FeaturedProducts />
-        //         <PromoOffers />
-        //         {/* <Products /> */}
-
-        //         <Footer />
-        //     </div>
-        // </Router>
-
-
-
-        // </div>
     );
 };
 

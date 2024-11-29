@@ -5,12 +5,13 @@ import Input from '../UI/Input';
 import '../Header/Header.css';
 import { User } from '../../App';
 import ModalProfile from '../Modal/ModalProfile';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
 
 const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cartCount }) => {
+    const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleLogoClick = (path: string) => {
@@ -33,56 +34,47 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
         setIsModalOpen(false);
     };
 
+
+    // async function logout(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    //     event.preventDefault()
+    //     console.log()
+    //     const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+    //         withCredentials: true
+    //     })
+    //     console.log(response.data)
+    //     navigate('/')
+    //     navigate(0)
+    // }
+
     const handleLogout = () => {
         // сделать потом
         setIsModalOpen(false);
     };
 
-
-
-    // const [cartCount, setCartCount] = useState(0);
-    // const userContext = useContext(UserContext);
-
-    // useEffect(() => {
-    //     fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
-    //         credentials: "include",
-    //     })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setCartCount(data.count || 0);
-    //         })
-    //         .catch((err) => console.error("Ошибка получения количества товаров в корзине:", err));
-    // }, []);
-
-
     return (
         <header className="bg-white">
             <div className="wrapper">
                 <div className="header">
+
                     {/* Логотип */}
                     <div className="header__logo">
-                        <Link to="/" className="header__logo-link" onClick={() => handleLogoClick('/')}>
+                        <Link
+                            to="/"
+                            className="header__logo-link"
+                            onClick={() => handleLogoClick('/')}>
                             <img
                                 src='/assets/logo.svg'
                                 alt="Web Store"
                             />
                         </Link>
-                        {/* <Button
-                            className="header__logo-link"
-                            eventType="click"
-                            eventData={{ track_id: 'logo_click' }}
-
-                        >
-                            <img
-                                src='/assets/logo.svg'
-                                alt="Web Store"
-                                onClick={handleLogoClick} />
-                        </Button> */}
                     </div>
 
                     {/* Поисковая строка */}
                     <div className="header__search">
                         <div className="search-category">
+
+
+
                             <Button
                                 className="search-category-btn"
                                 eventType="click"
@@ -97,6 +89,9 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                             >
                                 Категория
                             </Button>
+
+
+
                         </div>
                         <div className="search-divider"></div>
                         <form className="search-form">
@@ -110,6 +105,9 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                     />
                                 </li>
                                 <li className="search-list-icon">
+
+
+
                                     <Button
                                         className="search-list-link"
                                         eventType="click"
@@ -117,6 +115,9 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                     >
                                         <img src="/assets/ep_search.svg" alt="Искать" />
                                     </Button>
+
+
+
                                 </li>
                             </ul>
                         </form>
@@ -138,35 +139,6 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                         </ul>
 
                         {/* Авторизация */}
-                        {/* <ul className="header__auth">
-                            {user ? (
-                                <li className="header__auth-icon">
-                                    <a href="#" onClick={handleProfileClick}>
-                                        <img
-                                            src={user.img || "/assets/default-avatar.svg"}
-                                            alt="Профиль"
-                                            className="profile-avatar"
-                                        />
-                                    </a>
-                                </li>
-                            ) : (
-                                <li className="header__auth-icon">
-                                    <a href="/auth">
-                                        <img src="/assets/auth.svg" alt="Войти" />
-                                    </a>
-                                </li>
-                            )}
-                        </ul> */}
-
-                        {/* Модальное окно */}
-                        {/* {isModalOpen && user && (
-                            <ModalProfile
-                                user={user}
-                                onClose={handleCloseModal}
-                                onLogout={handleLogout}
-                            />
-                        )} */}
-
                         <ul className="header__auth">
                             {user ? (
                                 <li className="header__auth-icon">
