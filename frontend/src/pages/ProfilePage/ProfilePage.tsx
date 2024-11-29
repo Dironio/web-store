@@ -1,4 +1,6 @@
 import { User } from "../../App";
+import EditProfileForm from "../../components/ProfileForm/EditProfileForm";
+import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import BirthdayComponent from "../../components/UI/BirthdayComponent";
 import GenderChoice from "../../components/UI/GenderChoice";
 import '../ProfilePage/ProfilePage.css'
@@ -11,62 +13,20 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
     return (
         <div className="wrapper">
-            <section className="page-profile">
-                <div className="">
-                    <div className="profile-person">
-                        <div className="profile-person__info">
-                            <div className="info-img">
-                                <img className="info-person-img" src={user?.img || "/assets/login.svg"} alt="profile-img" />
-                            </div>
-                            <div className="info-user">
-                                <p className="user-role">{user?.role}</p>
-                                <p className="user-username">{user?.username}</p>
-                                <p className="user-email">{user?.email}</p>
-                            </div>
-                        </div>
-                        <div className="update-user">
-                            <button className="update-user-btn">Редактировать профиль</button>
-                        </div>
-                    </div>
-                </div>
 
-                <hr className="separation-line" />
 
-                <section className="gen-info">
-                    <div className="gen-info__info">
-                        <div className="gen-info__general">
-                            <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
-                            <p>Общая информация</p>
-                        </div>
-                    </div>
+            <form action="">
+                <ProfileForm user={user} />
+            </form>
 
-                    <div className="gen-info__initial">
-                        <div className="initial__first-name">
-                            <p className="personal-data">Фамилия</p>
-                            <p className="first-name-input">{user?.lastName}</p>
-                            {/* <!-- <input type="text"> --> */}
-                        </div>
-                        <div className="initial__last-name">
-                            <p className="personal-data">Имя</p>
-                            <p className="first-name-input">{user?.firstName}</p>
-                            {/* <!-- <input type="text"> --> */}
-                        </div>
-                        <div className="initial__birthday">
-                            <p className="personal-data">Дата рождения</p>
-                            <BirthdayComponent
-                            // onChange={(value) => setFormData((prev) => ({ ...prev, birthday: value }))}
-                            />
-                        </div>
-                    </div>
-                    <div className="profile__gender-choice">
-                        <p className="gender-title">Пол</p>
-                        <GenderChoice />
-                    </div>
-                </section>
+
+            <form action="">
+                <EditProfileForm user={user} />
+            </form>
 
 
 
-            </section>
+            
         </div>
     )
 }

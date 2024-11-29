@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage/HomePage';
 import AuthPage from './pages/AuthPage/AuthPage';
 import Cookies from 'js-cookie';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import CartPage from './pages/CartPage/CartPage';
 
 export interface User {
     id: number;
@@ -39,10 +40,13 @@ const App: React.FC = () => {
                     method: "GET",
                     credentials: "include",
                 });
+
                 const data = await response.json();
+
                 if (data && typeof data.count === "number") {
                     setCartCount(data.count);
                 }
+
             } catch (error) {
                 console.error("Ошибка получения количества товаров в корзине:", error);
             }
@@ -58,6 +62,7 @@ const App: React.FC = () => {
                 setLoading(true);
 
                 const token = localStorage.getItem("accessToken");
+
                 if (!token) {
                     console.error("Токен отсутствует");
                     return;
@@ -72,7 +77,7 @@ const App: React.FC = () => {
                         },
                     }
                 );
-                console.log(response.data);
+
                 setUser(response.data);
             } catch (error) {
                 console.error("Не удалось получить пользователя", error);
@@ -93,9 +98,19 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <Header user={user} cartCount={cartCount} />
+            <Header
+                user={user}
+                cartCount={cartCount}
+            />
+
             <Routes>
-                <Route path="/" element={<HomePage user={user} />} />
+                <Route
+                    path="/"
+                    element={
+                        <HomePage
+                            user={user}
+                        />}
+                />
 
                 <Route
                     path="/auth"
@@ -104,6 +119,7 @@ const App: React.FC = () => {
                             <AuthPage />
                     }
                 />
+
                 <Route
                     path="/profile"
                     element={
