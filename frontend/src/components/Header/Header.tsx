@@ -5,6 +5,7 @@ import Input from '../UI/Input';
 import '../Header/Header.css';
 import { User } from '../../App';
 import ModalProfile from '../Modal/ModalProfile';
+import { Link } from 'react-router-dom';
 
 //ДОБАВИТЬ ЛИНКИ
 //СДЕЛАТЬ МОДАЛКИ
@@ -12,7 +13,7 @@ import ModalProfile from '../Modal/ModalProfile';
 const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cartCount }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleLogoClick = () => {
+    const handleLogoClick = (path: string) => {
         sendAnalytics({
             event_type: "click",
             event_data: { track_id: "logo_click" },
@@ -53,13 +54,6 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
     //         .catch((err) => console.error("Ошибка получения количества товаров в корзине:", err));
     // }, []);
 
-    // const handleLogoClick = () => {
-    //     sendAnalytics({
-    //         event_type: "click",
-    //         event_data: { track_id: "logo_click" },
-    //         page_url: window.location.href,
-    //     });
-    // };
 
     return (
         <header className="bg-white">
@@ -67,14 +61,23 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                 <div className="header">
                     {/* Логотип */}
                     <div className="header__logo">
-                        <Button
+                        <Link to="/" className="header__logo-link" onClick={() => handleLogoClick('/')}>
+                            <img
+                                src='/assets/logo.svg'
+                                alt="Web Store"
+                            />
+                        </Link>
+                        {/* <Button
                             className="header__logo-link"
                             eventType="click"
                             eventData={{ track_id: 'logo_click' }}
-                            onClick={handleLogoClick}
+
                         >
-                            <img src='/assets/logo.svg' alt="Web Store" />
-                        </Button>
+                            <img
+                                src='/assets/logo.svg'
+                                alt="Web Store"
+                                onClick={handleLogoClick} />
+                        </Button> */}
                     </div>
 
                     {/* Поисковая строка */}
@@ -169,7 +172,7 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                 <li className="header__auth-icon">
                                     <a href="#" onClick={handleProfileClick}>
                                         <img
-                                            src={user.img || "/assets/default-avatar.svg"}
+                                            src={user.img || "/assets/login.svg"}
                                             alt="Профиль"
                                             className="profile-avatar"
                                         />
@@ -182,23 +185,12 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                     </a>
                                 </li>
 
-
-                                // <li className="header__auth-icon">
-                                //     <a href="#" onClick={handleProfileClick}>
-                                //         <img
-                                //             // src={user.img || "/assets/default-avatar.svg"}
-                                //             alt="Профиль"
-                                //             className="profile-avatar"
-                                //         />
-                                //     </a>
-                                // </li>
-
                             )}
                         </ul>
 
                         {/* Модальное окно */}
-                        {/* {isModalOpen
-                            // && user 
+                        {isModalOpen
+                            && user
                             && (
                                 <div className="modal-backdrop" onClick={handleCloseModal}>
                                     <div
@@ -206,13 +198,13 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <ModalProfile
-                                            // user={user}
+                                            user={user}
                                             onClose={handleCloseModal}
                                             onLogout={handleLogout}
                                         />
                                     </div>
                                 </div>
-                            )} */}
+                            )}
 
 
 

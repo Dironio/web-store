@@ -1,4 +1,5 @@
 import Button from "../UI/Button";
+import "../Modal/ModalProfile.css"
 
 interface ModalProfileProps {
     user?: { username: string; email: string; img?: string };
@@ -20,24 +21,34 @@ const ModalProfile: React.FC<ModalProfileProps> = ({ user, onClose, onLogout }) 
                 <div className="modal-profile__info">
                     <img
                         className="info-img"
-                        // src={user.img || "/assets/default-avatar.svg"}
+                        src={user?.img || "/assets/default-avatar.svg"}
                         alt="Avatar"
                     />
                     <div className="info-initial">
-                        {/* <div className="initial-username">{user.username}</div> */}
-                        {/* <div className="initial-email">{user.email}</div> */}
-                    </div>
-                    <div className="logout">
-                        <button className="logout-btn" onClick={onLogout}>
-                            Выйти
-                        </button>
+                        <div className="initial-username">{user?.username}</div>
+                        <div className="initial-email">{user?.email}</div>
                     </div>
                 </div>
+                
+                <div className="">
+                    <div className="logout">
+                        <Button
+                            className="logout-btn"
+                            onClick={onLogout}
+                            eventType="logout-modal-btn"
+                        >Выйти
+                        </Button>
+                    </div>
+
+                </div>
                 {/* переделать */}
-                <button className="close-modal" onClick={onClose}> 
-                    Закрыть
-                </button>
             </div>
+            <Button
+                className="close-modal"
+                onClick={onClose}
+                eventType='exit-modal-btn'
+            >Закрыть
+            </Button>
         </div>
     );
 };

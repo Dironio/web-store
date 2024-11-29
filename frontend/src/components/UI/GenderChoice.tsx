@@ -13,8 +13,8 @@ const GenderChoice: React.FC<{ onGenderChange?: (gender: "Мужской" | "Ж�
     };
 
     return (
-        <div className="sex">
-            <p className="gender">Пол</p>
+        <>
+            {/* <p className="gender">Пол</p> */}
             <div className={`gender-choice ${isMale ? "" : "is-female"}`}>
                 <Button
                     type="button"
@@ -36,7 +36,7 @@ const GenderChoice: React.FC<{ onGenderChange?: (gender: "Мужской" | "Ж�
                     Женский
                 </Button>
             </div>
-        </div>
+        </>
     )
 }
 

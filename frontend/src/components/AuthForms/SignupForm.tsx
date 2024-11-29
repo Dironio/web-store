@@ -164,10 +164,12 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div className="date-sex">
-                    <GenderChoice
-                        onGenderChange={(gender) => setFormData((prev) => ({ ...prev, gender }))}
-                    />
-
+                    <div className="sex">
+                        <p className="gender">Пол</p>
+                        <GenderChoice
+                            onGenderChange={(gender) => setFormData((prev) => ({ ...prev, gender }))}
+                        />
+                    </div>
                     <div className="date">
                         <p className="date-title">Дата рождения</p>
                         <div className="input-date">

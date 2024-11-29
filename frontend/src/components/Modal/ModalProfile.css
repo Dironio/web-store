@@ -64,41 +64,45 @@
 
 
 
-/* Фон-затемнение */
+
 .modal-backdrop {
     position: fixed;
-    top: 0;
+    top: 89px;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Затемнение */
-    z-index: 999; /* Поверх всех элементов */
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    z-index: 999;
     display: flex;
-    justify-content: flex-end; /* Выровнять вправо */
-    align-items: flex-start; /* Выровнять вверх */
-    padding: 20px; /* Отступ от границ */
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 20px;
 }
 
-/* Само модальное окно */
+
 .modal-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
     position: relative;
     background-color: #fff;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    max-width: 300px; /* Ограничить ширину */
+    max-width: 100%;
     z-index: 1000;
 }
 
-/* Контейнер информации */
+
 .modal-profile__info {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* Аватар */
+
 .info-img {
     width: 50px;
     height: 50px;
@@ -107,11 +111,12 @@
     border: 1px solid #ddd;
 }
 
-/* Информация о пользователе */
+
 .info-initial {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    margin-right: 28px;
 }
 
 .initial-username {
@@ -130,17 +135,19 @@
 .logout-btn {
     margin-top: 15px;
     padding: 8px 16px;
-    background-color: #e84747;
-    color: white;
-    border: none;
-    border-radius: 8px;
+    background-color: #fff;
+    color: #E84747;
+    border: 1px solid #E84747;
+    border-radius: 22px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
 }
 
 .logout-btn:hover {
-    background-color: #d13636;
+    background-color: #E84747;
+    color: #fff;
+    transition: all 0.3s ease-out;
 }
 
 /* Кнопка закрытия */
@@ -148,7 +155,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: none;
+    background: #fff;
     border: none;
     color: #888;
     font-size: 18px;

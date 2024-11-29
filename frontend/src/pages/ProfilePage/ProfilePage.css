@@ -20,11 +20,16 @@
 
 .info-img {
     display: flex;
-    width: 120px;
-    height: 120px;
     border: 1px solid transparent;
     border-radius: 50%;
     align-items: center;
+}
+
+.info-person-img{
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .info-user {
@@ -139,4 +144,16 @@
     padding: 14px 27px;
     border: 1px solid transparent;
     border-radius: 24px;
+}
+
+.profile__gender-choice {
+    width: 333px;
+}
+
+.gender-title {
+    margin-top: 35px;
+    margin-bottom: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #999393;
 }

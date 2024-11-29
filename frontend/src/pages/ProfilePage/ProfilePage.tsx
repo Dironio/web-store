@@ -1,8 +1,13 @@
+import { User } from "../../App";
 import BirthdayComponent from "../../components/UI/BirthdayComponent";
+import GenderChoice from "../../components/UI/GenderChoice";
 import '../ProfilePage/ProfilePage.css'
 
+interface ProfilePageProps {
+    user: User | null;
+}
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
     return (
         <div className="wrapper">
@@ -11,12 +16,12 @@ const ProfilePage: React.FC = () => {
                     <div className="profile-person">
                         <div className="profile-person__info">
                             <div className="info-img">
-                                <img src="" alt="profile-img" />
+                                <img className="info-person-img" src={user?.img || "/assets/login.svg"} alt="profile-img" />
                             </div>
                             <div className="info-user">
-                                <p className="user-role">Пользователь</p>
-                                <p className="user-username">ural</p>
-                                <p className="user-email">patriot@maga.sry</p>
+                                <p className="user-role">{user?.role}</p>
+                                <p className="user-username">{user?.username}</p>
+                                <p className="user-email">{user?.email}</p>
                             </div>
                         </div>
                         <div className="update-user">
@@ -34,7 +39,7 @@ const ProfilePage: React.FC = () => {
                 <section className="gen-info">
                     <div className="gen-info__info">
                         <div className="gen-info__general">
-                            <img src="gen-info-img.svg" alt="User prof" className="" />
+                            <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
                             <p>Общая информация</p>
                         </div>
                     </div>
@@ -42,29 +47,32 @@ const ProfilePage: React.FC = () => {
                     <div className="gen-info__initial">
                         <div className="initial__first-name">
                             <p className="personal-data">Фамилия</p>
-                            <p className="first-name-input">Иванов</p>
+                            <p className="first-name-input">{user?.lastName}</p>
                             {/* <!-- <input type="text"> --> */}
                         </div>
                         <div className="initial__last-name">
                             <p className="personal-data">Имя</p>
-                            <p className="first-name-input">Иванов</p>
+                            <p className="first-name-input">{user?.firstName}</p>
                             {/* <!-- <input type="text"> --> */}
                         </div>
                         <div className="initial__birthday">
                             <p className="personal-data">Дата рождения</p>
-                            {/* <BirthdayComponent
-                            onChange={(value) => setFormData((prev) => ({ ...prev, birthday: value }))}
-                        /> */}
+                            <BirthdayComponent
+                            // onChange={(value) => setFormData((prev) => ({ ...prev, birthday: value }))}
+                            />
                         </div>
                     </div>
-
-                    <div className="sex">
+                    <div className="profile__gender-choice">
+                        <p className="gender-title">Пол</p>
+                        <GenderChoice />
+                    </div>
+                    {/* <div className="sex">
                         <p className="pol">Пол</p>
                         <div className="pol-choice">
                             <p>Мужской</p>
                             <p>Женский</p>
                         </div>
-                    </div>
+                    </div> */}
                 </section>
             </section>
         </div>

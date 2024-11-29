@@ -144,9 +144,9 @@ const App: React.FC = () => {
                 <Route
                     path="/profile"
                     element={
-                        // user ? 
-                        <ProfilePage />
-                        //  : <Navigate to="/auth" />
+                        user ?
+                            <ProfilePage user={user}/>
+                            : <Navigate to="/auth" />
                     }
                 />
             </Routes>

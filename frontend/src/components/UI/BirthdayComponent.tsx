@@ -5,8 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../UI/BirthdayComponent.css";
 
 interface BirthdayComponentProps {
-    value: string;
-    onChange: (value: string) => void;
+    value?: string;
+    onChange?: (value: string) => void;
 }
 
 const BirthdayComponent: React.FC<BirthdayComponentProps> = ({ value, onChange }) => {
