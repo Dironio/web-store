@@ -10,6 +10,7 @@ export interface User {
     img: string;
     age: number;
     gender: string;
+    address: string;
     birthday: Date;
     role: string;
     role_id: number;
@@ -26,6 +27,7 @@ export interface CreateUserDto {
     img?: string;
     age?: number;
     gender?: string;
+    address?: string;
     birthday?: Date;
     role_id?: number;
     created_at?: Date;
@@ -42,9 +44,10 @@ export interface GetUserDto {
     img?: string;
     age?: number;
     gender?: string;
+    address?: string;
     birthday?: Date;
     role_id?: number;
-    role:string;
+    role: string;
     created_at?: Date;
     updated_at?: Date;
 }

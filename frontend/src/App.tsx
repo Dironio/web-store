@@ -21,6 +21,7 @@ export interface User {
     age: number;
     birthday: Date;
     gender: string;
+    address: string;
     role_id: number;
     role: string;
     created_at: Date;

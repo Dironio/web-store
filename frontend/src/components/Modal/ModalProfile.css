@@ -32,6 +32,7 @@
 .modal-profile__info {
     display: flex;
     align-items: center;
+    align-content: center;
     gap: 15px;
 }
 
@@ -64,9 +65,8 @@
     color: #777;
 }
 
-/* Кнопка выхода */
+
 .logout-btn {
-    margin-top: 15px;
     padding: 8px 16px;
     background-color: #fff;
     color: #E84747;
@@ -83,18 +83,26 @@
     transition: all 0.3s ease-out;
 }
 
-/* Кнопка закрытия */
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #fff;
-    border: none;
-    color: #888;
-    font-size: 18px;
+.modal-profile__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-button {
+    margin-top: 16px;
+    background: #B8ECA0;
+    color: #56A033;
+    border-radius: 26px;
+    padding: 13px 51px;
+    border: transparent;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
 }
 
-.close-modal:hover {
-    color: #555;
+.profile-button :hover {
+    background: #56A033;
+    color: #B8ECA0;
+    transition: all 0.2s ease-in-out;
 }

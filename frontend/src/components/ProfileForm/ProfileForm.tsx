@@ -1,7 +1,9 @@
 import React from "react"
 import BirthdayComponent from "../UI/BirthdayComponent"
 import GenderChoice from "../UI/GenderChoice"
+import "../ProfileForm/ProfileForm.css"
 import { User } from "../../App";
+import Button from "../UI/Button";
 
 interface ProfileFormProps {
     user: User | null;
@@ -14,7 +16,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
             <div className="">
                 <div className="profile-person">
                     <div className="profile-person__info">
-                        <div className="info-img">
+                        <div className="profile-person__info-img">
                             <img className="info-person-img" src={user?.img || "/assets/login.svg"} alt="profile-img" />
                         </div>
                         <div className="info-user">
@@ -64,26 +66,100 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
             </section>
 
             <section className="account-info">
-                <div className="gen-info__info">
-                    <div className="gen-info__general">
-                        <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
-                        <p>Общая информация</p>
+                <div className="account-info__info">
+                    <div className="account-info__general">
+                        <img src="/assets/account-info.svg" alt="User prof" className="" />
+                        <p>Информация аккаунта</p>
+                    </div>
+                </div>
+
+                <div className="general-personal">
+                    <div className="initial__first-name">
+                        <p className="personal-data">Фамилия</p>
+                        <p className="first-name-input">{user?.username}</p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                    <div className="initial__last-name">
+                        <p className="personal-data">Имя</p>
+                        <p className="first-name-input">{user?.email}</p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                    <div className="initial__first-name">
+                        <p className="personal-data">Пароль</p>
+                        <p className="first-name-input">Сменить пароль <img src="/assets/strelka2.svg" alt="" /></p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                </div>
+
+                <div className="password-change">
+                    <div className="initial__first-name">
+                        <p className="personal-data">Старый пароль</p>
+                        <p className="first-name-input">***</p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                    <div className="initial__last-name">
+                        <p className="personal-data">Новый пароль</p>
+                        <p className="first-name-input">***</p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                    <div className="initial__first-name">
+                        <p className="personal-data">Подтвердите новый пароль</p>
+                        <p className="first-name-input">***</p>
+                        {/* <!-- <input type="text"> --> */}
                     </div>
                 </div>
 
 
-                <div className="initial__first-name">
-                    <p className="personal-data">Фамилия</p>
-                    <p className="first-name-input">{user?.username}</p>
-                    {/* <!-- <input type="text"> --> */}
-                </div>
-                <div className="initial__last-name">
-                    <p className="personal-data">Имя</p>
-                    <p className="first-name-input">{user?.firstName}</p>
-                    {/* <!-- <input type="text"> --> */}
-                </div>
             </section>
 
+            <section className="delivery-address">
+                <div className="delivery-address__info">
+                    <div className="delivery-address__general">
+                        <img src="/assets/account-info.svg" alt="User prof" className="" />
+                        <p>Адрес доставки</p>
+                    </div>
+                </div>
+
+                <div className="general-personal">
+                    <div className="initial__first-name">
+                        <p className="personal-data">Доставка</p>
+                        <p className="first-name-input">{user?.address || 'Не задано'}</p>
+                        <Button
+                            eventType="delivery-address-btn">
+                            Сменить адрес доставки <img src="/assets/strelka2.svg" alt="" />
+                        </Button>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                </div>
+
+            </section>
+
+
+            <section className="payment-method">
+                <div className="payment-method__info">
+                    <div className="payment-method__general">
+                        <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
+                        <p>Способы оплаты</p>
+                    </div>
+                </div>
+
+                <div className="payment-method__initial">
+                    <div className="initial__first-name">
+                        <p className="personal-data">Основной способ оплаты</p>
+                        <p className="first-name-input">{user?.lastName || 'Не задано'}</p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                    <div className="initial__last-name">
+                        <p className="personal-data">Дополнительный способ оплаты</p>
+                        <p className="first-name-input">{user?.firstName || 'Не задано'}</p>
+                        {/* <!-- <input type="text"> --> */}
+                    </div>
+                    <div className="initial__birthday">
+                        <Button
+                        eventType="payment-method-btn">Изменить способ оплаты</Button>
+                    </div>
+                </div>
+            </section>
 
         </section>
 

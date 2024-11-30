@@ -16,18 +16,21 @@
 
 .profile-person__info {
     display: flex;
-}
-
-.info-img {
-    display: flex;
-    border: 1px solid transparent;
-    border-radius: 50%;
     align-items: center;
 }
 
-.info-person-img{
-    height: 120px;
-    width: 120px;
+.profile-person__info-img {
+    width: 100px;
+    height: 100px;
+    align-content: center;
+    display: flex;
+    align-items: center;
+}
+
+
+.info-person-img {
+    height: 100px;
+    width: 100px;
     object-fit: cover;
     border-radius: 50%;
 }
@@ -81,7 +84,8 @@
 
 
 
-.gen-info {
+.gen-info,
+.account-info {
     border: 1px solid #C4C4C4;
     border-radius: 24px;
     padding: 28px;
@@ -89,12 +93,14 @@
 }
 
 
-.gen-info__general {
+.gen-info__general,
+.account-info__general {
     display: flex;
     align-items: center;
 }
 
-.gen-info__general img {
+.gen-info__general img,
+.account-info__general img {
     /* height: 27px;
     width: 27px; */
     padding: 11px;
@@ -104,7 +110,8 @@
     border-radius: 10px;
 }
 
-.gen-info__general p {
+.gen-info__general p,
+.account-info__general p {
     font-size: 16px;
     font-weight: 500;
     color: #999393;

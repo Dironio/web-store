@@ -24,6 +24,7 @@ export interface GetUserDao {
     img?: string;
     age?: number;
     gender?: string;
+    address?: string;
     birthday?: Date;
     role_id?: number;
     role:string;
@@ -41,6 +42,7 @@ export interface UpdateUserDao {
     img?: string;
     age?: number;
     gender?: string;
+    address?: string;
     birthday?: Date;
     role_id?: number;
     created_at?: Date;
