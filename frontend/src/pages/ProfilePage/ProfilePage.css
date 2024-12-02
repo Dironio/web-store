@@ -85,7 +85,10 @@
 
 
 .gen-info,
-.account-info {
+.account-info,
+.password-change,
+.delivery-address,
+.payment-method {
     border: 1px solid #C4C4C4;
     border-radius: 24px;
     padding: 28px;
@@ -94,13 +97,19 @@
 
 
 .gen-info__general,
-.account-info__general {
+.account-info__general,
+.password-change__general,
+.delivery-address__general,
+.payment-method__general {
     display: flex;
     align-items: center;
 }
 
 .gen-info__general img,
-.account-info__general img {
+.account-info__general img,
+.password-change__general img,
+.delivery-address__general img,
+.payment-method__general img {
     /* height: 27px;
     width: 27px; */
     padding: 11px;
@@ -111,7 +120,10 @@
 }
 
 .gen-info__general p,
-.account-info__general p {
+.account-info__general p,
+.password-change__general p,
+.delivery-address__general p,
+.payment-method__general p  {
     font-size: 16px;
     font-weight: 500;
     color: #999393;

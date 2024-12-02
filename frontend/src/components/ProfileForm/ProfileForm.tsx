@@ -86,12 +86,18 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                     </div>
                     <div className="initial__first-name">
                         <p className="personal-data">Пароль</p>
-                        <p className="first-name-input">Сменить пароль <img src="/assets/strelka2.svg" alt="" /></p>
-                        {/* <!-- <input type="text"> --> */}
+                        <div className="password-btn">
+                            <Button
+                                eventType="change-password-profile-btn"
+                                className="change-password-btn">
+                                Сменить пароль
+                            </Button>
+                            <img src="/assets/strelka2.svg" alt="" className="change-password"/>
+                        </div>
                     </div>
                 </div>
 
-                <div className="password-change">
+                <div className="password-list">
                     <div className="initial__first-name">
                         <p className="personal-data">Старый пароль</p>
                         <p className="first-name-input">***</p>
@@ -120,15 +126,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                     </div>
                 </div>
 
-                <div className="general-personal">
-                    <div className="initial__first-name">
-                        <p className="personal-data">Доставка</p>
+                <div className="general-delivery">
+                    <p className="address-personal">Доставка</p>
+                    <div className="general-delivery__address">
                         <p className="first-name-input">{user?.address || 'Не задано'}</p>
                         <Button
-                            eventType="delivery-address-btn">
+                            eventType="delivery-address-btn"
+                            className="address-change-btn">
                             Сменить адрес доставки <img src="/assets/strelka2.svg" alt="" />
                         </Button>
-                        {/* <!-- <input type="text"> --> */}
                     </div>
                 </div>
 
@@ -143,20 +149,21 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                     </div>
                 </div>
 
-                <div className="payment-method__initial">
-                    <div className="initial__first-name">
-                        <p className="personal-data">Основной способ оплаты</p>
-                        <p className="first-name-input">{user?.lastName || 'Не задано'}</p>
+                <div className="payment-method__title">
+                    <div className="title__first">
+                        <p className="first-data">Основной способ оплаты</p>
+                        <p className="first-input">{user?.lastName || 'Не задано'}</p>
                         {/* <!-- <input type="text"> --> */}
                     </div>
-                    <div className="initial__last-name">
-                        <p className="personal-data">Дополнительный способ оплаты</p>
-                        <p className="first-name-input">{user?.firstName || 'Не задано'}</p>
+                    <div className="title__second">
+                        <p className="second-data">Дополнительный способ оплаты</p>
+                        <p className="second-input">{user?.firstName || 'Не задано'}</p>
                         {/* <!-- <input type="text"> --> */}
                     </div>
-                    <div className="initial__birthday">
+                    <div className="title__btn">
                         <Button
-                        eventType="payment-method-btn">Изменить способ оплаты</Button>
+                            className="payment-btn"
+                            eventType="payment-method-btn">Изменить способ оплаты</Button>
                     </div>
                 </div>
             </section>
