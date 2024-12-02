@@ -44,12 +44,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                 <div className="gen-info__initial">
                     <div className="initial__first-name">
                         <p className="personal-data">Фамилия</p>
-                        <p className="first-name-input">{user?.lastName || 'Не задано'}</p>
+                        <p className="first-name-input">{user?.last_name || 'Не задано'}</p>
                         {/* <!-- <input type="text"> --> */}
                     </div>
                     <div className="initial__last-name">
                         <p className="personal-data">Имя</p>
-                        <p className="first-name-input">{user?.firstName || 'Не задано'}</p>
+                        <p className="first-name-input">{user?.first_name || 'Не задано'}</p>
                         {/* <!-- <input type="text"> --> */}
                     </div>
                     <div className="initial__birthday">
@@ -92,7 +92,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                                 className="change-password-btn">
                                 Сменить пароль
                             </Button>
-                            <img src="/assets/strelka2.svg" alt="" className="change-password"/>
+                            <img src="/assets/strelka2.svg" alt="" className="change-password" />
                         </div>
                     </div>
                 </div>
@@ -152,12 +152,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                 <div className="payment-method__title">
                     <div className="title__first">
                         <p className="first-data">Основной способ оплаты</p>
-                        <p className="first-input">{user?.lastName || 'Не задано'}</p>
+                        <p className="first-input">{user?.last_name || 'Не задано'}</p>
                         {/* <!-- <input type="text"> --> */}
                     </div>
                     <div className="title__second">
                         <p className="second-data">Дополнительный способ оплаты</p>
-                        <p className="second-input">{user?.firstName || 'Не задано'}</p>
+                        <p className="second-input">{user?.first_name || 'Не задано'}</p>
                         {/* <!-- <input type="text"> --> */}
                     </div>
                     <div className="title__btn">

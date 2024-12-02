@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button"
 
+interface GenderChoiceProps {
+    value?: "Мужской" | "Женский";
+    onGenderChange?: (gender: "Мужской" | "Женский") => void;
+}
 
-const GenderChoice: React.FC<{ onGenderChange?: (gender: "Мужской" | "Женский") => void }> = ({ onGenderChange }) => {
-    const [isMale, setIsMale] = useState<boolean>(true);
+const GenderChoice: React.FC<GenderChoiceProps> = ({ value, onGenderChange }) => {
+    const [isMale, setIsMale] = useState<boolean>(value === "Мужской");
+
+    useEffect(() => {
+        if (value === "Мужской" || value === "Женский") {
+            setIsMale(value === "Мужской");
+        }
+    }, [value]);
 
     const handleGenderChange = (gender: "Мужской" | "Женский") => {
         setIsMale(gender === "Мужской");

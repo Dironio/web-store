@@ -136,6 +136,75 @@
 
 
 
+
+
+.gender-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 52px;
+    border: 2px solid #b8eca0;
+    border-radius: 26px;
+    padding: 4px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.gender-display::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #56a033;
+    border-radius: 26px;
+    z-index: 0;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0);
+    /* По умолчанию на "Мужской" */
+}
+
+.gender-display--female::before {
+    transform: translateX(100%);
+    /* Сдвиг на "Женский" */
+}
+
+.gender-display__option {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 15px 0;
+    z-index: 1;
+    position: relative;
+    background: transparent;
+    cursor: default;
+    color: #56a033;
+    transition: color 0.3s ease-in-out;
+}
+
+.gender-display__option--selected {
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .separation-line {
     margin-top: 40px;
     margin-bottom: 30px;
