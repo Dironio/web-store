@@ -1,3 +1,20 @@
+.info-user__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 14px 27px;
+    border: 2px solid #B8ECA0;
+    color: #56A033;
+    border-radius: 26px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
 .page-profile {
     background: #fff;
     border: 1px solid transparent;
@@ -71,6 +88,54 @@
     cursor: pointer;
 }
 
+
+.info-user__photo {
+    border: 1px solid #A7A7A7;
+    border-radius: 22px;
+    width: 629px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.info-p {
+    font-size: 24px;
+    font-weight: 600;
+    color: #656565;
+    margin-bottom: 17px;
+}
+
+.info-insert {
+    margin-left: 38px;
+    width: 100%;
+}
+
+.info-input-url {
+    border: 1px solid #B8ECA0;
+    border-radius: 26px;
+    padding: 16px;
+    color: #56A033;
+    width: 100%;
+}
+
+.info-input-url :focus {
+    border: 1px solid #56A033;
+}
+
+.info-user__btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
 .separation-line {
     margin-top: 40px;
     margin-bottom: 30px;
@@ -123,7 +188,7 @@
 .account-info__general p,
 .password-change__general p,
 .delivery-address__general p,
-.payment-method__general p  {
+.payment-method__general p {
     font-size: 16px;
     font-weight: 500;
     color: #999393;

@@ -6,6 +6,12 @@ import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import BirthdayComponent from "../../components/UI/BirthdayComponent";
 import GenderChoice from "../../components/UI/GenderChoice";
 import '../ProfilePage/ProfilePage.css'
+import Input from "../../components/UI/Input";
+import Button from "../../components/UI/Button";
+
+//ОБНОВИТЬ ИВЕНТЫ КНОПОК
+//СДЕЛАТЬ ЗАПРОСЫ
+
 
 interface ProfilePageProps {
     user: User | null;
@@ -65,7 +71,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
     //     birthday: user?.birthday,
     //     gender: "Мужской"
     // });
-
+    // handlePasswordToggle
 
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
@@ -92,101 +98,191 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
 
     return (
-        // <div className="wrapper">
-        //     <form>
-        //         <ProfileForm
-        //             user={formData}
-        //             isEditing={isEditing}
-        //             onChange={handleInputChange}
-        //             handleEditToggle={handleEditToggle}
-        //         />
-        //         <div>
-        //             {!isEditing ? (
-        //                 <button onClick={handleEditToggle}>Редактировать</button>
-        //             ) : (
-        //                 <>
-        //                     <button onClick={handleSave}>Сохранить</button>
-        //                     <button onClick={handleCancel}>Отменить</button>
-        //                 </>
-        //             )}
-        //         </div>
-        //     </form>
-        // </div>
-
-
-
-
         <div className="wrapper">
             <section className="page-profile">
-
-                <div className="profile-person__info">
-
-
-
-
-                    <div className="profile-person__info-img">
-
-                        <div className="info-user">
-                            {isEditing ? (
-                                <>
-                                    <div className="profile-person__info-img">
-                                        <img className="info-person-img" src={user?.img || "/assets/login.svg"} alt="profile-img" />
-                                    </div>
-                                    <p>Сменить фото</p>
-                                    <input
+                <div className="">
+                    {isEditing ? (
+                        <div className="info-user__header">
+                            <div className="info-user__photo">
+                                <div className="profile-person__info-img">
+                                    <img className="info-person-img" src={
+                                        formData?.img
+                                        || "/assets/login.svg"}
+                                        alt="profile-img" />
+                                </div>
+                                <div className="info-insert">
+                                    <p className="info-p">Сменить фото</p>
+                                    <Input
+                                        trackId="url-photo"
+                                        className="info-input-url"
                                         type="text"
                                         placeholder="Введите URL изображения"
                                         value={formData?.img}
                                         onChange={(e) => handleInputChange('img', e.target.value)}
                                     />
-                                </>
-                            ) : (
-                                <div className="profile-person__info">
-                                    <div className="profile-person__info-img">
-                                        <img className="info-person-img" src={user?.img || "/assets/login.svg"} alt="profile-img" />
-                                    </div>
-                                    <div className="info-user">
-                                        <p className="user-role">{user?.role}</p>
-                                        <p className="user-username">{user?.username}</p>
-                                        <p className="user-email">{user?.email}</p>
-                                    </div>
                                 </div>
-                            )}
+                            </div>
+                            <div className="update-user">
+                                <Button
+                                    eventType=""
+                                    className="cancel-update-btn"
+                                    onClick={handleCancel}
+                                >Отменить
+                                </Button>
+                                <Button
+                                    eventType=""
+                                    className="update-user-btn"
+                                    onClick={handleSave}
+                                >Сохранить изменения
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-                    <div className="update-user">
-                        {isEditing ? (
-                            <>
-                                <button className="update-user-btn" onClick={handleCancel}>
-                                    Отменить
-                                </button>
-                                <button className="update-user-btn" onClick={handleSave}>
-                                    Сохранить изменения
-                                </button>
-                            </>
-                        ) : (
-                            <button className="update-user-btn" onClick={handleEditToggle}>
-                                Редактировать профиль
-                            </button>
-                        )}
-                    </div>
+                    ) : (
+                        <div className="profile-person">
+                            <div className="profile-person__info">
+                                <div className="profile-person__info-img">
+                                    <img className="info-person-img" src={user?.img || "/assets/login.svg"} alt="profile-img" />
+                                </div>
+                                <div className="info-user">
+                                    <p className="user-role">{user?.role}</p>
+                                    <p className="user-username">{user?.username}</p>
+                                    <p className="user-email">{user?.email}</p>
+                                </div>
+                            </div>
+                            <div className="update-user">
+                                <Button
+                                    eventType="aboba"//rework
+                                    className="update-user-btn"
+                                    onClick={handleEditToggle}
+                                >Редактировать профиль</Button>
+                            </div>
+                        </div>
+                    )}
                 </div>
-
 
                 <hr className="separation-line" />
 
+                <section className="gen-info">
+                    <div className="gen-info__info">
+                        <div className="gen-info__general">
+                            <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
+                            <p>Общая информация</p>
+                        </div>
+                    </div>
+                    <>
+                        {isEditing ? (
+                            <>
+                                <div className="gen-info__initial">
+                                    <div className="initial__first-name">
+                                        <p className="personal-data">Фамилия</p>
+                                        <Input
+                                            trackId=""
+                                            className="profile-input"
+                                            type="text"
+                                            placeholder="Фамилия"
+                                        />
+                                    </div>
+                                    <div className="initial__last-name">
+                                        <p className="personal-data">Имя</p>
+                                        <Input
+                                            trackId=""
+                                            className="profile-input"
+                                            type="text"
+                                            placeholder="Имя"
+                                        />
+                                    </div>
+                                    <div className="initial__birthday">
+                                        <p className="personal-data">Дата рождения</p>
+                                        <BirthdayComponent
+                                        // onChange={(value) => setFormData((prev) => ({ ...prev, birthday: value }))}
+                                        />
+                                    </div>
+                                </div >
+                                <div className="profile__gender-choice">
+                                    <p className="gender-title">Пол</p>
+                                    <GenderChoice />
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="gen-info__initial">
+                                    <div className="initial__first-name">
+                                        <p className="personal-data">Фамилия</p>
+                                        <p className="first-name-input">{user?.lastName || 'Не задано'}</p>
+                                        {/* <!-- <input type="text"> --> */}
+                                    </div>
+                                    <div className="initial__last-name">
+                                        <p className="personal-data">Имя</p>
+                                        <p className="first-name-input">{user?.firstName || 'Не задано'}</p>
+                                        {/* <!-- <input type="text"> --> */}
+                                    </div>
+                                    <div className="initial__birthday">
+                                        <p className="personal-data">Дата рождения</p>
+                                        <BirthdayComponent
+                                        // onChange={(value) => setFormData((prev) => ({ ...prev, birthday: value }))}
+                                        />
+                                    </div>
+                                </div >
+                                <div className="profile__gender-choice">
+                                    <p className="gender-title">Пол</p>
+                                    <GenderChoice />
+                                </div>
+                            </>
+                        )}
+                    </>
 
-                <section className="gen-info__initial">
+
+
+
+
+                </section >
+
+
+
+
+
+
+
+                {/* <section class="gen-info">
+                    <div class="gen-info__info">
+                        <div class="gen-info__general">
+                            <img src="gen-info-img.svg" alt="User prof" class="">
+                            <p>Общая информация</p>
+                        </div>
+                    </div>
+
+                    <div class="gen-info__initial">
+                        <div class="initial__first-name">
+                            <p class="name__initial">Фамилия</p>
+                            <p class="first-name-input">Иванов</p>
+                            <!-- <input type="text"> -->
+                        </div>
+                        <div class="initial__last-name">
+                            <p class="name__initial">Имя</p>
+                            <p class="first-name-input">Иванов</p>
+                            <!-- <input type="text"> -->
+                        </div>
+                        <div class="initial__birthday">
+                            <p class="name__initial">Дата рождения</p>
+                            <p class="first-name-input">Иванов</p>
+                            <!-- <input type="date"> -->
+                        </div>
+                    </div>
+
+                    <div class="sex">
+                        <p class="pol">Пол</p>
+                        <div class="pol-choice">
+                            <p>Мужской</p>
+                            <p>Женский</p>
+                        </div>
+                    </div>
+                </section> */}
+
+
+
+
+
+                {/* <section className="gen-info__initial">
 
 
                     <div className="initial__first-name">
@@ -227,14 +323,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
                         {isEditing ? (
                             <input
                                 type="date"
-                                // value={formData?.birthday}
+                                value={formData?.birthday}
                                 onChange={(e) => handleInputChange('birthday', e.target.value)}
                             />
                         ) : (
                             <p>
-                                {/* {user?.birthday ||  */}
+                                {user?.birthday || 
                                 'Не задано'
-                                {/* } */}
+                                 }
                             </p>
                         )}
                     </div>
@@ -259,10 +355,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
 
 
-                </section>
-            </section>
-        </div>
+                </section> */}
 
+
+
+
+            </section >
+        </div >
     )
 }
 
