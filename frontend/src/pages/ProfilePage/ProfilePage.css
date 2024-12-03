@@ -164,12 +164,10 @@
     z-index: 0;
     transition: transform 0.3s ease-in-out;
     transform: translateX(0);
-    /* По умолчанию на "Мужской" */
 }
 
 .gender-display--female::before {
     transform: translateX(100%);
-    /* Сдвиг на "Женский" */
 }
 
 .gender-display__option {
@@ -216,6 +214,36 @@
 }
 
 
+.general-personal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.personal-info {
+    margin-top: 28px;
+}
+
+.personal-idnf {
+    margin-top: 28px;
+    margin-bottom: 14px;
+}
+
+.change-pass-fake-btn {
+    width: 100%;
+    background: #B8ECA0;
+    border-radius: 26px;
+    color: #56A033;
+    cursor: not-allowed;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
 
 
 .gen-info,

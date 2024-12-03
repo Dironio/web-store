@@ -15,11 +15,68 @@ import Button from "../../components/UI/Button";
 
 interface ProfilePageProps {
     user: User | null;
+    onPasswordChange?: (newPassword: string) => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState<User | null>(user);
+    const [formData, setFormData] = useState({
+        password: '',
+        newPassword: '',
+        confirmPassword: '',
+        firstName: user?.first_name || '',
+        lastName: user?.last_name || '',
+        img: user?.img || '',
+        address: user?.address || '',
+    });
+
+
+
+    const [errors, setErrors] = useState({
+        password: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        newPassword: '',
+        confirmPassword: '',
+    });
+
+
+
+
+    const validateForm = () => {
+        const newErrors = { ...errors };
+
+        if (formData?.password !== user?.password) {
+            newErrors.password = 'Старый пароль введён неверно';
+        }
+
+        if (!formData?.newPassword || formData?.newPassword.length < 6) {
+            newErrors.password = 'Новый пароль должен быть не менее 6 символов';
+        }
+
+        if (formData?.newPassword !== formData?.confirmPassword) {
+            newErrors.password = 'Пароли не совпадают';
+        }
+
+        if (!formData?.lastName || formData?.lastName.trim().length === 0) {
+            newErrors.lastName = 'Введите фамилию';
+        }
+
+        if (!formData?.firstName || formData?.firstName.trim().length === 0) {
+            newErrors.firstName = 'Введите имя';
+        }
+
+        if (!formData?.address || formData?.address.trim().length === 0) {
+            newErrors.address = 'Введите адрес';
+        }
+
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
 
 
 
@@ -89,10 +146,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
 
     const handleSave = () => {
-        // прописать
-        console.log('Обнова:', formData);
-        setIsEditing(false);
+        if (validateForm()) {
+            console.log('Обнова:', formData);
+            setIsEditing(false);
+        } else {
+            console.log('Ошибка валидации', errors);
+        }
     };
+
 
 
 
@@ -179,8 +240,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
                                             trackId=""
                                             className="profile-input"
                                             type="text"
-                                            placeholder="Фамилия"
+                                            placeholder={user?.last_name || 'Не задано'}
                                         />
+                                        {errors.lastName && <span className="error">{errors.lastName}</span>}
                                     </div>
                                     <div className="initial__last-name">
                                         <p className="personal-data">Имя</p>
@@ -188,8 +250,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
                                             trackId=""
                                             className="profile-input"
                                             type="text"
-                                            placeholder="Имя"
+                                            placeholder={user?.first_name || 'Не задано'}
                                         />
+                                        {errors.firstName && <span className="error">{errors.firstName}</span>}
                                     </div>
                                     <div className="initial__birthday">
                                         <p className="personal-data">Дата рождения</p>
@@ -245,62 +308,201 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
                 </section >
 
                 <section className="account-info">
-                <div className="account-info__info">
-                    <div className="account-info__general">
-                        <img src="/assets/account-info.svg" alt="User prof" className="" />
-                        <p>Информация аккаунта</p>
-                    </div>
-                </div>
-
-                <div className="general-personal">
-                    <div className="initial__first-name">
-                        <p className="personal-data">Логин</p>
-                        <p className="first-name-input">{user?.username}</p>
-                        {/* <!-- <input type="text"> --> */}
-                    </div>
-                    <div className="initial__last-name">
-                        <p className="personal-data">Эл. почта</p>
-                        <p className="first-name-input">{user?.email}</p>
-                        {/* <!-- <input type="text"> --> */}
-                    </div>
-                    <div className="initial__first-name">
-                        <p className="personal-data">Пароль</p>
-                        <div className="password-btn">
-                            <Button
-                                eventType="change-password-profile-btn"
-                                className="change-password-btn">
-                                Сменить пароль
-                            </Button>
-                            <img src="/assets/strelka2.svg" alt="" className="change-password" />
+                    <div className="account-info__info">
+                        <div className="account-info__general">
+                            <img src="/assets/account-info.svg" alt="User prof" className="" />
+                            <p>Информация аккаунта</p>
                         </div>
                     </div>
-                </div>
+                    <>
+                        {isEditing ? (
+                            <>
+                                <div className="general-personal">
+                                    <div className="initial__personal">
+                                        <p className="personal-info">Логин</p>
+                                        <p className="data-login">{user?.username}</p>
+                                        {/* <Input
+                                            type="text"
+                                            name="username"
+                                            trackId="username-signup"
+                                            placeholder="username"
+                                        // value={formData.username}
+                                        // onChange={handleChange}
+                                        // className={errors.username ? "input--error" : "input-form"}
+                                        />
+                                        {/* <span className="error">{errors.username}</span> */}
+                                    </div>
+                                    <div className="initial__personal">
+                                        <p className="personal-info">Эл. почта</p>
+                                        <p className="data-email">{user?.email}</p>
+                                        {/* <Input
+                                            type="email"
+                                            name="email"
+                                            trackId="email-signup"
+                                            placeholder="email@email.ru"
+                                        // value={formData.email}
+                                        // onChange={handleChange}
+                                        // className={errors.email ? "input--error" : "input-form"}
+                                        />
+                                        {/* <span className="error">{errors.email}</span> */}
+                                    </div>
+                                    <div className="initial__personal">
+                                        <p className="personal-info">Пароль</p>
+                                        <div className="password-btn">
+                                            <Button
+                                                eventType="change-password-profile-btn"
+                                                className="change-password-btn">
+                                                Сменить пароль
+                                            </Button>
+                                            <img src="/assets/strelka2.svg" alt="" className="change-password" />
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div className="password-list">
-                    <div className="initial__first-name">
-                        <p className="personal-data">Старый пароль</p>
-                        <p className="first-name-input">***</p>
-                        {/* <!-- <input type="text"> --> */}
+                                <div className="password-list">
+                                    <div className="initial__first-name">
+                                        <p className="personal-data">Старый пароль</p>
+                                        <Input
+                                            trackId=""//
+                                            type="password"
+                                            value={formData?.password || ''}
+                                            onChange={(e) => handleInputChange('password', e.target.value)}
+                                        />
+                                        {errors.password && <span className="error">{errors.password}</span>}
+                                    </div>
+                                    <div className="initial__last-name">
+                                        <p className="personal-data">Новый пароль</p>
+                                        <Input
+                                            trackId=""
+                                            type="password"
+                                            value={formData?.newPassword || ''}
+                                            onChange={(e) => handleInputChange('newPassword', e.target.value)}
+                                        />
+
+                                    </div>
+                                    <div className="initial__first-name">
+                                        <p className="personal-data">Подтвердите новый пароль</p>
+                                        <Input
+                                            trackId=""
+                                            type="password"
+                                            value={formData?.confirmPassword || ''}
+                                            onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                                        />
+                                        {errors.confirmPassword && (
+                                            <span className="error">{errors.confirmPassword}</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="general-personal">
+                                <div className="initial__first-name">
+                                    <p className="personal-idnf">Логин</p>
+                                    <p className="first-name-input">{user?.username}</p>
+                                </div>
+                                <div className="initial__last-name">
+                                    <p className="personal-idnf">Эл. почта</p>
+                                    <p className="first-name-input">{user?.email}</p>
+                                </div>
+                                <div className="initial__first-name">
+                                    <p className="personal-idnf">Пароль</p>
+                                    <div className="password-btn">
+                                        <p className="change-pass-fake-btn">Сменить пароль <img src="/assets/strelka2.svg" alt="" className="change-password" /></p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                </section>
+
+
+                <section className="delivery-address">
+                    <div className="delivery-address__info">
+                        <div className="delivery-address__general">
+                            <img src="/assets/account-info.svg" alt="User prof" className="" />
+                            <p>Адрес доставки</p>
+                        </div>
                     </div>
-                    <div className="initial__last-name">
-                        <p className="personal-data">Новый пароль</p>
-                        <p className="first-name-input">***</p>
-                        {/* <!-- <input type="text"> --> */}
+                    {isEditing ? (
+                        <>
+                            <div className="general-delivery">
+                                <p className="address-personal">Доставка</p>
+                                <div className="general-delivery__address">
+                                    <p className="first-name-input">{user?.address || 'Не задано'}</p>
+                                    <Button
+                                        eventType="delivery-address-btn"
+                                        className="address-change-btn">
+                                        Сменить адрес доставки <img src="/assets/strelka2.svg" alt="" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="general-delivery">
+                                <p className="address-personal">Доставка</p>
+                                <div className="general-delivery__address">
+                                    <p className="first-name-input">{user?.address || 'Не задано'}</p>
+                                    <Button
+                                        eventType="delivery-address-btn"
+                                        className="address-change-btn">
+                                        Сменить адрес доставки <img src="/assets/strelka2.svg" alt="" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </section>
+
+                <section className="payment-method">
+                    <div className="payment-method__info">
+                        <div className="payment-method__general">
+                            <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
+                            <p>Способы оплаты</p>
+                        </div>
                     </div>
-                    <div className="initial__first-name">
-                        <p className="personal-data">Подтвердите новый пароль</p>
-                        <p className="first-name-input">***</p>
-                        {/* <!-- <input type="text"> --> */}
-                    </div>
-                </div>
-
-
-            </section>
-
-
-
-
-
+                    {isEditing ? (
+                        <>
+                            <div className="payment-method__title">
+                                <div className="title__first">
+                                    <p className="first-data">Основной способ оплаты</p>
+                                    <p className="first-input">{user?.last_name || 'Не задано'}</p>
+                                    {/* <!-- <input type="text"> --> */}
+                                </div>
+                                <div className="title__second">
+                                    <p className="second-data">Дополнительный способ оплаты</p>
+                                    <p className="second-input">{user?.first_name || 'Не задано'}</p>
+                                    {/* <!-- <input type="text"> --> */}
+                                </div>
+                                <div className="title__btn">
+                                    <Button
+                                        className="payment-btn"
+                                        eventType="payment-method-btn">Изменить способ оплаты</Button>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="payment-method__title">
+                                <div className="title__first">
+                                    <p className="first-data">Основной способ оплаты</p>
+                                    <p className="first-input">{user?.last_name || 'Не задано'}</p>
+                                    {/* <!-- <input type="text"> --> */}
+                                </div>
+                                <div className="title__second">
+                                    <p className="second-data">Дополнительный способ оплаты</p>
+                                    <p className="second-input">{user?.first_name || 'Не задано'}</p>
+                                    {/* <!-- <input type="text"> --> */}
+                                </div>
+                                <div className="title__btn">
+                                    <p>Изменить способ оплаты</p>
+                                    <img src="/assets/strelka2.svg" alt="" />
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </section>
             </section >
         </div >
     )

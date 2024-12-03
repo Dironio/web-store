@@ -51,7 +51,7 @@ const BirthdayComponent: React.FC<BirthdayComponentProps> = ({ value, onChange }
                 selected={selectedDate}
                 onChange={handleDateChange}
                 dateFormat="dd.MM.yyyy"
-                placeholderText="Выберите дату"
+                placeholderText={value || "Выберите дату"}
                 className="input-form"
                 renderDayContents={(day: number) => `${day}`}
                 renderCustomHeader={({
