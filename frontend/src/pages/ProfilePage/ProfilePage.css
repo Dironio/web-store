@@ -88,6 +88,15 @@
     cursor: pointer;
 }
 
+.cancel-update-btn {
+    border: transparent;
+    background: #fff;
+    color: #656565;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 38px;
+    cursor: pointer;
+}
 
 .info-user__photo {
     border: 1px solid #A7A7A7;
@@ -218,6 +227,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     gap: 32px;
 }
 
@@ -225,9 +235,13 @@
     margin-top: 28px;
 }
 
-.personal-idnf {
+.personal-idnf,
+.address-personal {
     margin-top: 28px;
     margin-bottom: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #999393;
 }
 
 .change-pass-fake-btn {
@@ -256,6 +270,71 @@
     padding: 28px;
     margin-bottom: 28px;
 }
+
+.delivery-address-img,
+.payment-img {
+    width: 52px;
+    height: 52px;
+}
+
+.password-btn {
+    width: 100%;
+}
+
+.change-password-btn {
+    width: 100%;
+    border: transparent;
+    cursor: pointer;
+    background: #B8ECA0;
+    border-radius: 26px;
+    color: #56A033;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    border: transparent;
+}
+
+.password-list {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-top: 28px;
+}
+
+
+
+
+
+.password-list {
+    /* max-height: 0; */
+    overflow: hidden;
+    transition: 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.password-list.visible {
+    height: 100%;
+    opacity: 1;
+}
+
+.change-password {
+    transition: transform 0.3s ease;
+}
+
+.change-password.rotated {
+    transform: rotate(90deg);
+}
+
+
+
+
+
 
 
 .gen-info__general,
@@ -316,7 +395,8 @@
     width: 100%;
 }
 
-.first-name-input {
+.first-name-input,
+.address-input {
     width: 100%;
     background: #B8ECA0;
     color: #020202;
@@ -337,4 +417,124 @@
     font-size: 16px;
     font-weight: 500;
     color: #999393;
+}
+
+.general-delivery__address {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    /* justify-content: space-between; */
+    gap: 32px;
+    border: transparent;
+    width: 100%;
+}
+
+.address-input-edit {
+    width: 100%;
+    padding: 14px 27px;
+    border: 2px solid #B8ECA0;
+    color: #56A033;
+    border-radius: 26px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.address-input-edit :focus {
+    border: 2px solid #B8ECA0;
+    outline: none;
+}
+
+.address-change-btn {
+    width: 484px;
+    background: #B8ECA0;
+    border: 1px solid #B8ECA0;
+    border-radius: 26px;
+    color: #56A033;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 17px 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.change-address-fake-btn {
+    width: 484px;
+    background: #B8ECA0;
+    border-radius: 26px;
+    color: #56A033;
+    cursor: not-allowed;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 17px 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.initial__personal {
+    width: 100%;
+}
+
+.payment-method__title {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 32px;
+}
+
+.title__first,
+.title__second,
+.title__btn {
+    margin-top: 38px;
+}
+
+.title__first {
+    border-radius: 16px;
+    border: 1px solid #B8ECA0;
+    color: #56A033;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 16px;
+    width: 100%;
+}
+
+.title__second {
+    border-radius: 16px;
+    border: 1px solid #A7A7A7;
+    color: #A7A7A7;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 16px;
+    width: 100%;
+}
+
+.first-payment,
+.second-payment {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.title__btn {
+    width: 100%;
+    cursor: not-allowed;
+}
+
+.change-payment-fake-btn {
+    padding: 43px 20px;
+    background-color: #B8ECA0;
+    color: #56A033;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 16px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    /* width: 100%; */
 }

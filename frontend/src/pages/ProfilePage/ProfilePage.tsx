@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { User } from "../../App";
-import EditProfileForm from "../../components/ProfileForm/EditProfileForm";
-import ProfileForm from "../../components/ProfileForm/ProfileForm";
-// import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import BirthdayComponent from "../../components/UI/BirthdayComponent";
 import GenderChoice from "../../components/UI/GenderChoice";
 import '../ProfilePage/ProfilePage.css'
@@ -11,6 +8,7 @@ import Button from "../../components/UI/Button";
 
 //ОБНОВИТЬ ИВЕНТЫ КНОПОК
 //СДЕЛАТЬ ЗАПРОСЫ
+//ОБНОВИТЬ АНИМАЦИЮ
 
 
 interface ProfilePageProps {
@@ -20,6 +18,17 @@ interface ProfilePageProps {
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isAddress, setIsAddress] = useState(false);
+    const [isPasswordListVisible, setIsPasswordListVisible] = useState(false);
+
+    const handleEditClick = () => {
+        setIsAddress(true);
+    };
+
+    const togglePasswordListVisibility = () => {
+        setIsPasswordListVisible(!isPasswordListVisible);
+    };
+
     const [formData, setFormData] = useState({
         password: '',
         newPassword: '',
@@ -29,8 +38,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
         img: user?.img || '',
         address: user?.address || '',
     });
-
-
 
     const [errors, setErrors] = useState({
         password: '',
@@ -153,10 +160,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
             console.log('Ошибка валидации', errors);
         }
     };
-
-
-
-
 
     return (
         <div className="wrapper">
@@ -319,8 +322,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                             <>
                                 <div className="general-personal">
                                     <div className="initial__personal">
-                                        <p className="personal-info">Логин</p>
-                                        <p className="data-login">{user?.username}</p>
+                                        <p className="personal-idnf">Логин</p>
+                                        <p className="first-name-input">{user?.username}</p>
                                         {/* <Input
                                             type="text"
                                             name="username"
@@ -333,8 +336,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                                         {/* <span className="error">{errors.username}</span> */}
                                     </div>
                                     <div className="initial__personal">
-                                        <p className="personal-info">Эл. почта</p>
-                                        <p className="data-email">{user?.email}</p>
+                                        <p className="personal-idnf">Эл. почта</p>
+                                        <p className="first-name-input">{user?.email}</p>
                                         {/* <Input
                                             type="email"
                                             name="email"
@@ -347,25 +350,35 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                                         {/* <span className="error">{errors.email}</span> */}
                                     </div>
                                     <div className="initial__personal">
-                                        <p className="personal-info">Пароль</p>
+                                        <p className="personal-idnf">Пароль</p>
                                         <div className="password-btn">
                                             <Button
                                                 eventType="change-password-profile-btn"
-                                                className="change-password-btn">
-                                                Сменить пароль
+                                                className="change-password-btn"
+                                                onClick={togglePasswordListVisibility}
+                                            >
+                                                <p>Сменить пароль</p>
+                                                <img
+                                                    src="/assets/strelka2.svg" alt=""
+                                                    className={`change-password ${isPasswordListVisible ? "rotated" : ""}`} />
                                             </Button>
-                                            <img src="/assets/strelka2.svg" alt="" className="change-password" />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="password-list">
+                                <div
+                                    className={`password-list ${isPasswordListVisible ? "visible" : ""}`}
+                                //ПЕРЕДЕЛАТЬ АНИМАЦИЮ
+                                >
+
                                     <div className="initial__first-name">
                                         <p className="personal-data">Старый пароль</p>
+
                                         <Input
-                                            trackId=""//
+                                            trackId=""
+                                            className="profile-input"
                                             type="password"
-                                            value={formData?.password || ''}
+                                            placeholder={'Введите старый пароль'}
                                             onChange={(e) => handleInputChange('password', e.target.value)}
                                         />
                                         {errors.password && <span className="error">{errors.password}</span>}
@@ -374,18 +387,20 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                                         <p className="personal-data">Новый пароль</p>
                                         <Input
                                             trackId=""
+                                            className="profile-input"
                                             type="password"
-                                            value={formData?.newPassword || ''}
+                                            placeholder={'Введите новый пароль'}
                                             onChange={(e) => handleInputChange('newPassword', e.target.value)}
                                         />
-
+                                        {errors.newPassword && <span className="error">{errors.newPassword}</span>}
                                     </div>
                                     <div className="initial__first-name">
                                         <p className="personal-data">Подтвердите новый пароль</p>
                                         <Input
                                             trackId=""
+                                            className="profile-input"
                                             type="password"
-                                            value={formData?.confirmPassword || ''}
+                                            placeholder={'Повторите новый пароль'}
                                             onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                                         />
                                         {errors.confirmPassword && (
@@ -416,26 +431,40 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                     </>
                 </section>
 
-
                 <section className="delivery-address">
                     <div className="delivery-address__info">
                         <div className="delivery-address__general">
-                            <img src="/assets/account-info.svg" alt="User prof" className="" />
+                            <img src="/assets/delivery-address.svg" alt="User prof" className="delivery-address-img" />
                             <p>Адрес доставки</p>
                         </div>
                     </div>
                     {isEditing ? (
                         <>
-                            <div className="general-delivery">
-                                <p className="address-personal">Доставка</p>
-                                <div className="general-delivery__address">
-                                    <p className="first-name-input">{user?.address || 'Не задано'}</p>
-                                    <Button
-                                        eventType="delivery-address-btn"
-                                        className="address-change-btn">
-                                        Сменить адрес доставки <img src="/assets/strelka2.svg" alt="" />
-                                    </Button>
-                                </div>
+                            <p className="address-personal">Доставка</p>
+                            <div className="general-delivery__address">
+
+                                {isAddress ? (
+                                    <div className="general-delivery__address">
+                                        <Input
+                                            type="text"
+                                            trackId=""
+                                            value={formData.address}
+                                            // onChange={handleInputChange}
+                                            className="address-input-edit"
+                                            placeholder={user?.address || ''}
+                                        />
+                                    </div>
+                                ) : (
+                                    <p className="address-input">{user?.address || "Не задано"}</p>
+                                )}
+                                <Button
+                                    eventType="delivery-address-btn"
+                                    className="address-change-btn"
+                                    onClick={handleEditClick}
+                                >
+                                    <p>Сменить адрес доставки</p>
+                                    <img src="/assets/strelka2.svg" alt="" />
+                                </Button>
                             </div>
                         </>
                     ) : (
@@ -443,12 +472,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                             <div className="general-delivery">
                                 <p className="address-personal">Доставка</p>
                                 <div className="general-delivery__address">
-                                    <p className="first-name-input">{user?.address || 'Не задано'}</p>
-                                    <Button
-                                        eventType="delivery-address-btn"
-                                        className="address-change-btn">
-                                        Сменить адрес доставки <img src="/assets/strelka2.svg" alt="" />
-                                    </Button>
+                                    <p className="address-input">{user?.address || 'Не задано'}</p>
+                                    <p className="change-address-fake-btn">Сменить адрес доставки<img src="/assets/strelka2.svg" alt="" className="change-password" /></p>
                                 </div>
                             </div>
                         </>
@@ -458,50 +483,43 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
                 <section className="payment-method">
                     <div className="payment-method__info">
                         <div className="payment-method__general">
-                            <img src="/assets/gen-info-img.svg" alt="User prof" className="" />
+                            <img src="/assets/payment.svg" alt="User prof" className="payment-img" />
                             <p>Способы оплаты</p>
                         </div>
                     </div>
-                    {isEditing ? (
+                    {/* {isEditing ? (
                         <>
                             <div className="payment-method__title">
                                 <div className="title__first">
-                                    <p className="first-data">Основной способ оплаты</p>
-                                    <p className="first-input">{user?.last_name || 'Не задано'}</p>
-                                    {/* <!-- <input type="text"> --> */}
+                                    <p className="first-payment">Основной способ оплаты</p>
+                                    <p className="first-input">{'Не задано'}</p>
                                 </div>
                                 <div className="title__second">
-                                    <p className="second-data">Дополнительный способ оплаты</p>
-                                    <p className="second-input">{user?.first_name || 'Не задано'}</p>
-                                    {/* <!-- <input type="text"> --> */}
+                                    <p className="second-payment">Дополнительный способ оплаты</p>
+                                    <p className="second-input">{'Не задано'}</p>
                                 </div>
                                 <div className="title__btn">
-                                    <Button
-                                        className="payment-btn"
-                                        eventType="payment-method-btn">Изменить способ оплаты</Button>
+                                    <p className="change-payment-fake-btn">Изменить способ оплаты<img src="/assets/strelka2.svg" alt="" className="change-password" /></p>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <>
-                            <div className="payment-method__title">
-                                <div className="title__first">
-                                    <p className="first-data">Основной способ оплаты</p>
-                                    <p className="first-input">{user?.last_name || 'Не задано'}</p>
-                                    {/* <!-- <input type="text"> --> */}
-                                </div>
-                                <div className="title__second">
-                                    <p className="second-data">Дополнительный способ оплаты</p>
-                                    <p className="second-input">{user?.first_name || 'Не задано'}</p>
-                                    {/* <!-- <input type="text"> --> */}
-                                </div>
-                                <div className="title__btn">
-                                    <p>Изменить способ оплаты</p>
-                                    <img src="/assets/strelka2.svg" alt="" />
-                                </div>
-                            </div>
-                        </>
-                    )}
+                        <> */}
+                    <div className="payment-method__title">
+                        <div className="title__first">
+                            <p className="first-payment">Основной способ оплаты</p>
+                            <p className="first-input">{'Не задано'}</p>
+                        </div>
+                        <div className="title__second">
+                            <p className="second-payment">Дополнительный способ оплаты</p>
+                            <p className="second-input">{'Не задано'}</p>
+                        </div>
+                        <div className="title__btn">
+                            <p className="change-payment-fake-btn">Изменить способ оплаты<img src="/assets/strelka2.svg" alt="" className="change-password" /></p>
+                        </div>
+                    </div>
+                    {/* </> */}
+                    {/* )} */}
                 </section>
             </section >
         </div >
