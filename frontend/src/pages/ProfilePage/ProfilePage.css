@@ -310,18 +310,42 @@
 
 
 
-
 .password-list {
-    /* max-height: 0; */
     overflow: hidden;
-    transition: 0.3s ease, opacity 0.3s ease;
+    height: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
     opacity: 0;
 }
 
+
 .password-list.visible {
-    height: 100%;
+    height: auto;
     opacity: 1;
 }
+
+.password-list {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+
+.password-list.visible {
+    max-height: 300px;
+    opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .change-password {
     transition: transform 0.3s ease;

@@ -5,6 +5,7 @@ import GenderChoice from "../../components/UI/GenderChoice";
 import '../ProfilePage/ProfilePage.css'
 import Input from "../../components/UI/Input";
 import Button from "../../components/UI/Button";
+import { useNavigate } from "react-router-dom";
 
 //ОБНОВИТЬ ИВЕНТЫ КНОПОК
 //СДЕЛАТЬ ЗАПРОСЫ
@@ -19,11 +20,13 @@ interface ProfilePageProps {
 const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [isAddress, setIsAddress] = useState(false);
+    const navigate = useNavigate()
     const [isPasswordListVisible, setIsPasswordListVisible] = useState(false);
 
     const handleEditClick = () => {
-        setIsAddress(true);
+        setIsAddress(!isAddress);
     };
+
 
     const togglePasswordListVisibility = () => {
         setIsPasswordListVisible(!isPasswordListVisible);
@@ -33,9 +36,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
         password: '',
         newPassword: '',
         confirmPassword: '',
-        firstName: user?.first_name || '',
-        lastName: user?.last_name || '',
+        first_name: user?.first_name || '',
+        last_name: user?.last_name || '',
         img: user?.img || '',
+        birthday: user?.birthday || '',
+        gender: user?.gender || '',
         address: user?.address || '',
     });
 
@@ -66,11 +71,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
             newErrors.password = 'Пароли не совпадают';
         }
 
-        if (!formData?.lastName || formData?.lastName.trim().length === 0) {
+        if (!formData?.last_name || formData?.last_name.trim().length === 0) {
             newErrors.lastName = 'Введите фамилию';
         }
 
-        if (!formData?.firstName || formData?.firstName.trim().length === 0) {
+        if (!formData?.first_name || formData?.first_name.trim().length === 0) {
             newErrors.firstName = 'Введите имя';
         }
 
@@ -96,28 +101,51 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
     // };
 
 
-    // const handleSave = async () => {
-    //     if (!formData) return;
+    const handleUpdate = async () => {
+        if (!formData || !user?.id) return;
 
 
-    //     try {
-    //         const response = await fetch('/api/users/', {
-    //             method: 'PATCH',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify(formData),
-    //         });
+        try {
+            const payload = {
+                id: user.id,
+                password: formData.password,
+                first_name: formData.first_name || undefined,
+                last_name: formData.last_name || undefined,
+                img: formData.img || undefined,
+                birthday: formData.birthday || undefined,
+                gender: formData.gender ? "Мужской" : "Женский",
+                address: formData.address || undefined,
+            };
 
 
-    //         if (!response.ok) throw new Error('Ошибка обновления данных');
+            const response = await axios.patch<User>(`${process.env.REACT_APP_API_URL}/api/users`, payload, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // credentials: "include",
+            });
 
 
-    //         const updatedUser = await response.json();
-    //         setFormData(updatedUser);
-    //         setIsEditing(false);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+            if (response.status === 200) {
+                console.log("Обновление успешно:", response.data);
+
+                setFormData({
+                    ...response.data,
+                    newPassword: "",
+                    confirmPassword: "",
+                });
+
+                setIsEditing(false);
+                navigate("/profile");
+                navigate(0);
+            } else {
+                throw new Error("Ошибка обновления данных пользователя");
+            }
+        } catch (error) {
+            console.error("Ошибка при обновлении пользователя:", error);
+        }
+    };
+
 
 
 
@@ -368,9 +396,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user, onPasswordChange }) => 
 
                                 <div
                                     className={`password-list ${isPasswordListVisible ? "visible" : ""}`}
-                                //ПЕРЕДЕЛАТЬ АНИМАЦИЮ
                                 >
-
                                     <div className="initial__first-name">
                                         <p className="personal-data">Старый пароль</p>
 
