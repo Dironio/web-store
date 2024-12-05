@@ -9,6 +9,7 @@ import AuthPage from './pages/AuthPage/AuthPage';
 import Cookies from 'js-cookie';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import CartPage from './pages/CartPage/CartPage';
+import ProductPage from './pages/ProductPage/ProductPage';
 
 export interface User {
     id: number;
@@ -127,6 +128,13 @@ const App: React.FC = () => {
                         user ?
                             <ProfilePage user={user} />
                             : <Navigate to="/auth" />
+                    }
+                />
+
+                <Route
+                    path='/product/:id'
+                    element={
+                        <ProductPage />
                     }
                 />
 
