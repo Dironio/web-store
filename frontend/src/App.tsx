@@ -138,14 +138,16 @@ const App: React.FC = () => {
                     }
                 />
 
-                {/* <Route
+                <Route
                     path='/cart'
                     element={
                         user ?
-                            <CartPage user={user} />
+                            <CartPage
+                                // user={user}
+                            />
                             : <Navigate to="/auth" />
                     }
-                /> */}
+                />
 
 
                 {/* <Route path="/faq" element={<FAQ />} />

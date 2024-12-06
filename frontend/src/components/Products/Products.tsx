@@ -3,7 +3,7 @@ import Button from '../UI/Button'; // Кнопка с аналитикой
 import '../Products/Products.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-interface Product {
+export interface Product {
     id: number;
     seller_id: number;
     name: string;
