@@ -72,6 +72,13 @@ class CartService {
         }
         return cart;
     }
+
+
+
+
+    async getCartItemsByUserId(userId: number) {
+        return await cartDal.getCartItemsByUserId(userId);
+    }
 }
 
 const cartService = new CartService();

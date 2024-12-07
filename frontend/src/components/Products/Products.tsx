@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../UI/Button'; // Кнопка с аналитикой
 import '../Products/Products.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { addItemToCart } from '../../hooks/useCart';
 
 export interface Product {
     id: number;
@@ -48,6 +49,15 @@ const Products: React.FC = () => {
         } catch (err) {
             console.error('Ошибка загрузки продуктов:', err);
             setLoading(false);
+        }
+    };
+
+    const handleAddToCart = async (product_id: number, productName: string) => {
+        try {
+            await addItemToCart(product_id);
+            console.log(`Товар добавлен в корзину: ${productName}`);
+        } catch (err) {
+            console.error("Ошибка добавления товара в корзину:", err);
         }
     };
 
@@ -105,7 +115,7 @@ const Products: React.FC = () => {
                                             className="item-cart-btn"
                                             eventType="click"
                                             eventData={{ track_id: 'add_to_cart_click', product_id: product.id }}
-                                            onClick={() => console.log(`Добавить в корзину: ${product.name}`)}
+                                            onClick={() => handleAddToCart(product.id, product.name)}
                                         >
                                             <img src="/assets/cartprod.svg" alt="Добавить в корзину" />
                                         </Button>

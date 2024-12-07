@@ -13,9 +13,9 @@ cartRouter.delete('/:id', authCheck, cartController.delete);
 cartRouter.post("/add", authCheck, cartController.addItemToCart);
 cartRouter.post("/remove", authCheck, cartController.removeItemFromCart);
 cartRouter.get("/count", authCheck, cartController.getCartCount);
-cartRouter.get("/items", authCheck, cartController.getCartItems);
+cartRouter.get("/items/", authCheck, cartController.getCartItems);
 
 // cartRouter.get('/count/:id', authCheck, cartController.getCount)
-cartRouter.get('/:id', authCheck, cartController.getOne);
+// cartRouter.get('/:id', authCheck, cartController.getOne);
 
 export default cartRouter;

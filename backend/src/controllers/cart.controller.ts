@@ -18,8 +18,17 @@ class CartController {
 
     @ControllerErrorHandler()
     async getOne(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const result = await cartService.getOne(Number(req.params.id));
-        return res.status(201).json(result)
+        // const result = await cartService.getOne(Number(req.params.id));
+        // return res.status(201).json(result)
+
+
+        const id = Number(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "Некорректный идентификатор корзины" });
+        }
+
+        const result = await cartService.getOne(id);
+        return res.status(200).json(result);
     }
 
     @ControllerErrorHandler()
@@ -77,17 +86,17 @@ class CartController {
         return res.status(200).json(count);
     }
 
-    @ControllerErrorHandler()
-    async getCartItems(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const userId = Number(req.params.id);
+    // @ControllerErrorHandler()
+    // async getCartItems(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    //     const userId = Number(req.params.id);
 
-        if (!userId) {
-            return res.status(401).json({ error: "Пользователь не авторизован" });
-        }
+    //     if (!userId) {
+    //         return res.status(401).json({ error: "Пользователь не авторизован" });
+    //     }
 
-        const items = await cartService.getCartItems(userId);
-        return res.status(200).json(items);
-    }
+    //     const items = await cartService.getCartItems(userId);
+    //     return res.status(200).json(items);
+    // }
 
 
     @ControllerErrorHandler()
@@ -105,6 +114,22 @@ class CartController {
 
         const item = await cartService.removeItemFromCart(userId, productId);
         return res.status(200).json(item);
+    }
+
+
+
+
+    @ControllerErrorHandler()
+    async getCartItems(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        // const userId = Number(req.params.id);
+        const userId = res.locals.tokenPayload?.id;
+
+        if (!userId) {
+            return res.status(400).json({ error: 'Отсутствует ID пользователя' });
+        }
+
+        const items = await cartService.getCartItemsByUserId(userId);
+        return res.status(200).json(items);
     }
 }
 

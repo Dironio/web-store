@@ -32,7 +32,7 @@ class CartDal {
 
     async getOne(id: number) {
         const result = await pool.query(`
-            SELECT c.id, c.user_id,  username, email, "password", first_name, last_name, img, age, birthday, role_id, role, created_at, updated_at
+            SELECT c.id, c.user_id,  username, email, first_name, last_name, img, age, birthday, role_id, role, created_at, updated_at
             FROM carts c
             JOIN users u ON u.id = c.user_id 
             JOIN roles r ON u.role_id = r.id 
@@ -86,12 +86,39 @@ class CartDal {
 
     // Добавление товара
     async addItemToCart(cartId: number, productId: number) {
-        const result = await pool.query(`
-            INSERT INTO cart_items (cart_id, product_id)
-            VALUES ($1, $2)
-            RETURNING *;
-            `, [cartId, productId]);
-        return result.rows[0];
+        // const result = await pool.query(`
+        //     INSERT INTO cart_items (cart_id, product_id)
+        //     VALUES ($1, $2)
+        //     RETURNING *;
+        //     `, [cartId, productId]);
+        // return result.rows[0];
+
+
+
+        const existingItem = await pool.query(`
+            SELECT quantity FROM cart_items
+            WHERE cart_id = $1 AND product_id = $2;
+        `, [cartId, productId]);
+
+        if (existingItem.rows.length > 0) {
+            const newQuantity = existingItem.rows[0].quantity + 1;
+            const result = await pool.query(`
+                UPDATE cart_items
+                SET quantity = $1
+                WHERE cart_id = $2 AND product_id = $3
+                RETURNING *;
+            `, [newQuantity, cartId, productId]);
+            return result.rows[0];
+        } else {
+            const result = await pool.query(`
+                INSERT INTO cart_items (cart_id, product_id, quantity)
+                VALUES ($1, $2, $3)
+                RETURNING *;
+            `, [cartId, productId, 1]);
+            return result.rows[0];
+        }
+
+
     }
 
     // Получение корзины пользователя
@@ -118,16 +145,10 @@ class CartDal {
     // Получение списка товаров
     async getItemsInCart(cartId: number) {
         const result = await pool.query(`
-      SELECT 
-        ci.product_id, 
-        COUNT(ci.product_id) AS quantity, 
-        p.name, 
-        p.price, 
-        p.img 
-      FROM cart_items ci
-      JOIN products p ON ci.product_id = p.id
-      WHERE ci.cart_id = $1
-      GROUP BY ci.product_id, p.name, p.price, p.img;
+       SELECT p.id AS product_id, p.name AS product_name, p.price, ci.quantity
+        FROM cart_items ci
+        JOIN products p ON ci.product_id = p.id
+        WHERE ci.cart_id = $1;
     `, [cartId]);
         return result.rows;
     }
@@ -152,6 +173,50 @@ class CartDal {
         return result.rows[0];
     }
 
+
+
+
+
+
+    async createOrGetCart(userId: number) {
+        // Проверяем, есть ли корзина
+        const existingCart = await pool.query(`
+            SELECT id FROM carts WHERE user_id = $1 LIMIT 1;
+        `, [userId]);
+
+        if (existingCart.rows.length > 0) {
+            return existingCart.rows[0]; // Возвращаем существующую корзину
+        }
+
+        // Создаем новую корзину
+        const newCart = await pool.query(`
+            INSERT INTO carts (user_id) VALUES ($1) RETURNING *;
+        `, [userId]);
+        return newCart.rows[0];
+    }
+
+    async getCartItemsByUserId(userId: number) {
+        // const cartResult = await pool.query(`
+        //     SELECT id 
+        //     FROM carts 
+        //     WHERE user_id = $1 LIMIT 1
+        // `, [userId]);
+
+        // if (cartResult.rows.length === 0) {
+        //     throw new Error('Корзина не найдена');
+        // }
+
+        // const cartId = cartResult.rows[0].id;
+
+        const itemsResult = await pool.query(`
+            SELECT *
+            FROM cart_items
+            JOIN products p ON cart_items.product_id = p.id
+            WHERE cart_items.cart_id = $1
+        `, [userId]);
+
+        return itemsResult.rows;
+    }
 }
 
 

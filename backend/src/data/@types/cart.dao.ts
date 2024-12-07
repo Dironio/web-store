@@ -18,9 +18,11 @@ export interface UpdateCartDao {
 export interface CreateCartItemDao {
     cart_id: number;
     product_id: number;
+    quantity?: number;
 }
 
 export interface UpdateCartItemDao {
     cart_id: number;
     product_id: number;
+    quantity?: number;
 }

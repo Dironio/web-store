@@ -112,18 +112,18 @@ const Header: React.FC<{ user: User | null; cartCount: number }> = ({ user, cart
                             </li>
                             <li className="header__cart-count">
                                 <a href="/cart" className="cart-count">
-                                    {cartCount > 99 ? '+99' : cartCount} {/* через count */}
+                                    {cartCount === 0 ? 0 : cartCount > 99 ? '+99' : cartCount}
                                 </a>
                             </li>
                         </ul>
 
-                         {/* Авторизация */}
-                         <ul className="header__auth">
+                        {/* Авторизация */}
+                        <ul className="header__auth">
                             {user ? (
                                 <li className="header__auth-icon">
-                                    <a href="#" onClick={(e) => { 
-                                        e.preventDefault(); 
-                                        toggleModal(); 
+                                    <a href="#" onClick={(e) => {
+                                        e.preventDefault();
+                                        toggleModal();
                                     }}>
                                         <img
                                             src={user.img || "/assets/login.svg"}

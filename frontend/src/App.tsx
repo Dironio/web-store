@@ -30,32 +30,38 @@ export interface User {
 }
 
 const App: React.FC = () => {
-    const [cartCount, setCartCount] = useState(0);
+    const [cartCount, setCartCount] = useState<number>(0);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
 
+
+
     useEffect(() => {
-        const fetchCartCount = async () => {
+        const getCount = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/carts/count`, {
-                    method: "GET",
-                    credentials: "include",
-                });
+                setLoading(true);
 
-                const data = await response.json();
+                const token = localStorage.getItem("accessToken");
 
-                if (data && typeof data.count === "number") {
-                    setCartCount(data.count);
+                if (!token) {
+                    console.error("Токен отсутствует");
+                    return;
                 }
 
+                const response = await axios.get<{ count: number }>(`${process.env.REACT_APP_API_URL}/carts/count`, {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },);
+                setCartCount(response.data.count);
             } catch (error) {
-                console.error("Ошибка получения количества товаров в корзине:", error);
+                console.error("Ошибка при загрузке количества товаров:", error);
             }
         };
 
-
-        fetchCartCount();
+        getCount();
     }, []);
 
     useEffect(() => {
@@ -143,7 +149,8 @@ const App: React.FC = () => {
                     element={
                         user ?
                             <CartPage
-                                // user={user}
+                                user={user}
+                                cartCount={cartCount}
                             />
                             : <Navigate to="/auth" />
                     }

@@ -1,10 +1,11 @@
 import React from "react";
 import '../CartPage/CartPage.css';
 import CartItem from "../../components/CartComponent/CartItem";
+import { User } from "../../App";
 
 
 // Основная страница корзины
-const CartPage: React.FC = () => {
+const CartPage: React.FC<{ user: User | null; cartCount: number }> = ({ user, cartCount }) => {
     const handleSelectAll = () => {
         console.log("Выбраны все товары");
     };
@@ -20,7 +21,7 @@ const CartPage: React.FC = () => {
                     <div className="left-padding">
                         <header className="left__header">
                             <h2 className="left__header-title">Корзина</h2>
-                            <p className="left__header-count">Товаров: 12</p>
+                            <p className="left__header-count">Товаров: {cartCount}</p>
                         </header>
                         <div className="left__choice">
                             <button className="choice-product">Выбрано 2 товаров</button>
