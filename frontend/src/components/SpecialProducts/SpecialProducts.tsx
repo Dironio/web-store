@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { User } from "../../App";
 import Button from "../UI/Button";
 import '../SpecialProducts/SpecialProducts.css'
+import axios from "axios";
 
 interface Product {
     id: number;
@@ -32,6 +33,7 @@ interface SpecialProductsProps {
 const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
+    const [addedToCart, setAddedToCart] = useState<number[]>([]);
 
 
     const formatPrice = (price: number) => Math.floor(price).toLocaleString('ru-RU');
@@ -48,6 +50,35 @@ const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
         } catch (err) {
             console.error('Ошибка загрузки специальных предложений:', err);
             setLoading(false);
+        }
+    };
+
+    const addToCart = async (productId: number) => {
+        try {
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                console.error("Токен отсутствует");
+                return;
+            }
+
+            const res = await axios({
+                url: `${process.env.REACT_APP_API_URL}/carts/add`,
+                method: 'POST',
+                data: { product_id: productId },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // if (!res.ok) {
+            //     throw new Error(`Ошибка добавления товара: ${res.statusText}`);
+            // }
+
+            setAddedToCart((prev) => [...prev, productId]);
+        } catch (err) {
+            console.error('Ошибка при добавлении в корзину:', err);
         }
     };
 
@@ -97,15 +128,20 @@ const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
                                         eventData={{ track_id: 'buy_click', product_id: product.id }}
                                         onClick={() => console.log(`Купить продукт: ${product.name}`)}
                                     >
-                                        Купить
+                                        Посмотреть
                                     </Button>
+
                                     <Button
-                                        className="item-cart-btn"
+                                        className={`item-cart-btn ${addedToCart.includes(product.id) ? 'added' : ''}`}
                                         eventType="click"
                                         eventData={{ track_id: 'add_to_cart_click', product_id: product.id }}
-                                        onClick={() => console.log(`Добавить в корзину: ${product.name}`)}
+                                        onClick={() => addToCart(product.id)}
                                     >
-                                        <img src="/assets/cartprod.svg" alt="Добавить в корзину" />
+                                        {addedToCart.includes(product.id) ? (
+                                            <img src="/assets/check.svg" alt="Добавлено" />
+                                        ) : (
+                                            <img src="/assets/cartprod.svg" alt="Добавить в корзину" />
+                                        )}
                                     </Button>
                                 </footer>
                             </a>

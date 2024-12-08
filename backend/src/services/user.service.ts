@@ -1,6 +1,7 @@
 import { CreateUserDto, GetUserDto, UpdateUserDto, User } from "../controllers/@types/user.dto"
 import userDal from "../data/user.dal";
 import bcrypt from "bcrypt";
+import cartService from "./cart.service";
 
 
 class UserService {
@@ -29,7 +30,10 @@ class UserService {
             dto.age = this.calculateAge(dto.birthday);
         }
 
-        return await userDal.create(dto);
+
+        const result = await userDal.create(dto);
+        await cartService.create({ user_id: result.id });
+        return result;
     }
 
     async getAll() {

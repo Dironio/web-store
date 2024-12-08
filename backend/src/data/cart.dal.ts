@@ -128,7 +128,7 @@ class CartDal {
       FROM carts
       WHERE user_id = $1;
     `, [userId]);
-        return result.rows[0]?.id;
+        return result.rows[0].id;
     }
 
     // Получение количества товаров
@@ -154,12 +154,14 @@ class CartDal {
     }
 
     // Удаление товара
-    async removeItemFromCart(cartId: number, productId: number) {
+    async removeItemFromCart(userId: number, productId: number) {
         const result = await pool.query(`
-      DELETE FROM cart_items
-      WHERE cart_id = $1 AND product_id = $2
-      RETURNING *;
-    `, [cartId, productId]);
+        delete from cart_items
+        where product_id = $2 and cart_id = (
+        select cart_id from carts where user_id = $1
+        )
+		returning *
+    `, [userId, productId]);
         return result.rows[0];
     }
 
@@ -179,16 +181,14 @@ class CartDal {
 
 
     async createOrGetCart(userId: number) {
-        // Проверяем, есть ли корзина
         const existingCart = await pool.query(`
             SELECT id FROM carts WHERE user_id = $1 LIMIT 1;
         `, [userId]);
 
         if (existingCart.rows.length > 0) {
-            return existingCart.rows[0]; // Возвращаем существующую корзину
+            return existingCart.rows[0];
         }
 
-        // Создаем новую корзину
         const newCart = await pool.query(`
             INSERT INTO carts (user_id) VALUES ($1) RETURNING *;
         `, [userId]);
@@ -196,23 +196,12 @@ class CartDal {
     }
 
     async getCartItemsByUserId(userId: number) {
-        // const cartResult = await pool.query(`
-        //     SELECT id 
-        //     FROM carts 
-        //     WHERE user_id = $1 LIMIT 1
-        // `, [userId]);
-
-        // if (cartResult.rows.length === 0) {
-        //     throw new Error('Корзина не найдена');
-        // }
-
-        // const cartId = cartResult.rows[0].id;
-
         const itemsResult = await pool.query(`
             SELECT *
             FROM cart_items
             JOIN products p ON cart_items.product_id = p.id
-            WHERE cart_items.cart_id = $1
+            JOIN carts on cart_items.cart_id = carts.id
+            WHERE carts.user_id = $1
         `, [userId]);
 
         return itemsResult.rows;

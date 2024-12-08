@@ -59,8 +59,8 @@ class CartController {
 
     @ControllerErrorHandler()
     async addItemToCart(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const userId = Number(req.params.id);
-        const productId = req.body;
+        const userId = res.locals.tokenPayload.id;
+        const { product_id: productId } = req.body;
 
         if (!userId) {
             return res.status(401).json({ error: "Пользователь не авторизован" });
@@ -76,7 +76,7 @@ class CartController {
 
     @ControllerErrorHandler()
     async getCartCount(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const userId = Number(req.params.id);
+        const userId = res.locals.tokenPayload.id;
 
         if (!userId) {
             return res.status(200).json({ count: 0 });
@@ -101,7 +101,7 @@ class CartController {
 
     @ControllerErrorHandler()
     async removeItemFromCart(req: Request, res: Response, next: NextFunction): Promise<Response> {
-        const userId = Number(req.params.id);
+        const userId = res.locals.tokenPayload.id;
         const productId = req.body;
 
         if (!userId) {

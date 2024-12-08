@@ -49,13 +49,13 @@ const App: React.FC = () => {
                     return;
                 }
 
-                const response = await axios.get<{ count: number }>(`${process.env.REACT_APP_API_URL}/carts/count`, {
+                const response = await axios.get<number>(`${process.env.REACT_APP_API_URL}/carts/count`, {
                     withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 },);
-                setCartCount(response.data.count);
+                setCartCount(response.data);
             } catch (error) {
                 console.error("Ошибка при загрузке количества товаров:", error);
             }

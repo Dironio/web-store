@@ -7,8 +7,7 @@ class UserController {
     @ControllerErrorHandler()
     async create(req: Request, res: Response, next: NextFunction): Promise<Response> {
         const candidate = await userService.create(req.body);
-        await cartService.create({ user_id: candidate.id });
-
+        
         return res.status(201).json(candidate);
     }
 

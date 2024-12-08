@@ -57,11 +57,13 @@ class CartService {
 
     // Удаление товара
     async removeItemFromCart(userId: number, productId: number) {
-        const cartId = await cartDal.getCartIdByUserId(userId);
-        if (!cartId) {
+        await cartDal.getCartIdByUserId(userId);
+
+        if (!userId) {
             throw new Error('Корзина не найдена');
         }
-        return await cartDal.removeItemFromCart(cartId, productId);
+
+        return await cartDal.removeItemFromCart(userId, productId);
     }
 
     // Удаление корзины при удалении пользователя
