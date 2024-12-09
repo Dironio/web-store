@@ -1,20 +1,34 @@
 import axios from "axios";
+import { useState } from "react";
 
 
-export const addItemToCart = async (product_id: number): Promise<void> => {
-    const token = localStorage.getItem("accessToken");
+export const useCart = () => {
+    const [addedToCart, setAddedToCart] = useState<number[]>([]);
 
-    if (!token) {
-        console.error("Токен отсутствует");
-        return;
-    }
+    const addToCart = async (productId: number) => {
+        try {
+            const token = localStorage.getItem("accessToken");
 
-    await axios.post(`${process.env.REACT_APP_API_URL}/carts/add`,
-        { product_id },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
+            if (!token) {
+                console.error("Токен отсутствует");
+                return;
             }
-        },
-    );
+
+            const res = await axios({
+                url: `${process.env.REACT_APP_API_URL}/carts/add`,
+                method: 'POST',
+                data: { product_id: productId },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            setAddedToCart((prev) => [...prev, productId]);
+        } catch (err) {
+            console.error('Ошибка при добавлении в корзину:', err);
+        }
+    };
+
+    return { addToCart, addedToCart };
 };

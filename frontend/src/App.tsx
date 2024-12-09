@@ -6,10 +6,9 @@ import Footer from './components/Footer/Footer';
 import axios from 'axios';
 import HomePage from './pages/HomePage/HomePage';
 import AuthPage from './pages/AuthPage/AuthPage';
-import Cookies from 'js-cookie';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-import CartPage from './pages/CartPage/CartPage';
 import ProductPage from './pages/ProductPage/ProductPage';
+import CartProduct from './pages/CartPage/CartPage';
 
 export interface User {
     id: number;
@@ -148,7 +147,7 @@ const App: React.FC = () => {
                     path='/cart'
                     element={
                         user ?
-                            <CartPage
+                            <CartProduct
                                 user={user}
                                 cartCount={cartCount}
                             />

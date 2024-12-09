@@ -3,6 +3,7 @@ import { User } from "../../App";
 import Button from "../UI/Button";
 import '../SpecialProducts/SpecialProducts.css'
 import axios from "axios";
+import { useCart } from "../../hooks/useCart";
 
 interface Product {
     id: number;
@@ -33,7 +34,7 @@ interface SpecialProductsProps {
 const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
-    const [addedToCart, setAddedToCart] = useState<number[]>([]);
+    const { addToCart, addedToCart } = useCart();
 
 
     const formatPrice = (price: number) => Math.floor(price).toLocaleString('ru-RU');
@@ -52,36 +53,6 @@ const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
             setLoading(false);
         }
     };
-
-    const addToCart = async (productId: number) => {
-        try {
-            const token = localStorage.getItem("accessToken");
-
-            if (!token) {
-                console.error("Токен отсутствует");
-                return;
-            }
-
-            const res = await axios({
-                url: `${process.env.REACT_APP_API_URL}/carts/add`,
-                method: 'POST',
-                data: { product_id: productId },
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            // if (!res.ok) {
-            //     throw new Error(`Ошибка добавления товара: ${res.statusText}`);
-            // }
-
-            setAddedToCart((prev) => [...prev, productId]);
-        } catch (err) {
-            console.error('Ошибка при добавлении в корзину:', err);
-        }
-    };
-
 
     useEffect(() => {
         if (user) {

@@ -18,7 +18,7 @@ const ModalProfile: React.FC<ModalProfileProps> = ({ user, onLogout, onClose }) 
                 <div className="modal-profile__info">
                     <img
                         className="info-img"
-                        src={user?.img || "/assets/default-avatar.svg"}
+                        src={user?.img || "/assets/login.svg"}
                         alt="Avatar"
                     />
                     <div className="info-initial">
