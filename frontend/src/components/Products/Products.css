@@ -123,7 +123,7 @@
     justify-content: space-between;
     /* Кнопки расположены по бокам */
     align-items: center;
-    margin-top: auto;
+    /* margin-top: auto; */
     /* Прижимает блок с кнопками к низу */
     padding-top: 12px;
     /* Добавляем немного пространства сверху секции */
@@ -135,9 +135,11 @@
     text-decoration: none;
     background-color: #56A033;
     color: #fff;
-    padding: 12px 55px;
+    padding: 12px 35px;
     border: 1px solid transparent;
     border-radius: 22px;
+    cursor: pointer;
+    margin-top: 5px;
 }
 
 .item-cart-btn {
@@ -151,6 +153,7 @@
     height: 26px; */
     padding: 8px 14px;
     margin-left: 14px;
+    cursor: pointer;
 }
 
 .item-cart-btn img {

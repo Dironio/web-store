@@ -88,9 +88,18 @@ const SpecialProducts: React.FC<SpecialProductsProps> = ({ user }) => {
                                         </p>
                                     )}
                                 </div>
-                                {product.max_price && (
+                                {/* {product.max_price && (
                                     <div className="container-item-oldprice">{formatPrice(product.max_price)} ₽</div>
-                                )}
+                                )} */}
+
+                                <div className="container-item-oldprice">
+                                    {product.max_price && product.max_price !== product.price ? (
+                                        formatPrice(product.max_price) + ' ₽'
+                                    ) : (
+                                        <div className="container-item-oldprice-hidden"></div>
+                                    )}
+                                </div>
+
                                 <p className="container-item-name">{product.name}</p>
                                 <footer className="container-item-buy">
                                     <Button

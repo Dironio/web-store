@@ -101,7 +101,7 @@ const Products: React.FC = () => {
                                             eventData={{ track_id: 'buy_click', product_id: product.id }}
                                             onClick={() => console.log(`Купить продукт: ${product.name}`)}
                                         >
-                                            Купить
+                                            Посмотреть
                                         </Button>
                                         <Button
                                             className="item-cart-btn"

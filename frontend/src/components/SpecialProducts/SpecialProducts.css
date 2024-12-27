@@ -32,6 +32,9 @@
     border: 1px solid transparent;
     background: #fff;
     border-radius: 24px;
+
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .container-item-link {
@@ -104,16 +107,24 @@
     align-items: center;
     margin-top: 18px;
     margin-bottom: 18px; */
+    margin-top: auto;
 
     display: flex;
     width: 100%;
-    justify-content: space-between;
-    /* Кнопки расположены по бокам */
     align-items: center;
-    margin-top: auto;
-    /* Прижимает блок с кнопками к низу */
-    padding-top: 12px;
-    /* Добавляем немного пространства сверху секции */
-    margin-bottom: 18px;
+    justify-content: space-between;
 
+    font-weight: 600;
+    /* padding-top: 12px; */
+    /* margin-bottom: 18px; */
+
+}
+
+.item-buy-btn{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.container-item-oldprice-hidden{
+    height: 20px;
 }
