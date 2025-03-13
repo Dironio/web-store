@@ -9,6 +9,7 @@ import AuthPage from './pages/AuthPage/AuthPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ProductPage from './pages/ProductPage/ProductPage';
 import CartProduct from './pages/CartPage/CartPage';
+import { useAnalytics } from './utils/useAnalytics';
 
 export interface User {
     id: number;
@@ -33,7 +34,7 @@ const App: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-
+    useAnalytics();
 
 
     useEffect(() => {
@@ -101,6 +102,7 @@ const App: React.FC = () => {
     if (loading) {
         return <div>Загрузка...</div>;
     }
+
 
 
     return (
