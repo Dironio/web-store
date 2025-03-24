@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import "./FeaturedProducts.css";
+import { Link } from "react-router-dom";
 
 interface Product {
   id: number;
@@ -89,7 +90,7 @@ const FeaturedProducts: React.FC = () => {
                           product_name: product.name,
                         }}
                       >
-                        Перейти к предложению
+                        <Link to={`/product/${product.id}`}>Перейти к предложению</Link>
                       </Button>
                     </div>
                   </div>

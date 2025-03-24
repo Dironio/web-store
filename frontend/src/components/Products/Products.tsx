@@ -3,6 +3,7 @@ import Button from '../UI/Button'; // Кнопка с аналитикой
 import '../Products/Products.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useCart } from '../../hooks/useCart';
+import { Link } from 'react-router-dom';
 
 export interface Product {
     id: number;
@@ -101,7 +102,7 @@ const Products: React.FC = () => {
                                             eventData={{ track_id: 'buy_click', product_id: product.id }}
                                             onClick={() => console.log(`Купить продукт: ${product.name}`)}
                                         >
-                                            Посмотреть
+                                            <Link to={`/product/${product.id}`}>Посмотреть</Link>
                                         </Button>
                                         <Button
                                             className="item-cart-btn"

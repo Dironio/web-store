@@ -34,7 +34,7 @@ const App: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    useAnalytics();
+    // useAnalytics();
 
 
     useEffect(() => {

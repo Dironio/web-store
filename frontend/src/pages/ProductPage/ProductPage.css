@@ -1,0 +1,114 @@
+.product-page-details {
+    display: flex;
+    justify-content: space-between;
+    /* gap: 40px; */
+    padding: 20px;
+    border-radius: 26px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.product-page-image {
+    flex: 1;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 22px;
+    margin-right: 20px;
+}
+
+.product-page-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 22px;
+}
+
+.product-page-info {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-page-title {
+    font-size: 2rem;
+    color: #020202;
+    margin: 0;
+    margin-top: 20px;
+}
+
+.product-page-description {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    background-color: #fff;
+    /* padding: 15px 20px; */
+    border-radius: 16px;
+}
+
+.product-page-pricing {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* background-color: #B8ECA0; */
+    padding: 10px 20px;
+    border-radius: 22px;
+    margin-top: 20px;
+}
+
+.product-page-current-price {
+    font-size: 1.75rem;
+    color: #56A033;
+    font-weight: 700;
+}
+
+.product-page-old-price {
+    font-size: 1.25rem;
+    color: #A7A7A7;
+    text-decoration: line-through;
+}
+
+.product-page-discount {
+    font-size: 1rem;
+    color: #fff;
+    background-color: #56A033;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.product-page-add-to-cart-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #56A033;
+    border: none;
+    border-radius: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.product-page-add-to-cart-btn:hover {
+    background-color: #3c7523;
+}
+
+.product-page-reviews-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 26px;
+    padding-bottom: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-page-reviews-title {
+    font-size: 1.5rem;
+    color: #020202;
+    margin: 0 0 20px 0;
+}
+
+.product-page-reviews-unavailable {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+}
